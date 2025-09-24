@@ -86,7 +86,7 @@
 @layer base {
   * {
     /* Fixed border-border class issue by using proper border color */
-    @apply border-gray-800/20 outline-amber-500/50;
+    outline-color: rgba(255, 193, 7, 0.5);
   }
   body {
     @apply bg-background text-foreground;
