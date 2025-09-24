@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -86,7 +85,8 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    /* Fixed border-border class issue by using proper border color */
+    @apply border-border/20 outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
