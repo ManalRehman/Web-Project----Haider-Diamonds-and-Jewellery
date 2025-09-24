@@ -89,7 +89,9 @@
     outline-color: rgba(255, 193, 7, 0.5);
   }
   body {
-    @apply bg-background text-foreground;
+    /* Replaced @apply with direct CSS properties to fix bg-background class error */
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 
