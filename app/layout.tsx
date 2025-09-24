@@ -1,25 +1,18 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Playfair_Display, Cormorant_Garamond, Montserrat } from "next/font/google"
+import { Geist, Geist_Mono } from "next/font/google"
 import { Suspense } from "react"
 import "./globals.css"
 
-const playfair = Playfair_Display({
+const geistSans = Geist({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-geist-sans",
   display: "swap",
 })
 
-const cormorant = Cormorant_Garamond({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-cormorant",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-})
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
+  variable: "--font-geist-mono",
   display: "swap",
 })
 
@@ -34,7 +27,7 @@ export const metadata: Metadata = {
     description: "Luxury jewelry crafted with unmatched brilliance and timeless design.",
     type: "website",
   },
-    generator: 'v0.app'
+  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -43,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${cormorant.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <body className="font-sans antialiased">
         <Suspense fallback={null}>{children}</Suspense>
       </body>
