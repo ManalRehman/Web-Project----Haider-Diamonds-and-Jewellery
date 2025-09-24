@@ -355,7 +355,7 @@ export default function HaiderDiamonds() {
             {[
               {
                 icon: Heart,
-                title: "Engagement Rings",
+                title: "Rings",
                 desc: "Crafted with love, certified diamonds.",
                 image: "/luxury-diamond-engagement-ring-with-solitaire-sett.jpg",
               },
@@ -410,7 +410,7 @@ export default function HaiderDiamonds() {
             </p>
 
             <ul className="space-y-2 text-amber-100/80">
-              {["Certified Authenticity", "Ethically Sourced Diamonds", "Lifetime Guarantee", "Global Clientele"].map(
+              {["Certified Authenticity", "Ethically Sourced Diamonds", "Lifetime Guarantee"].map(
                 (item, index) => (
                   <li
                     key={item}
@@ -590,7 +590,7 @@ export default function HaiderDiamonds() {
             <h4 className="text-amber-500 mb-4 font-semibold">Collections</h4>
             <ul className="space-y-2 text-amber-100/70">
               <li className="cursor-pointer transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
-                Engagement Rings
+                Rings
               </li>
               <li className="cursor-pointer transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
                 Necklaces
