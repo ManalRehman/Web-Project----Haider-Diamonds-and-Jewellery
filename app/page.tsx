@@ -87,7 +87,7 @@ export default function HaiderDiamonds() {
 
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
-                {["Home", "Custom Design", "Engagement Rings", "Collections", "About"].map((item, index) => (
+                {["Home", "Custom Design", "Rings", "Collections", "About"].map((item, index) => (
                   <a
                     key={item}
                     href="#"
@@ -639,7 +639,7 @@ export default function HaiderDiamonds() {
           className="text-center mt-8 text-amber-100/70 border-t border-amber-500/20 pt-8 animate-fade-in-up"
           style={{ animationDelay: "0.4s" }}
         >
-          {"© 2025 Haider Diamonds. All rights reserved."}
+          {"© 2025 Haider Diamonds & Jewellery. All rights reserved."}
         </div>
       </footer>
     </div>
