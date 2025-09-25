@@ -87,14 +87,28 @@ export default function HaiderDiamonds() {
 
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
-                {["Home", "Custom Design", "Rings", "Collections", "About"].map((item, index) => (
+                {[
+                  { label: "Home", href: "#home" },
+                  { label: "Custom Design", href: "#custom-design" },
+                  { label: "Rings", href: "/rings" },
+                  { label: "Earrings", href: "/earrings" },
+                  { label: "Necklaces", href: "/necklaces" },
+                  { label: "Bracelets", href: "/bracelets" },
+                ].map((item, index) => (
                   <a
-                    key={item}
-                    href="#"
+                    key={item.label}
+                    href={item.href}
                     className="text-white hover:text-amber-500 transition-all duration-300 hover:scale-105 hover:-translate-y-1 relative group"
                     style={{ animationDelay: `${index * 100}ms` }}
+                    onClick={(e) => {
+                      if (item.href.startsWith("#")) {
+                        e.preventDefault()
+                        const element = document.querySelector(item.href)
+                        if (element) element.scrollIntoView({ behavior: "smooth" })
+                      }
+                    }}
                   >
-                    {item}
+                    {item.label}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
                   </a>
                 ))}
@@ -156,9 +170,10 @@ export default function HaiderDiamonds() {
                 {[
                   { icon: Home, text: "Home", href: "#home" },
                   { icon: Gem, text: "Custom Design", href: "#custom-design" },
-                  { icon: Heart, text: "Engagement Rings", href: "#signature-pieces" },
-                  { icon: Star, text: "Earrings", href: "#signature-pieces" },
-                  { icon: Gem, text: "Necklaces", href: "#signature-pieces" },
+                  { icon: Heart, text: "Rings", href: "/rings" },
+                  { icon: Star, text: "Earrings", href: "/earrings" },
+                  { icon: Gem, text: "Necklaces", href: "/necklaces" },
+                  { icon: Star, text: "Bracelets", href: "/bracelets" },
                   { icon: Phone, text: "Contact", href: "#contact" },
                 ].map((item) => {
                   const IconComponent = item.icon
@@ -167,11 +182,13 @@ export default function HaiderDiamonds() {
                       key={item.text}
                       href={item.href}
                       onClick={(e) => {
-                        e.preventDefault()
-                        setSidebarOpen(false)
-                        const element = document.querySelector(item.href)
-                        if (element) {
-                          element.scrollIntoView({ behavior: "smooth" })
+                        if (item.href.startsWith("#")) {
+                          e.preventDefault()
+                          setSidebarOpen(false)
+                          const element = document.querySelector(item.href)
+                          if (element) {
+                            element.scrollIntoView({ behavior: "smooth" })
+                          }
                         }
                       }}
                       className="flex items-center space-x-3 text-amber-100/80 hover:text-amber-500 transition-colors duration-200 cursor-pointer hover:translate-x-2"
@@ -353,29 +370,40 @@ export default function HaiderDiamonds() {
             Defining timeless elegance with every piece.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[
               {
                 icon: Heart,
                 title: "Rings",
                 desc: "Crafted with love, certified diamonds.",
                 image: "/luxury-diamond-engagement-ring-with-solitaire-sett.jpg",
+                href: "/rings",
               },
               {
                 icon: Gem,
                 title: "Necklaces",
                 desc: "Exquisite designs for every occasion.",
                 image: "/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg",
+                href: "/necklaces",
               },
               {
                 icon: Star,
                 title: "Earrings",
                 desc: "Elegant and timeless sparkle.",
                 image: "/sparkling-diamond-stud-earrings-on-luxury-jewelry-.jpg",
+                href: "/earrings",
+              },
+              {
+                icon: Star,
+                title: "Bracelets",
+                desc: "Refined brilliance for the wrist.",
+                image: "/placeholder.jpg",
+                href: "/bracelets",
               },
             ].map((item, index) => (
-              <div
+              <a
                 key={item.title}
+                href={item.href}
                 className="p-4 sm:p-6 bg-zinc-950 rounded-lg border border-amber-500/30 group overflow-hidden hover:-translate-y-4 hover:border-amber-500 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-500 hover:scale-105 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
               >
@@ -397,7 +425,7 @@ export default function HaiderDiamonds() {
                 <p className="text-sm sm:text-base text-amber-100/70 group-hover:text-amber-100 transition-colors duration-300">
                   {item.desc}
                 </p>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -601,17 +629,17 @@ export default function HaiderDiamonds() {
           <div className="animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
             <h4 className="text-amber-500 mb-4 font-semibold text-sm sm:text-base">Collections</h4>
             <ul className="space-y-2 text-amber-100/70 text-xs sm:text-sm">
-              <li className="cursor-pointer transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
-                Rings
+              <li className="transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
+                <a href="/rings">Rings</a>
               </li>
-              <li className="cursor-pointer transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
-                Necklaces
+              <li className="transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
+                <a href="/necklaces">Necklaces</a>
               </li>
-              <li className="cursor-pointer transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
-                Earrings
+              <li className="transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
+                <a href="/earrings">Earrings</a>
               </li>
-              <li className="cursor-pointer transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
-                Accessories
+              <li className="transition-all duration-300 hover:translate-x-2 hover:text-amber-500 hover:scale-105">
+                <a href="/bracelets">Bracelets</a>
               </li>
             </ul>
           </div>
