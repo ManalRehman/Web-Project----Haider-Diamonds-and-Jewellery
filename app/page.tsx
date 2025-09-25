@@ -75,13 +75,17 @@ export default function HaiderDiamonds() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="h-16 flex items-center ml-4 sm:ml-8 md:ml-12">
-              <div className="relative group">
-                <img
-                  src="/logo.png"
-                  alt="HAIDER DIAMONDS"
-                  className="h-12 w-18 sm:h-16 sm:w-24 group-hover:scale-110 transition-all duration-300 cursor-pointer drop-shadow-lg group-hover:drop-shadow-2xl group-hover:drop-shadow-amber-500/50"
-                />
-                <div className="absolute inset-0 bg-amber-500/20 rounded-lg blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+              <div className="relative group flex items-center gap-3">
+                <div className="rounded-lg ring-2 ring-amber-500/50 bg-zinc-900 p-1 shadow-amber-500/20 shadow-lg group-hover:shadow-amber-500/40 transition-shadow">
+                  <img
+                    src="/logo.png"
+                    alt="HAIDER DIAMONDS"
+                    className="h-10 sm:h-12 brightness-125 contrast-125 drop-shadow-[0_0_10px_rgba(245,158,11,0.45)] group-hover:scale-110 transition-transform"
+                  />
+                </div>
+                <span className="text-amber-400 font-semibold hidden sm:block drop-shadow-[0_0_6px_rgba(245,158,11,0.35)]">
+                  HAIDER DIAMONDS
+                </span>
               </div>
             </div>
 

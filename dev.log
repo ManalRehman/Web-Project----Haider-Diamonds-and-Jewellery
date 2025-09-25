@@ -1,0 +1,304 @@
+
+> my-v0-project@0.1.0 dev
+> next dev -p 3000
+
+   ▲ Next.js 15.2.4
+   - Local:        http://localhost:3000
+   - Network:      http://172.24.96.1:3000
+
+ ✓ Starting...
+ ✓ Ready in 6.7s
+ ○ Compiling / ...
+ ✓ Compiled / in 11.2s (748 modules)
+ GET / 200 in 12568ms
+ ✓ Compiled in 1312ms (350 modules)
+ ✓ Compiled in 599ms (350 modules)
+ ○ Compiling /rings ...
+ ✓ Compiled /rings in 3.9s (790 modules)
+ GET /rings 200 in 4835ms
+ GET / 200 in 195ms
+ ✓ Compiled in 5.9s (798 modules)
+ GET / 200 in 546ms
+ ✓ Compiled in 2.4s (358 modules)
+ GET / 200 in 92ms
+ ✓ Compiled in 5.8s (798 modules)
+ GET / 200 in 242ms
+ ✓ Compiled in 2.2s (358 modules)
+ GET / 200 in 78ms
+ ✓ Compiled in 5.2s (798 modules)
+ GET / 200 in 3972ms
+ GET / 200 in 65ms
+ ✓ Compiled in 2.1s (358 modules)
+ GET / 200 in 88ms
+ ✓ Compiled in 4.3s (798 modules)
+ GET / 200 in 3230ms
+ GET / 200 in 71ms
+ ✓ Compiled in 1036ms (358 modules)
+ GET / 200 in 80ms
+ ✓ Compiled in 2s (358 modules)
+ GET / 200 in 99ms
+ ✓ Compiled in 1064ms (358 modules)
+ GET / 200 in 101ms
+ ✓ Compiled in 3s (798 modules)
+ GET / 200 in 1923ms
+ GET / 200 in 49ms
+ ✓ Compiled in 4.2s (798 modules)
+ GET /rings 200 in 5107ms
+ GET / 200 in 719ms
+ GET /rings 200 in 647ms
+ ○ Compiling /rings/[slug] ...
+ ✓ Compiled /rings/[slug] in 998ms (797 modules)
+ GET /rings/solitaire-diamond-engagement-ring 200 in 3487ms
+ GET /rings/solitaire-diamond-engagement-ring 200 in 76ms
+ GET /rings/solitaire-diamond-engagement-ring 200 in 63ms
+ GET /rings/solitaire-diamond-engagement-ring 200 in 47ms
+ GET / 200 in 36ms
+ ○ Compiling /earrings ...
+ ✓ Compiled /earrings in 1305ms (804 modules)
+ GET /earrings 200 in 2219ms
+ GET / 200 in 307ms
+ ○ Compiling /necklaces ...
+ ✓ Compiled /necklaces in 1306ms (811 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /necklaces 200 in 1730ms
+ GET / 200 in 287ms
+ ○ Compiling /bracelets ...
+ ✓ Compiled /bracelets in 2.4s (818 modules)
+ GET /bracelets 200 in 3739ms
+ GET / 200 in 210ms
+ ✓ Compiled in 3s (369 modules)
+ ✓ Compiled in 1007ms (369 modules)
+ GET / 200 in 328ms
+ GET / 200 in 62ms
+ ✓ Compiled in 1467ms (369 modules)
+ GET / 200 in 953ms
+ ✓ Compiled in 979ms (369 modules)
+ GET / 200 in 36ms
+ ✓ Compiled in 3s (826 modules)
+ GET / 200 in 398ms
+ ✓ Compiled in 4s (826 modules)
+ GET / 200 in 409ms
+ ✓ Compiled in 1135ms (371 modules)
+ GET / 200 in 35ms
+ ✓ Compiled in 915ms (371 modules)
+ GET / 200 in 37ms
+ ✓ Compiled in 1304ms (826 modules)
+ GET / 200 in 171ms
+ ✓ Compiled in 973ms (371 modules)
+ GET / 200 in 31ms
+ ✓ Compiled in 1199ms (371 modules)
+ GET / 200 in 53ms
+ ✓ Compiled in 959ms (371 modules)
+ GET / 200 in 44ms
+ ✓ Compiled in 1443ms (826 modules)
+ GET / 200 in 68ms
+ GET /rings 200 in 688ms
+ GET /rings 200 in 236ms
+ ✓ Compiled in 1317ms (371 modules)
+ GET /rings 200 in 64ms
+ ✓ Compiled in 754ms (371 modules)
+ GET /rings 200 in 33ms
+ ✓ Compiled in 3.4s (828 modules)
+ GET /rings 200 in 259ms
+ ✓ Compiled in 828ms (828 modules)
+ GET /rings 200 in 121ms
+ ✓ Compiled in 768ms (372 modules)
+ GET /rings 200 in 59ms
+ ✓ Compiled in 714ms (372 modules)
+ GET /rings 200 in 49ms
+ GET /rings 200 in 51ms
+ GET /rings 200 in 27ms
+ ○ Compiling /earrings ...
+ ✓ Compiled /earrings in 1088ms (461 modules)
+ GET /earrings 200 in 2029ms
+ GET /necklaces 200 in 1352ms
+ GET /earrings 200 in 33ms
+ GET /rings 200 in 36ms
+ ✓ Compiled /bracelets in 509ms (466 modules)
+ GET /bracelets 200 in 694ms
+ GET / 200 in 132ms
+ GET /rings 200 in 2194ms
+ GET / 200 in 80ms
+ ✓ Compiled in 12s (833 modules)
+ ✓ Compiled in 1374ms (372 modules)
+ GET / 200 in 417ms
+ GET / 200 in 60ms
+ ✓ Compiled in 2.1s (833 modules)
+ GET / 200 in 447ms
+ ✓ Compiled in 2.5s (833 modules)
+ GET / 200 in 130ms
+ ✓ Compiled in 1227ms (372 modules)
+ GET / 200 in 34ms
+ ✓ Compiled in 1046ms (372 modules)
+ GET / 200 in 38ms
+ ✓ Compiled in 1381ms (833 modules)
+ GET / 200 in 113ms
+ ✓ Compiled in 905ms (372 modules)
+ GET / 200 in 35ms
+ ✓ Compiled in 1921ms (833 modules)
+ GET / 200 in 113ms
+ GET /bracelets 200 in 418ms
+ GET /necklaces 200 in 40ms
+ ○ Compiling /earrings ...
+ ✓ Compiled /earrings in 1375ms (466 modules)
+ GET /earrings 200 in 1652ms
+ GET /rings 200 in 49ms
+ ✓ Compiled in 753ms (372 modules)
+ GET /rings 200 in 44ms
+ ✓ Compiled in 689ms (372 modules)
+ GET /rings 200 in 49ms
+ ✓ Compiled in 2.8s (833 modules)
+ GET /rings 200 in 397ms
+ ✓ Compiled in 1195ms (372 modules)
+ GET /rings 200 in 45ms
+ ✓ Compiled in 1770ms (833 modules)
+ GET /rings 200 in 602ms
+ ✓ Compiled in 1682ms (833 modules)
+ GET /rings 200 in 169ms
+ ✓ Compiled in 957ms (372 modules)
+ GET /rings 200 in 44ms
+ ✓ Compiled in 1069ms (372 modules)
+ GET /rings 200 in 32ms
+ ✓ Compiled in 2.4s (833 modules)
+ GET /rings 200 in 175ms
+ ✓ Compiled in 1146ms (372 modules)
+ GET /rings 200 in 70ms
+ ✓ Compiled in 1776ms (833 modules)
+ GET /rings 200 in 91ms
+ ○ Compiling /earrings ...
+ ✓ Compiled /earrings in 2.3s (466 modules)
+ GET /earrings 200 in 2875ms
+ GET /rings 200 in 726ms
+ GET /necklaces 200 in 1472ms
+ GET /bracelets 200 in 590ms
+ GET / 200 in 272ms
+ GET /rings 200 in 3179ms
+ GET /earrings 200 in 70ms
+ GET /necklaces 200 in 67ms
+ GET /bracelets 200 in 79ms
+ ✓ Compiled in 4.2s (838 modules)
+ GET /necklaces 200 in 3765ms
+ GET /necklaces 200 in 27ms
+ ✓ Compiled in 1447ms (838 modules)
+ GET /necklaces 200 in 203ms
+ ✓ Compiled in 705ms (372 modules)
+ GET /necklaces 200 in 47ms
+ ✓ Compiled in 681ms (372 modules)
+ GET /necklaces 200 in 47ms
+ GET /rings 200 in 59ms
+ GET /earrings 200 in 179ms
+ GET / 200 in 110ms
+ GET /rings 200 in 673ms
+ ✓ Compiled in 3.6s (372 modules)
+ GET /rings 200 in 106ms
+ ✓ Compiled in 1771ms (372 modules)
+ ✓ Compiled in 1879ms (372 modules)
+ GET /rings 200 in 768ms
+ GET /rings 200 in 40ms
+ ✓ Compiled in 18.2s (834 modules)
+ GET /rings 200 in 725ms
+ ✓ Compiled in 2.1s (834 modules)
+ GET /rings 200 in 301ms
+ GET /rings 200 in 32ms
+ GET /rings 200 in 30ms
+ GET /earrings 200 in 50ms
+ GET /necklaces 200 in 55ms
+ GET /bracelets 200 in 45ms
+ GET / 200 in 71ms
+ ✓ Compiled in 5s (834 modules)
+ GET / 200 in 546ms
+ ✓ Compiled in 1725ms (374 modules)
+ GET / 200 in 86ms
+ ✓ Compiled in 1621ms (834 modules)
+ GET / 200 in 211ms
+ ✓ Compiled in 1019ms (374 modules)
+ GET / 200 in 77ms
+ ✓ Compiled in 2s (834 modules)
+ GET / 200 in 129ms
+ ✓ Compiled in 1224ms (374 modules)
+ GET / 200 in 44ms
+ ✓ Compiled in 1893ms (834 modules)
+ GET / 200 in 90ms
+ GET /rings 200 in 872ms
+ GET /earrings 200 in 48ms
+ GET /necklaces 200 in 41ms
+ GET /bracelets 200 in 44ms
+ GET /rings 200 in 42ms
+ ✓ Compiled in 1714ms (374 modules)
+ GET /rings 200 in 98ms
+ ✓ Compiled in 1227ms (374 modules)
+ GET /rings 200 in 84ms
+ ✓ Compiled in 2.8s (834 modules)
+ GET /rings 200 in 473ms
+ ✓ Compiled in 2.1s (374 modules)
+ GET /rings 200 in 73ms
+ ✓ Compiled in 2.4s (834 modules)
+ GET /rings 200 in 168ms
+ ✓ Compiled in 1318ms (374 modules)
+ GET /rings 200 in 75ms
+ ✓ Compiled in 1672ms (834 modules)
+ GET /rings 200 in 152ms
+ ✓ Compiled in 1437ms (374 modules)
+ GET /rings 200 in 60ms
+ ✓ Compiled in 1776ms (834 modules)
+ GET /rings 200 in 98ms
+ GET /rings 200 in 38ms
+ GET /earrings 200 in 48ms
+ GET /necklaces 200 in 39ms
+ GET /bracelets 200 in 58ms
+ GET /rings 200 in 34ms
+ GET / 200 in 42ms
+ ✓ Compiled in 5.4s (834 modules)
+ GET / 200 in 281ms
+ ✓ Compiled in 2.5s (834 modules)
+ GET / 200 in 192ms
+ GET /earrings 200 in 568ms
+ GET /earrings 200 in 46ms
+ GET /earrings 200 in 33ms
+ GET /rings 200 in 324ms
+ GET /rings 200 in 175ms
+ ✓ Compiled in 4.5s (834 modules)
+ GET /rings 200 in 632ms
+ ✓ Compiled in 1669ms (374 modules)
+ GET /rings 200 in 79ms
+ ✓ Compiled in 1774ms (374 modules)
+ GET /rings 200 in 81ms
+ ✓ Compiled in 1624ms (834 modules)
+ GET /rings 200 in 117ms
+ GET /rings 200 in 34ms
+ GET /earrings 200 in 37ms
+ GET /necklaces 200 in 50ms
+ GET /bracelets 200 in 48ms
+ ✓ Compiled in 2.6s (834 modules)
+ GET /bracelets 200 in 231ms
+ ✓ Compiled in 1932ms (374 modules)
+ GET /bracelets 200 in 78ms
+ ✓ Compiled in 2.2s (834 modules)
+ GET /bracelets 200 in 116ms
+ ✓ Compiled in 1079ms (374 modules)
+ GET /bracelets 200 in 49ms
+ ✓ Compiled in 1462ms (834 modules)
+ GET /bracelets 200 in 236ms
+ ✓ Compiled in 1080ms (374 modules)
+ GET /bracelets 200 in 44ms
+ ✓ Compiled in 2.5s (834 modules)
+ GET /bracelets 200 in 149ms
+ ✓ Compiled in 986ms (374 modules)
+ GET /bracelets 200 in 40ms
+ ✓ Compiled in 1444ms (834 modules)
+ GET /bracelets 200 in 116ms
+ GET /rings 200 in 40ms
+ GET / 200 in 52ms
+ GET /rings 200 in 633ms
+ GET /earrings 200 in 50ms
+ GET /necklaces 200 in 47ms
+ GET /bracelets 200 in 34ms
+ GET /rings 200 in 48ms
+ GET /bracelets 200 in 43ms
+ GET / 200 in 985ms
+ ✓ Compiled in 1187ms (374 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/'
+}
+ ○ Compiling /_error ...
