@@ -302,3 +302,15 @@
   page: '/'
 }
  ○ Compiling /_error ...
+ ✓ Compiled /_error in 5.9s (1163 modules)
+ GET / 500 in 8009ms
+ ✓ Compiled in 1948ms (616 modules)
+ GET / 200 in 391ms
+ GET / 200 in 43ms
+ GET / 200 in 32ms
+ GET / 200 in 30ms
+ GET / 200 in 315ms
+ ✓ Compiled in 1499ms (615 modules)
+ GET / 200 in 110ms
+ ✓ Compiled in 1660ms (615 modules)
+ ✓ Compiled in 894ms (615 modules)
