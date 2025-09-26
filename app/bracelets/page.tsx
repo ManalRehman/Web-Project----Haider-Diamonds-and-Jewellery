@@ -50,6 +50,8 @@ export default function BraceletsPage() {
       </div>
     </div>
   )
+  //add a review section
+  
 }
 
 
