@@ -81,9 +81,14 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
               <span className="text-xs text-amber-100/70">(124 reviews)</span>
             </div>
             <div className="text-2xl font-semibold text-amber-500 mb-4">{product.price}</div>
-            <p className="text-amber-100/80 leading-relaxed mb-6">
-              A timeless design featuring a brilliant round-cut diamond set in a classic mount.
+            <p className="text-amber-100/80 leading-relaxed mb-4">
+              A timeless solitaire showcasing a brilliant round-cut diamond in a refined, secure setting for maximum brilliance.
             </p>
+            <ul className="list-disc pl-5 text-amber-100/80 mb-6 space-y-1">
+              <li><span className="text-amber-500">Stone color:</span> D–F (Colorless)</li>
+              <li><span className="text-amber-500">Stone type:</span> Natural diamond</li>
+              <li><span className="text-amber-500">In-store availability:</span> Available at Lahore flagship</li>
+            </ul>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               <select className="bg-zinc-900 border border-amber-500/30 rounded p-3 text-sm focus:outline-none">

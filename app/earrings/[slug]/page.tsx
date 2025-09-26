@@ -72,9 +72,14 @@ export default function EarringsDetailPage({ params }: { params: { slug: string 
               <span className="text-xs text-amber-100/70">(212 reviews)</span>
             </div>
             <div className="text-2xl font-semibold text-amber-500 mb-4">{product.price}</div>
-            <p className="text-amber-100/80 leading-relaxed mb-6">
-              Perfectly matched round brilliant diamonds set in secure four-prong studs.
+            <p className="text-amber-100/80 leading-relaxed mb-4">
+              Perfectly matched round brilliant diamonds set in secure four-prong studs, designed for everyday radiance and timeless appeal.
             </p>
+            <ul className="list-disc pl-5 text-amber-100/80 mb-6 space-y-1">
+              <li><span className="text-amber-500">Stone color:</span> D–G</li>
+              <li><span className="text-amber-500">Stone type:</span> Natural diamond</li>
+              <li><span className="text-amber-500">In-store availability:</span> Available at Lahore flagship</li>
+            </ul>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               <select className="bg-zinc-900 border border-amber-500/30 rounded p-3 text-sm focus:outline-none">
