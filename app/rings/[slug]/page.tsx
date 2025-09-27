@@ -50,7 +50,6 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2000)
   }
-
   return (
     <div className="bg-zinc-950 min-h-screen text-white">
       <SiteNavbar />

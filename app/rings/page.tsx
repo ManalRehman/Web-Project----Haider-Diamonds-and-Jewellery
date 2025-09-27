@@ -49,7 +49,6 @@ export default function RingsPage() {
       })
     }, 2000)
   }
-
   return (
     <div className="bg-zinc-950 min-h-screen text-white">
       <SiteNavbar />
