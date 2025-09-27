@@ -25,6 +25,8 @@ import {
 
 export default function HaiderDiamonds() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
   const [scrolled, setScrolled] = useState(false)
   const [reviewsInView, setReviewsInView] = useState(false)
   const [starsAnimating, setStarsAnimating] = useState(false)
@@ -65,6 +67,17 @@ export default function HaiderDiamonds() {
     }
   }, [])
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      // For now, just log the search query. You can implement actual search logic later
+      console.log("Searching for:", searchQuery)
+      // You could redirect to a search results page or filter products
+      setSearchQuery("")
+      setSearchOpen(false)
+    }
+  }
+
   return (
     <div className="bg-zinc-950 text-white overflow-x-hidden custom-scrollbar">
       {/* Navigation */}
@@ -76,7 +89,7 @@ export default function HaiderDiamonds() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="h-16 flex items-center ml-4 sm:ml-8 md:ml-12">
-              <Link href="/cart" className="relative group flex items-center gap-3">
+              <Link href="/" className="relative group flex items-center gap-3">
                 <div className="rounded-lg ring-2 ring-amber-500/50 bg-zinc-900 p-1 shadow-amber-500/20 shadow-lg group-hover:shadow-amber-500/40 transition-shadow">
                   <img
                     src="/logo.png"
@@ -121,11 +134,39 @@ export default function HaiderDiamonds() {
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4 mr-4 sm:mr-0">
+              {searchOpen ? (
+                <form onSubmit={handleSearch} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search jewelry..."
+                    className="px-3 py-1 bg-zinc-800 border border-amber-500/30 rounded-md text-white placeholder-amber-100/50 focus:border-amber-500 focus:outline-none text-sm w-48"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setSearchOpen(false)}
+                    className="p-1 rounded-md hover:bg-zinc-800 text-amber-400"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </form>
+              ) : (
+                <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
+                  <button 
+                    onClick={() => setSearchOpen(true)}
+                    aria-label="Search" 
+                    className="p-2 rounded-md hover:bg-zinc-800 text-amber-400"
+                  >
+                    <Search className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 cursor-pointer" />
+                  </button>
+                </div>
+              )}
               <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
-                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 cursor-pointer" />
-              </div>
-              <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
-                <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 cursor-pointer" />
+                <Link href="/cart">
+                  <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 cursor-pointer" />
+                </Link>
               </div>
               <div className="hidden sm:block hover:scale-110 transition-all duration-300">
                 <a href="/login" className="inline-flex">
@@ -321,17 +362,21 @@ export default function HaiderDiamonds() {
             style={{ animationDelay: "0.6s" }}
           >
             <div className="hover:scale-110 transition-all duration-300 hover:-translate-y-2">
-              <Button className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-400 text-black px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:from-amber-600 hover:to-amber-500 hover:shadow-2xl hover:shadow-amber-500/40 text-sm sm:text-base">
-                START CUSTOM DESIGN
-              </Button>
+              <Link href="/custom-design">
+                <Button className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-400 text-black px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:from-amber-600 hover:to-amber-500 hover:shadow-2xl hover:shadow-amber-500/40 text-sm sm:text-base">
+                  START CUSTOM DESIGN
+                </Button>
+              </Link>
             </div>
             <div className="hover:scale-110 transition-all duration-300 hover:-translate-y-2">
-              <Button
-                variant="outline"
-                className="w-full sm:w-auto border-2 border-amber-500 text-amber-500 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-amber-500 hover:text-black bg-transparent hover:shadow-2xl hover:shadow-amber-500/40 text-sm sm:text-base"
-              >
-                VIEW COLLECTIONS
-              </Button>
+              <Link href="/collections">
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto border-2 border-amber-500 text-amber-500 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-amber-500 hover:text-black bg-transparent hover:shadow-2xl hover:shadow-amber-500/40 text-sm sm:text-base"
+                >
+                  VIEW COLLECTIONS
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

@@ -2,12 +2,14 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { Menu, Search, ShoppingBag, User } from "lucide-react"
+import { Menu, Search, ShoppingBag, User, X } from "lucide-react"
 import { SiteSidebar } from "@/components/site-sidebar"
 import { useCart } from "@/lib/cart-context"
 
 export function SiteNavbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
   const [currentUser, setCurrentUser] = useState<{ name: string; email: string } | null>(null)
   const { getTotalItems } = useCart()
 
@@ -29,6 +31,17 @@ export function SiteNavbar() {
   const handleLogout = () => {
     localStorage.removeItem("currentUser")
     setCurrentUser(null)
+  }
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      // For now, just log the search query. You can implement actual search logic later
+      console.log("Searching for:", searchQuery)
+      // You could redirect to a search results page or filter products
+      setSearchQuery("")
+      setSearchOpen(false)
+    }
   }
 
   return (
@@ -57,9 +70,33 @@ export function SiteNavbar() {
             <Link href="/bracelets" className="text-amber-100/80 hover:text-amber-400 transition-colors">Bracelets</Link>
           </div>
           <div className="flex items-center gap-3">
-            <button aria-label="Search" className="p-2 rounded-md hover:bg-zinc-800 text-amber-400">
-              <Search className="w-5 h-5" />
-            </button>
+            {searchOpen ? (
+              <form onSubmit={handleSearch} className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search jewelry..."
+                  className="px-3 py-1 bg-zinc-800 border border-amber-500/30 rounded-md text-white placeholder-amber-100/50 focus:border-amber-500 focus:outline-none text-sm w-48"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  className="p-1 rounded-md hover:bg-zinc-800 text-amber-400"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </form>
+            ) : (
+              <button 
+                onClick={() => setSearchOpen(true)}
+                aria-label="Search" 
+                className="p-2 rounded-md hover:bg-zinc-800 text-amber-400"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+            )}
             <Link href="/cart" aria-label="Cart" className="p-2 rounded-md hover:bg-zinc-800 text-amber-400 relative">
               <ShoppingBag className="w-5 h-5" />
               {getTotalItems() > 0 && (
@@ -70,7 +107,10 @@ export function SiteNavbar() {
             </Link>
             {currentUser ? (
               <div className="flex items-center gap-2">
-                <span className="text-xs text-amber-200/80 hidden sm:block">{currentUser.name}</span>
+                <Link href="/profile" className="flex items-center gap-2 p-2 rounded-md hover:bg-zinc-800 text-amber-400">
+                  <User className="w-5 h-5" />
+                  <span className="text-xs text-amber-200/80 hidden sm:block">{currentUser.name}</span>
+                </Link>
                 <button onClick={handleLogout} className="px-2 py-1 rounded-md bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 text-xs">
                   Logout
                 </button>

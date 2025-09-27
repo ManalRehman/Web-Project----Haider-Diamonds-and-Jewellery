@@ -51,10 +51,14 @@ export function SiteSidebar({ onClose }: SiteSidebarProps) {
         </nav>
 
         <div className="space-y-3">
-          <Button variant="outline" className="w-full border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black bg-transparent">
-            Login
-          </Button>
-          <Button className="w-full bg-amber-500 text-black hover:bg-amber-600">Sign Up</Button>
+          <Link href="/login" onClick={onClose}>
+            <Button variant="outline" className="w-full border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-black bg-transparent">
+              Login
+            </Button>
+          </Link>
+          <Link href="/signup" onClick={onClose}>
+            <Button className="w-full bg-amber-500 text-black hover:bg-amber-600">Sign Up</Button>
+          </Link>
         </div>
 
         <div className="space-y-3 text-amber-100/80 text-sm">

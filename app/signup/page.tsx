@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SiteNavbar } from "@/components/site-navbar"
+import { Facebook, Chrome } from "lucide-react"
 
 type StoredUser = {
   name: string
@@ -63,6 +64,26 @@ export default function SignupPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  function handleGoogleSignup() {
+    // Simulate Google signup - in a real app, you'd integrate with Google OAuth
+    const mockGoogleUser = {
+      name: "Google User",
+      email: "user@gmail.com"
+    }
+    localStorage.setItem("currentUser", JSON.stringify(mockGoogleUser))
+    router.push("/")
+  }
+
+  function handleFacebookSignup() {
+    // Simulate Facebook signup - in a real app, you'd integrate with Facebook OAuth
+    const mockFacebookUser = {
+      name: "Facebook User", 
+      email: "user@facebook.com"
+    }
+    localStorage.setItem("currentUser", JSON.stringify(mockFacebookUser))
+    router.push("/")
   }
 
   return (
@@ -126,6 +147,37 @@ export default function SignupPage() {
             <Button type="submit" className="w-full bg-amber-500 text-black hover:bg-amber-600" disabled={loading}>
               {loading ? "Creating account..." : "Sign Up"}
             </Button>
+            
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-amber-500/30" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-zinc-900 px-2 text-amber-100/70">Or continue with</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                type="button"
+                onClick={handleGoogleSignup}
+                variant="outline"
+                className="w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/20 bg-transparent"
+              >
+                <Chrome className="w-4 h-4 mr-2" />
+                Google
+              </Button>
+              <Button
+                type="button"
+                onClick={handleFacebookSignup}
+                variant="outline"
+                className="w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/20 bg-transparent"
+              >
+                <Facebook className="w-4 h-4 mr-2" />
+                Facebook
+              </Button>
+            </div>
+
             <p className="text-sm text-amber-100/70 text-center">
               Already have an account? <Link href="/login" className="text-amber-400 hover:underline">Log in</Link>
             </p>
