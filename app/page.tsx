@@ -1182,3 +1182,5 @@ export default function HaiderDiamonds() {
     </div>
   )
 }
+
+
