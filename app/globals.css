@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 @import "tailwindcss";
 @import "tw-animate-css";
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
+<<<<<<< HEAD
   --background: oklch(0.98 0 0);
   --foreground: oklch(0.15 0 0);
   --card: oklch(0.99 0 0);
@@ -23,12 +30,34 @@
   --border: oklch(0.9 0 0);
   --input: oklch(0.95 0 0);
   --ring: oklch(0.5 0.2 260);
+=======
+  --background: oklch(0.05 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.08 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.08 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.7 0.15 45);
+  --primary-foreground: oklch(0.05 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.6 0 0);
+  --accent: oklch(0.15 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.2 0 0);
+  --input: oklch(0.2 0 0);
+  --ring: oklch(0.7 0.15 45);
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.625rem;
+<<<<<<< HEAD
   --sidebar: oklch(0.99 0 0);
   --sidebar-foreground: oklch(0.15 0 0);
   --sidebar-primary: oklch(0.5 0.2 260);
@@ -72,6 +101,16 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+=======
+  --sidebar: oklch(0.08 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.7 0.15 45);
+  --sidebar-primary-foreground: oklch(0.05 0 0);
+  --sidebar-accent: oklch(0.15 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.2 0 0);
+  --sidebar-ring: oklch(0.7 0.15 45);
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
 }
 
 @theme inline {
@@ -117,11 +156,19 @@
 
 @layer base {
   * {
+<<<<<<< HEAD
     outline-color: rgba(59, 130, 246, 0.5);
     border-color: var(--border);
     outline-color: var(--ring);
   }
   body {
+=======
+    /* Fixed border-border class issue by using proper border color */
+    outline-color: rgba(255, 193, 7, 0.5);
+  }
+  body {
+    /* Replaced @apply with direct CSS properties to fix bg-background class error */
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
     background-color: var(--background);
     color: var(--foreground);
   }
@@ -208,7 +255,11 @@
 /* Custom Scrollbar Styles */
 .custom-scrollbar {
   scrollbar-width: thin;
+<<<<<<< HEAD
   scrollbar-color: #3b82f6 #f5f5f5;
+=======
+  scrollbar-color: #f59e0b #27272a;
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -216,6 +267,7 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
+<<<<<<< HEAD
   background: #f5f5f5;
   border-radius: 10px;
   border: 1px solid rgba(59, 130, 246, 0.1);
@@ -239,4 +291,29 @@
 
 .custom-scrollbar::-webkit-scrollbar-corner {
   background: #f5f5f5;
+=======
+  background: #18181b;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 158, 11, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: #18181b;
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
 }

@@ -11,12 +11,16 @@ import { User, Mail, Phone, MapPin, Edit, Save, X, ShoppingBag, Heart, Star } fr
 import Link from "next/link"
 
 export default function ProfilePage() {
+<<<<<<< HEAD
   const [currentUser, setCurrentUser] = useState<{
     name: string
     email: string
     phone?: string
     address?: string
   } | null>(null)
+=======
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string; phone?: string; address?: string } | null>(null)
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
   const [isEditing, setIsEditing] = useState(false)
   const [editForm, setEditForm] = useState({ name: "", email: "", phone: "", address: "" })
   const router = useRouter()
@@ -34,7 +38,11 @@ export default function ProfilePage() {
         name: user.name || "",
         email: user.email || "",
         phone: user.phone || "",
+<<<<<<< HEAD
         address: user.address || "",
+=======
+        address: user.address || ""
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
       })
     } catch (error) {
       router.push("/login")
@@ -57,7 +65,11 @@ export default function ProfilePage() {
       name: currentUser?.name || "",
       email: currentUser?.email || "",
       phone: currentUser?.phone || "",
+<<<<<<< HEAD
       address: currentUser?.address || "",
+=======
+      address: currentUser?.address || ""
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
     })
     setIsEditing(false)
   }
@@ -69,9 +81,15 @@ export default function ProfilePage() {
 
   if (!currentUser) {
     return (
+<<<<<<< HEAD
       <div className="bg-white min-h-screen text-slate-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+=======
+      <div className="bg-zinc-950 min-h-screen text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-4"></div>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
           <p>Loading...</p>
         </div>
       </div>
@@ -79,6 +97,7 @@ export default function ProfilePage() {
   }
 
   return (
+<<<<<<< HEAD
     <div className="bg-white min-h-screen text-slate-900">
       <SiteNavbar />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
@@ -98,6 +117,27 @@ export default function ProfilePage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-blue-600 flex items-center gap-2">
+=======
+    <div className="bg-zinc-950 min-h-screen text-white">
+      <SiteNavbar />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        <div className="mb-6 text-amber-500 text-sm">
+          <Link href="/" className="hover:text-amber-400">Home</Link>
+          <span className="mx-2 text-amber-500/60">/</span>
+          <span className="text-amber-300">Profile</span>
+        </div>
+
+        <h1 className="text-2xl sm:text-3xl font-bold text-amber-400 mb-8 font-serif">
+          My Profile
+        </h1>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            <Card className="bg-zinc-900 border border-amber-500/20">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-amber-400 flex items-center gap-2">
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                     <User className="w-5 h-5" />
                     Personal Information
                   </CardTitle>
@@ -106,7 +146,11 @@ export default function ProfilePage() {
                       onClick={handleEdit}
                       variant="outline"
                       size="sm"
+<<<<<<< HEAD
                       className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
+=======
+                      className="border-amber-500/30 text-amber-400 hover:bg-amber-500/20"
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                     >
                       <Edit className="w-4 h-4 mr-1" />
                       Edit
@@ -118,13 +162,18 @@ export default function ProfilePage() {
                 {isEditing ? (
                   <div className="space-y-4">
                     <div>
+<<<<<<< HEAD
                       <Label htmlFor="name" className="text-blue-600">
                         Name
                       </Label>
+=======
+                      <Label htmlFor="name" className="text-amber-300">Name</Label>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                       <Input
                         id="name"
                         value={editForm.name}
                         onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+<<<<<<< HEAD
                         className="bg-white border-blue-300 text-slate-900 focus:border-blue-500"
                       />
                     </div>
@@ -132,11 +181,19 @@ export default function ProfilePage() {
                       <Label htmlFor="email" className="text-blue-600">
                         Email
                       </Label>
+=======
+                        className="bg-zinc-800 border-amber-500/30 text-white focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="email" className="text-amber-300">Email</Label>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                       <Input
                         id="email"
                         type="email"
                         value={editForm.email}
                         onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+<<<<<<< HEAD
                         className="bg-white border-blue-300 text-slate-900 focus:border-blue-500"
                       />
                     </div>
@@ -144,10 +201,18 @@ export default function ProfilePage() {
                       <Label htmlFor="phone" className="text-blue-600">
                         Phone
                       </Label>
+=======
+                        className="bg-zinc-800 border-amber-500/30 text-white focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone" className="text-amber-300">Phone</Label>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                       <Input
                         id="phone"
                         value={editForm.phone}
                         onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+<<<<<<< HEAD
                         className="bg-white border-blue-300 text-slate-900 focus:border-blue-500"
                       />
                     </div>
@@ -155,22 +220,44 @@ export default function ProfilePage() {
                       <Label htmlFor="address" className="text-blue-600">
                         Address
                       </Label>
+=======
+                        className="bg-zinc-800 border-amber-500/30 text-white focus:border-amber-500"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="address" className="text-amber-300">Address</Label>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                       <Input
                         id="address"
                         value={editForm.address}
                         onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+<<<<<<< HEAD
                         className="bg-white border-blue-300 text-slate-900 focus:border-blue-500"
                       />
                     </div>
                     <div className="flex gap-2">
                       <Button onClick={handleSave} className="bg-blue-600 text-white hover:bg-blue-700">
+=======
+                        className="bg-zinc-800 border-amber-500/30 text-white focus:border-amber-500"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleSave}
+                        className="bg-amber-500 text-black hover:bg-amber-600"
+                      >
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                         <Save className="w-4 h-4 mr-1" />
                         Save
                       </Button>
                       <Button
                         onClick={handleCancel}
                         variant="outline"
+<<<<<<< HEAD
                         className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
+=======
+                        className="border-amber-500/30 text-amber-400 hover:bg-amber-500/20"
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                       >
                         <X className="w-4 h-4 mr-1" />
                         Cancel
@@ -180,6 +267,7 @@ export default function ProfilePage() {
                 ) : (
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
+<<<<<<< HEAD
                       <User className="w-5 h-5 text-blue-600" />
                       <div>
                         <p className="text-slate-900 font-medium">{currentUser.name}</p>
@@ -191,23 +279,50 @@ export default function ProfilePage() {
                       <div>
                         <p className="text-slate-900 font-medium">{currentUser.email}</p>
                         <p className="text-slate-600 text-sm">Email Address</p>
+=======
+                      <User className="w-5 h-5 text-amber-500" />
+                      <div>
+                        <p className="text-amber-100 font-medium">{currentUser.name}</p>
+                        <p className="text-amber-100/70 text-sm">Full Name</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Mail className="w-5 h-5 text-amber-500" />
+                      <div>
+                        <p className="text-amber-100 font-medium">{currentUser.email}</p>
+                        <p className="text-amber-100/70 text-sm">Email Address</p>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                       </div>
                     </div>
                     {currentUser.phone && (
                       <div className="flex items-center gap-3">
+<<<<<<< HEAD
                         <Phone className="w-5 h-5 text-blue-600" />
                         <div>
                           <p className="text-slate-900 font-medium">{currentUser.phone}</p>
                           <p className="text-slate-600 text-sm">Phone Number</p>
+=======
+                        <Phone className="w-5 h-5 text-amber-500" />
+                        <div>
+                          <p className="text-amber-100 font-medium">{currentUser.phone}</p>
+                          <p className="text-amber-100/70 text-sm">Phone Number</p>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                         </div>
                       </div>
                     )}
                     {currentUser.address && (
                       <div className="flex items-center gap-3">
+<<<<<<< HEAD
                         <MapPin className="w-5 h-5 text-blue-600" />
                         <div>
                           <p className="text-slate-900 font-medium">{currentUser.address}</p>
                           <p className="text-slate-600 text-sm">Address</p>
+=======
+                        <MapPin className="w-5 h-5 text-amber-500" />
+                        <div>
+                          <p className="text-amber-100 font-medium">{currentUser.address}</p>
+                          <p className="text-amber-100/70 text-sm">Address</p>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                         </div>
                       </div>
                     )}
@@ -216,20 +331,36 @@ export default function ProfilePage() {
               </CardContent>
             </Card>
 
+<<<<<<< HEAD
             <Card className="bg-gray-50 border border-blue-200">
               <CardHeader>
                 <CardTitle className="text-blue-600 flex items-center gap-2">
+=======
+            <Card className="bg-zinc-900 border border-amber-500/20">
+              <CardHeader>
+                <CardTitle className="text-amber-400 flex items-center gap-2">
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                   <ShoppingBag className="w-5 h-5" />
                   Order History
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
+<<<<<<< HEAD
                   <ShoppingBag className="w-12 h-12 text-blue-300 mx-auto mb-4" />
                   <p className="text-slate-600">No orders yet</p>
                   <p className="text-slate-500 text-sm">Start shopping to see your order history</p>
                   <Link href="/rings">
                     <Button className="mt-4 bg-blue-600 text-white hover:bg-blue-700">Browse Collections</Button>
+=======
+                  <ShoppingBag className="w-12 h-12 text-amber-500/50 mx-auto mb-4" />
+                  <p className="text-amber-100/70">No orders yet</p>
+                  <p className="text-amber-100/50 text-sm">Start shopping to see your order history</p>
+                  <Link href="/rings">
+                    <Button className="mt-4 bg-amber-500 text-black hover:bg-amber-600">
+                      Browse Collections
+                    </Button>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                   </Link>
                 </div>
               </CardContent>
@@ -237,37 +368,55 @@ export default function ProfilePage() {
           </div>
 
           <div className="space-y-6">
+<<<<<<< HEAD
             <Card className="bg-gray-50 border border-blue-200">
               <CardHeader>
                 <CardTitle className="text-blue-600 flex items-center gap-2">
+=======
+            <Card className="bg-zinc-900 border border-amber-500/20">
+              <CardHeader>
+                <CardTitle className="text-amber-400 flex items-center gap-2">
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                   <Heart className="w-5 h-5" />
                   Quick Actions
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <Link href="/cart">
+<<<<<<< HEAD
                   <Button
                     variant="outline"
                     className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
                   >
+=======
+                  <Button variant="outline" className="w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/20">
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                     <ShoppingBag className="w-4 h-4 mr-2" />
                     View Cart
                   </Button>
                 </Link>
                 <Link href="/rings">
+<<<<<<< HEAD
                   <Button
                     variant="outline"
                     className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
                   >
+=======
+                  <Button variant="outline" className="w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/20">
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                     <Star className="w-4 h-4 mr-2" />
                     Browse Rings
                   </Button>
                 </Link>
                 <Link href="/necklaces">
+<<<<<<< HEAD
                   <Button
                     variant="outline"
                     className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
                   >
+=======
+                  <Button variant="outline" className="w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/20">
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                     <Star className="w-4 h-4 mr-2" />
                     Browse Necklaces
                   </Button>
@@ -275,15 +424,25 @@ export default function ProfilePage() {
               </CardContent>
             </Card>
 
+<<<<<<< HEAD
             <Card className="bg-gray-50 border border-blue-200">
               <CardHeader>
                 <CardTitle className="text-blue-600">Account Actions</CardTitle>
+=======
+            <Card className="bg-zinc-900 border border-amber-500/20">
+              <CardHeader>
+                <CardTitle className="text-amber-400">Account Actions</CardTitle>
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
               </CardHeader>
               <CardContent>
                 <Button
                   onClick={handleLogout}
                   variant="outline"
+<<<<<<< HEAD
                   className="w-full border-red-300 text-red-600 hover:bg-red-50 bg-transparent"
+=======
+                  className="w-full border-red-500/30 text-red-400 hover:bg-red-500/20"
+>>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                 >
                   Logout
                 </Button>
