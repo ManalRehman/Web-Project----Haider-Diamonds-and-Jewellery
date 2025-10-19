@@ -1,191 +1,331 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import type React from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { SiteNavbar } from "@/components/site-navbar"
-import { Facebook, Chrome } from "lucide-react"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { X, CreditCard, MapPin, User, Phone, Mail } from "lucide-react"
+import { useCart } from "@/lib/cart-context"
 
-type StoredUser = {
-  name: string
-  email: string
-  password: string
+interface CheckoutPopupProps {
+  children: React.ReactNode
 }
 
-export default function SignupPage() {
-  const router = useRouter()
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+export function CheckoutPopup({ children }: CheckoutPopupProps) {
+  const { cart, getTotalItems, clearCart } = useCart()
+  const [isOpen, setIsOpen] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "",
+    paymentMethod: "",
+    specialInstructions: ""
+  })
 
-  useEffect(() => {
-    const existing = localStorage.getItem("currentUser")
-    if (existing) {
-      router.push("/")
-    }
-  }, [router])
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => {
+      const price = parseFloat(item.price.replace(/[^\d]/g, ''))
+      return total + (price * item.quantity)
+    }, 0)
+  }
 
-  function handleSubmit(e: React.FormEvent) {
+  const formatPrice = (price: number) => {
+    return `PKR ${price.toLocaleString()}`
+  }
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters")
-      return
-    }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match")
-      return
-    }
-
-    setLoading(true)
-    try {
-      const usersRaw = localStorage.getItem("users")
-      const users: StoredUser[] = usersRaw ? JSON.parse(usersRaw) : []
-      const exists = users.some((u) => u.email.toLowerCase() === email.trim().toLowerCase())
-      if (exists) {
-        setError("An account with this email already exists")
-        return
-      }
-
-      const newUser: StoredUser = { name: name.trim(), email: email.trim(), password }
-      const nextUsers = [...users, newUser]
-      localStorage.setItem("users", JSON.stringify(nextUsers))
-      localStorage.setItem("currentUser", JSON.stringify({ name: newUser.name, email: newUser.email }))
-      router.push("/")
-    } catch {
-      setError("Something went wrong. Please try again.")
-    } finally {
-      setLoading(false)
-    }
+    setIsProcessing(true)
+    
+    // Simulate processing delay
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    
+    // Here you would typically send the data to your backend
+    console.log("Checkout data:", { formData, cart, total: getTotalPrice() })
+    
+    // Clear cart and close popup
+    clearCart()
+    setIsOpen(false)
+    setIsProcessing(false)
+    
+    // Reset form
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      postalCode: "",
+      country: "",
+      paymentMethod: "",
+      specialInstructions: ""
+    })
   }
 
-  function handleGoogleSignup() {
-    const mockGoogleUser = {
-      name: "Google User",
-      email: "user@gmail.com",
-    }
-    localStorage.setItem("currentUser", JSON.stringify(mockGoogleUser))
-    router.push("/")
-  }
-
-  function handleFacebookSignup() {
-    const mockFacebookUser = {
-      name: "Facebook User",
-      email: "user@facebook.com",
-    }
-    localStorage.setItem("currentUser", JSON.stringify(mockFacebookUser))
-    router.push("/")
+  const isFormValid = () => {
+    return formData.firstName && 
+           formData.lastName && 
+           formData.email && 
+           formData.phone && 
+           formData.address && 
+           formData.city && 
+           formData.postalCode && 
+           formData.country && 
+           formData.paymentMethod
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
-      <SiteNavbar />
-      <div className="flex items-center justify-center px-4 pt-20">
-        <Card className="w-full max-w-md bg-gray-50 border-blue-300 shadow-sm shadow-blue-100">
-          <CardHeader>
-            <CardTitle className="text-blue-600 font-serif">Create Account</CardTitle>
-            <CardDescription className="text-slate-600">Join Haider Diamonds</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block mb-2 text-sm text-slate-700">Full Name</label>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Jane Doe"
-                  className="bg-white border-blue-300 text-slate-900 placeholder-slate-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm text-slate-700">Email</label>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="bg-white border-blue-300 text-slate-900 placeholder-slate-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm text-slate-700">Password</label>
-                <Input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="bg-white border-blue-300 text-slate-900 placeholder-slate-500"
-                  required
-                  minLength={6}
-                />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm text-slate-700">Confirm Password</label>
-                <Input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="bg-white border-blue-300 text-slate-900 placeholder-slate-500"
-                  required
-                  minLength={6}
-                />
-              </div>
-              {error && <p className="text-red-600 text-sm">{error}</p>}
-              <Button type="submit" className="w-full bg-blue-600 text-white hover:bg-blue-700" disabled={loading}>
-                {loading ? "Creating account..." : "Sign Up"}
-              </Button>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-blue-300" />
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white border border-blue-200 text-gray-900">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold text-blue-600 font-serif flex items-center gap-2">
+            <CreditCard className="w-6 h-6" />
+            Checkout
+          </DialogTitle>
+        </DialogHeader>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Customer Information */}
+            <Card className="bg-white border border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-blue-600 flex items-center gap-2">
+                  <User className="w-5 h-5" />
+                  Customer Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="firstName" className="text-gray-700">
+                      First Name *
+                    </Label>
+                    <Input
+                      id="firstName"
+                      value={formData.firstName}
+                      onChange={(e) => handleInputChange("firstName", e.target.value)}
+                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName" className="text-gray-700">
+                      Last Name *
+                    </Label>
+                    <Input
+                      id="lastName"
+                      value={formData.lastName}
+                      onChange={(e) => handleInputChange("lastName", e.target.value)}
+                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-gray-50 px-2 text-slate-600">Or continue with</span>
+                <div>
+                  <Label htmlFor="email" className="text-gray-700">
+                    Email *
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="phone" className="text-gray-700">
+                    Phone Number *
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                    required
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Shipping Address */}
+            <Card className="bg-white border border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-blue-600 flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  Shipping Address
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="address" className="text-gray-700">
+                    Address *
+                  </Label>
+                  <Input
+                    id="address"
+                    value={formData.address}
+                    onChange={(e) => handleInputChange("address", e.target.value)}
+                    className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="city" className="text-gray-700">
+                      City *
+                    </Label>
+                    <Input
+                      id="city"
+                      value={formData.city}
+                      onChange={(e) => handleInputChange("city", e.target.value)}
+                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="postalCode" className="text-gray-700">
+                      Postal Code *
+                    </Label>
+                    <Input
+                      id="postalCode"
+                      value={formData.postalCode}
+                      onChange={(e) => handleInputChange("postalCode", e.target.value)}
+                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="country" className="text-gray-700">
+                    Country *
+                  </Label>
+                  <Select value={formData.country} onValueChange={(value) => handleInputChange("country", value)}>
+                    <SelectTrigger className="bg-white border-blue-300 text-gray-900 focus:border-blue-500">
+                      <SelectValue placeholder="Select country" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border-blue-200">
+                      <SelectItem value="pakistan">Pakistan</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Payment Method */}
+          <Card className="bg-white border border-blue-200">
+            <CardHeader>
+              <CardTitle className="text-blue-600 flex items-center gap-2">
+                <CreditCard className="w-5 h-5" />
+                Payment Method
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div>
+                <Label htmlFor="paymentMethod" className="text-gray-700">
+                  Select Payment Method *
+                </Label>
+                <Select value={formData.paymentMethod} onValueChange={(value) => handleInputChange("paymentMethod", value)}>
+                  <SelectTrigger className="bg-white border-blue-300 text-gray-900 focus:border-blue-500">
+                    <SelectValue placeholder="Choose payment method" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border-blue-200">
+                    <SelectItem value="cod">Cash on Delivery</SelectItem>
+                    <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
+                    <SelectItem value="credit_card">Credit Card</SelectItem>
+                    <SelectItem value="jazzcash">JazzCash</SelectItem>
+                    <SelectItem value="easypaisa">EasyPaisa</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Special Instructions */}
+          <Card className="bg-white border border-blue-200">
+            <CardHeader>
+              <CardTitle className="text-blue-600">Special Instructions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                value={formData.specialInstructions}
+                onChange={(e) => handleInputChange("specialInstructions", e.target.value)}
+                placeholder="Any special delivery instructions or notes..."
+                className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                rows={3}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Order Summary */}
+          <Card className="bg-white border border-blue-200">
+            <CardHeader>
+              <CardTitle className="text-blue-600">Order Summary</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                {cart.map((item) => (
+                  <div key={item.id} className="flex justify-between text-gray-700">
+                    <span>
+                      {item.title} x {item.quantity}
+                    </span>
+                    <span className="text-blue-600 font-medium">{item.price}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="border-t border-blue-200 pt-4">
+                <div className="flex justify-between text-lg font-semibold text-blue-600">
+                  <span>Total ({getTotalItems()} items)</span>
+                  <span className="text-blue-700">{formatPrice(getTotalPrice())}</span>
                 </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  type="button"
-                  onClick={handleGoogleSignup}
-                  variant="outline"
-                  className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 bg-white"
-                >
-                  <Chrome className="w-4 h-4 mr-2" />
-                  Google
-                </Button>
-                <Button
-                  type="button"
-                  onClick={handleFacebookSignup}
-                  variant="outline"
-                  className="w-full border-blue-300 text-blue-600 hover:bg-blue-50 bg-white"
-                >
-                  <Facebook className="w-4 h-4 mr-2" />
-                  Facebook
-                </Button>
-              </div>
-
-              <p className="text-sm text-slate-600 text-center">
-                Already have an account?{" "}
-                <Link href="/login" className="text-blue-600 hover:underline">
-                  Log in
-                </Link>
-              </p>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+          {/* Action Buttons */}
+          <div className="flex gap-4 justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              className="border-blue-300 text-blue-600 hover:bg-blue-50"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={!isFormValid() || isProcessing}
+              className="bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+            >
+              {isProcessing ? "Processing..." : `Place Order - ${formatPrice(getTotalPrice())}`}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
   )
 }
