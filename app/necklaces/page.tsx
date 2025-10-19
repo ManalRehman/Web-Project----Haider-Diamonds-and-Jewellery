@@ -12,7 +12,6 @@ import { useState } from "react"
 type Product = { slug: string; title: string; price: string; image: string }
 
 const products: Product[] = [
-<<<<<<< HEAD
   {
     slug: "diamond-tennis-necklace",
     title: "Diamond Tennis Necklace",
@@ -25,11 +24,12 @@ const products: Product[] = [
     price: "PKR 359,000",
     image: "/elegant-diamond-necklace-with-pendant-on-luxury-je.jpg",
   },
-=======
-  { slug: "diamond-tennis-necklace", title: "Diamond Tennis Necklace", price: "PKR 599,000", image: "/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg" },
-  { slug: "solitaire-pendant-necklace", title: "Solitaire Pendant Necklace", price: "PKR 359,000", image: "/elegant-diamond-necklace-with-pendant-on-luxury-je.jpg" },
->>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
-  { slug: "pear-halo-necklace", title: "Pear Halo Necklace", price: "PKR 549,000", image: "/placeholder.jpg" },
+  {
+    slug: "pear-halo-necklace",
+    title: "Pear Halo Necklace",
+    price: "PKR 549,000",
+    image: "/placeholder.jpg",
+  },
 ]
 
 export default function NecklacesPage() {
@@ -43,27 +43,19 @@ export default function NecklacesPage() {
       price: product.price,
       image: product.image,
       slug: product.slug,
-<<<<<<< HEAD
       category: "necklaces",
     })
     setAddedItems((prev) => new Set([...prev, product.slug]))
     setTimeout(() => {
       setAddedItems((prev) => {
-=======
-      category: "necklaces"
-    })
-    setAddedItems(prev => new Set([...prev, product.slug]))
-    setTimeout(() => {
-      setAddedItems(prev => {
->>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
         const newSet = new Set(prev)
         newSet.delete(product.slug)
         return newSet
       })
     }, 2000)
   }
+
   return (
-<<<<<<< HEAD
     <div className="bg-white min-h-screen text-slate-900">
       <SiteNavbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -85,24 +77,6 @@ export default function NecklacesPage() {
             >
               <CardHeader>
                 <CardTitle className="text-blue-600 text-lg">{item.title}</CardTitle>
-=======
-    <div className="bg-zinc-950 min-h-screen text-white">
-      <SiteNavbar />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="mb-6 text-amber-500 text-sm">
-          <Link href="/" className="hover:text-amber-400">Home</Link>
-          <span className="mx-2 text-amber-500/60">/</span>
-          <span className="text-amber-300">Necklaces</span>
-        </div>
-
-        <h1 className="text-2xl sm:text-3xl font-bold text-amber-400 mb-6 font-serif">Necklaces</h1>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((item) => (
-            <Card key={item.slug} className="bg-zinc-900 border border-amber-500/20 transition-transform hover:-translate-y-2 hover:shadow-lg hover:shadow-amber-500/10">
-              <CardHeader>
-                <CardTitle className="text-amber-400 text-lg">{item.title}</CardTitle>
->>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
               </CardHeader>
               <CardContent>
                 <div className="aspect-video overflow-hidden rounded">
@@ -110,13 +84,16 @@ export default function NecklacesPage() {
                 </div>
               </CardContent>
               <CardFooter className="flex items-center justify-between">
-<<<<<<< HEAD
                 <span className="text-amber-600 font-medium">{item.price}</span>
                 <div className="flex gap-2">
                   <Button
                     size="sm"
                     onClick={() => handleAddToCart(item)}
-                    className={`${addedItems.has(item.slug) ? "bg-green-500 hover:bg-green-600" : "bg-blue-600 hover:bg-blue-700"} text-white`}
+                    className={`${
+                      addedItems.has(item.slug)
+                        ? "bg-green-500 hover:bg-green-600"
+                        : "bg-blue-600 hover:bg-blue-700"
+                    } text-white`}
                   >
                     <ShoppingBag className="w-3 h-3 mr-1" />
                     {addedItems.has(item.slug) ? "Added!" : "Add to Cart"}
@@ -129,20 +106,6 @@ export default function NecklacesPage() {
                     >
                       View
                     </Button>
-=======
-                <span className="text-amber-300 font-medium">{item.price}</span>
-                <div className="flex gap-2">
-                  <Button 
-                    size="sm" 
-                    onClick={() => handleAddToCart(item)}
-                    className={`${addedItems.has(item.slug) ? 'bg-green-500 hover:bg-green-600' : 'bg-amber-500 hover:bg-amber-600'} text-black`}
-                  >
-                    <ShoppingBag className="w-3 h-3 mr-1" />
-                    {addedItems.has(item.slug) ? 'Added!' : 'Add to Cart'}
-                  </Button>
-                  <Link href={`/necklaces/${item.slug}`}>
-                    <Button size="sm" variant="outline" className="border-amber-500 text-amber-500 hover:bg-amber-500/20">View</Button>
->>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
                   </Link>
                 </div>
               </CardFooter>
@@ -153,9 +116,3 @@ export default function NecklacesPage() {
     </div>
   )
 }
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 3c48e0b558f548c4ad48cadecc2d98e191225be5
