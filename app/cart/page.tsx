@@ -25,16 +25,16 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div className="bg-zinc-950 min-h-screen text-white">
+      <div className="bg-white min-h-screen text-gray-800">
         <SiteNavbar />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
           <div className="text-center py-16">
-            <ShoppingBag className="w-16 h-16 text-amber-500/50 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-amber-400 mb-4">Your Cart is Empty</h1>
-            <p className="text-amber-100/70 mb-8">Add some beautiful jewelry to get started</p>
+            <ShoppingBag className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+            <h1 className="text-2xl font-bold text-blue-600 mb-4">Your Cart is Empty</h1>
+            <p className="text-gray-500 mb-8">Add some beautiful jewelry to get started</p>
             <Link href="/rings">
-              <Button className="bg-amber-500 text-black hover:bg-amber-600">
-                Browse Rings
+              <Button className="bg-blue-600 text-white hover:bg-blue-700">
+                Browse Collections
               </Button>
             </Link>
           </div>
@@ -44,23 +44,23 @@ export default function CartPage() {
   }
 
   return (
-    <div className="bg-zinc-950 min-h-screen text-white">
+    <div className="bg-gray-50 min-h-screen text-gray-900">
       <SiteNavbar />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-        <div className="mb-6 text-amber-500 text-sm">
-          <Link href="/" className="hover:text-amber-400">Home</Link>
-          <span className="mx-2 text-amber-500/60">/</span>
-          <span className="text-amber-300">Cart</span>
+        <div className="mb-6 text-sm text-gray-500">
+          <Link href="/" className="hover:text-blue-600">Home</Link>
+          <span className="mx-2 text-gray-400">/</span>
+          <span className="text-blue-600">Cart</span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-bold text-amber-400 mb-6 font-serif">
+        <h1 className="text-3xl font-bold text-blue-700 mb-6 font-serif">
           Shopping Cart ({getTotalItems()} items)
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
             {cart.map((item) => (
-              <Card key={item.id} className="bg-zinc-900 border border-amber-500/20">
+              <Card key={item.id} className="bg-white border border-gray-200 shadow-sm">
                 <CardContent className="p-4">
                   <div className="flex gap-4">
                     <div className="w-20 h-20 flex-shrink-0">
@@ -71,24 +71,24 @@ export default function CartPage() {
                       />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-amber-400 font-semibold mb-2">{item.title}</h3>
-                      <p className="text-amber-300 mb-2">{item.price}</p>
+                      <h3 className="text-gray-800 font-semibold mb-2">{item.title}</h3>
+                      <p className="text-blue-600 mb-2">{item.price}</p>
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
                           <Button
                             size="sm"
                             variant="outline"
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="border-amber-500/30 text-amber-400 hover:bg-amber-500/20"
+                            className="border-gray-300 text-gray-700 hover:bg-gray-100"
                           >
                             <Minus className="w-3 h-3" />
                           </Button>
-                          <span className="text-amber-100 w-8 text-center">{item.quantity}</span>
+                          <span className="text-gray-800 w-8 text-center">{item.quantity}</span>
                           <Button
                             size="sm"
                             variant="outline"
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="border-amber-500/30 text-amber-400 hover:bg-amber-500/20"
+                            className="border-gray-300 text-gray-700 hover:bg-gray-100"
                           >
                             <Plus className="w-3 h-3" />
                           </Button>
@@ -97,7 +97,7 @@ export default function CartPage() {
                           size="sm"
                           variant="outline"
                           onClick={() => removeFromCart(item.id)}
-                          className="border-red-500/30 text-red-400 hover:bg-red-500/20"
+                          className="border-red-300 text-red-600 hover:bg-red-50"
                         >
                           <Trash2 className="w-3 h-3 mr-1" />
                           Remove
@@ -111,41 +111,41 @@ export default function CartPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <Card className="bg-zinc-900 border border-amber-500/20 sticky top-24">
+            <Card className="bg-white border border-gray-200 shadow-sm sticky top-24">
               <CardHeader>
-                <CardTitle className="text-amber-400">Order Summary</CardTitle>
+                <CardTitle className="text-blue-700">Order Summary</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex justify-between text-amber-100">
+                <div className="flex justify-between text-gray-700">
                   <span>Subtotal ({getTotalItems()} items)</span>
                   <span>{formatPrice(getTotalPrice())}</span>
                 </div>
-                <div className="flex justify-between text-amber-100">
+                <div className="flex justify-between text-gray-700">
                   <span>Shipping</span>
                   <span>Free</span>
                 </div>
-                <div className="border-t border-amber-500/20 pt-4">
-                  <div className="flex justify-between text-lg font-semibold text-amber-400">
+                <div className="border-t border-gray-200 pt-4">
+                  <div className="flex justify-between text-lg font-semibold text-blue-700">
                     <span>Total</span>
                     <span>{formatPrice(getTotalPrice())}</span>
                   </div>
                 </div>
                 <div className="space-y-3">
                   <CheckoutPopup>
-                    <Button className="w-full bg-amber-500 text-black hover:bg-amber-600">
+                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
                       Proceed to Checkout
                     </Button>
                   </CheckoutPopup>
                   <Button 
                     variant="outline" 
                     onClick={clearCart}
-                    className="w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/20"
+                    className="w-full border-gray-300 text-gray-700 hover:bg-gray-100"
                   >
                     Clear Cart
                   </Button>
                 </div>
                 <div className="text-center">
-                  <Link href="/rings" className="text-amber-400 hover:text-amber-300 text-sm">
+                  <Link href="/rings" className="text-blue-600 hover:text-blue-700 text-sm">
                     Continue Shopping
                   </Link>
                 </div>
@@ -157,5 +157,3 @@ export default function CartPage() {
     </div>
   )
 }
-
-

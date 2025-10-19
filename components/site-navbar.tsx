@@ -37,9 +37,7 @@ export function SiteNavbar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
-      // For now, just log the search query. You can implement actual search logic later
       console.log("Searching for:", searchQuery)
-      // You could redirect to a search results page or filter products
       setSearchQuery("")
       setSearchOpen(false)
     }
@@ -47,63 +45,51 @@ export function SiteNavbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-zinc-950/90 backdrop-blur border-b border-amber-500/20">
+      <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-blue-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+          {/* Left side: menu + logo */}
           <div className="flex items-center gap-3">
             <button
               aria-label="Open menu"
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-md hover:bg-zinc-800 text-amber-400"
+              className="p-2 rounded-md hover:bg-blue-100 text-blue-600 transition"
             >
               <Menu className="w-5 h-5" />
             </button>
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="rounded-lg ring-2 ring-amber-500/50 bg-zinc-900 p-1 shadow-amber-500/20 shadow-lg group-hover:shadow-amber-500/40 transition-shadow">
+              <div className="rounded-lg ring-2 ring-blue-400 bg-white p-1 shadow-blue-200 shadow-md group-hover:shadow-blue-400/50 transition-shadow">
                 <img
                   src="/logo.png"
                   alt="HAIDER DIAMONDS"
-                  className="h-9 w-auto brightness-125 contrast-125 drop-shadow-[0_0_4px_rgba(245,158,11,0.3)] group-hover:scale-110 transition-transform"
+                  className="h-9 w-auto brightness-110 contrast-125 drop-shadow-[0_0_4px_rgba(37,99,235,0.3)] group-hover:scale-110 transition-transform"
                 />
               </div>
-              <span className="text-amber-400 font-semibold hidden sm:block drop-shadow-[0_0_4px_rgba(245,158,11,0.2)]">
+              <span className="text-blue-700 font-semibold hidden sm:block drop-shadow-[0_0_4px_rgba(37,99,235,0.1)]">
                 HAIDER DIAMONDS
               </span>
             </Link>
           </div>
 
+          {/* Center: navigation links */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/rings"
-              className="text-white hover:text-amber-500 transition-colors duration-200"
-            >
+            <Link href="/rings" className="text-gray-700 hover:text-blue-600 transition-colors">
               Rings
             </Link>
-            <Link
-              href="/earrings"
-              className="text-white hover:text-amber-500 transition-colors duration-200"
-            >
+            <Link href="/earrings" className="text-gray-700 hover:text-blue-600 transition-colors">
               Earrings
             </Link>
-            <Link
-              href="/necklaces"
-              className="text-white hover:text-amber-500 transition-colors duration-200"
-            >
+            <Link href="/necklaces" className="text-gray-700 hover:text-blue-600 transition-colors">
               Necklaces
             </Link>
-            <Link
-              href="/bracelets"
-              className="text-white hover:text-amber-500 transition-colors duration-200"
-            >
+            <Link href="/bracelets" className="text-gray-700 hover:text-blue-600 transition-colors">
               Bracelets
             </Link>
-            <Link
-              href="/custom-design"
-              className="text-white hover:text-amber-500 transition-colors duration-200"
-            >
+            <Link href="/custom-design" className="text-gray-700 hover:text-blue-600 transition-colors">
               Custom Design
             </Link>
           </div>
 
+          {/* Right side: search, cart, user */}
           <div className="flex items-center space-x-2">
             {searchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center gap-2">
@@ -112,13 +98,13 @@ export function SiteNavbar() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search jewelry..."
-                  className="px-3 py-1 bg-zinc-800 border border-amber-500/30 rounded-md text-white placeholder-amber-100/50 focus:border-amber-500 focus:outline-none text-sm w-48"
+                  className="px-3 py-1 bg-white border border-blue-300 rounded-md text-gray-700 placeholder-blue-400/60 focus:border-blue-500 focus:outline-none text-sm w-48 shadow-sm"
                   autoFocus
                 />
                 <button
                   type="button"
                   onClick={() => setSearchOpen(false)}
-                  className="p-1 rounded-md hover:bg-zinc-800 text-amber-400"
+                  className="p-1 rounded-md hover:bg-blue-100 text-blue-600"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -127,30 +113,32 @@ export function SiteNavbar() {
               <button
                 onClick={() => setSearchOpen(true)}
                 aria-label="Search"
-                className="p-2 rounded-md hover:bg-zinc-800 text-amber-500"
+                className="p-2 rounded-md hover:bg-blue-100 text-blue-600 transition"
               >
                 <Search className="w-5 h-5" />
               </button>
             )}
+
             <Link
               href="/cart"
-              className="p-2 rounded-md hover:bg-zinc-800 text-amber-500 relative"
+              className="p-2 rounded-md hover:bg-blue-100 text-blue-600 relative transition"
             >
               <ShoppingBag className="w-5 h-5" />
               {getTotalItems() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-500 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
                   {getTotalItems()}
                 </span>
               )}
             </Link>
+
             {currentUser ? (
               <div className="flex items-center gap-2">
-                <span className="text-white text-sm hidden sm:block">
+                <span className="text-gray-700 text-sm hidden sm:block">
                   Welcome, {currentUser.name}
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="p-2 rounded-md hover:bg-zinc-800 text-amber-500"
+                  className="p-2 rounded-md hover:bg-blue-100 text-blue-600"
                   aria-label="Logout"
                 >
                   <User className="w-5 h-5" />
@@ -159,7 +147,7 @@ export function SiteNavbar() {
             ) : (
               <Link
                 href="/login"
-                className="p-2 rounded-md hover:bg-zinc-800 text-amber-500"
+                className="p-2 rounded-md hover:bg-blue-100 text-blue-600"
                 aria-label="Login"
               >
                 <User className="w-5 h-5" />
