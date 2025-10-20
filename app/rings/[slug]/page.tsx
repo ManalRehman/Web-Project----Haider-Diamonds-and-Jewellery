@@ -7,6 +7,7 @@ import Link from "next/link"
 import { SiteNavbar } from "@/components/site-navbar"
 import { ProductImage } from "@/components/product-image"
 import { useCart } from "@/lib/cart-context"
+import { useFavorites } from "@/lib/favorites-context"
 import { useState } from "react"
 
 type Product = {
@@ -31,7 +32,9 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
   const product = products.find((p) => p.slug === params.slug) ?? products[0]
   const images = product.images
   const { addToCart } = useCart()
+  const { addToFavorites, removeFromFavorites, isFavorited } = useFavorites()
   const [addedToCart, setAddedToCart] = useState(false)
+  const [isSaved, setIsSaved] = useState(isFavorited(product.slug))
 
   const related = products.filter((p) => p.slug !== product.slug)
 
@@ -48,11 +51,27 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
     setTimeout(() => setAddedToCart(false), 2000)
   }
 
+  const handleSaveItem = () => {
+    if (isSaved) {
+      removeFromFavorites(product.slug)
+      setIsSaved(false)
+    } else {
+      addToFavorites({
+        id: product.slug,
+        title: product.title,
+        price: product.price,
+        image: product.images[0],
+        slug: product.slug,
+        category: "rings",
+      })
+      setIsSaved(true)
+    }
+  }
+
   return (
     <div className="bg-white min-h-screen text-slate-900">
       <SiteNavbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        
         {/* Breadcrumb */}
         <div className="mb-6 text-blue-600 text-sm">
           <Link href="/" className="hover:text-blue-700">
@@ -158,8 +177,13 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
                 <ShoppingBag className="w-4 h-4 mr-2" />
                 {addedToCart ? "Added to Cart!" : "Add to Bag"}
               </Button>
-              <Button variant="outline" className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent">
-                <Heart className="w-4 h-4 mr-2" /> Save
+              <Button
+                onClick={handleSaveItem}
+                variant="outline"
+                className={`${isSaved ? "bg-pink-50 border-pink-300 text-pink-600" : "border-blue-300 text-blue-600 hover:bg-blue-50"} bg-transparent`}
+              >
+                <Heart className={`w-4 h-4 mr-2 ${isSaved ? "fill-pink-600" : ""}`} />
+                {isSaved ? "Saved" : "Save"}
               </Button>
             </div>
           </div>

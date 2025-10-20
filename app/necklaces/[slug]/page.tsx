@@ -6,6 +6,9 @@ import { Star, Heart, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-reac
 import Link from "next/link"
 import { SiteNavbar } from "@/components/site-navbar"
 import { ProductImage } from "@/components/product-image"
+import { useCart } from "@/lib/cart-context"
+import { useFavorites } from "@/lib/favorites-context"
+import { useState } from "react"
 
 type Product = {
   slug: string
@@ -38,7 +41,42 @@ const products: Product[] = [
 export default function NecklaceDetailPage({ params }: { params: { slug: string } }) {
   const product = products.find((p) => p.slug === params.slug) ?? products[0]
   const images = product.images
+  const { addToCart } = useCart()
+  const { addToFavorites, removeFromFavorites, isFavorited } = useFavorites()
+  const [addedToCart, setAddedToCart] = useState(false)
+  const [isSaved, setIsSaved] = useState(isFavorited(product.slug))
+
   const related = products.filter((p) => p.slug !== product.slug)
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.slug,
+      title: product.title,
+      price: product.price,
+      image: product.images[0],
+      slug: product.slug,
+      category: "necklaces",
+    })
+    setAddedToCart(true)
+    setTimeout(() => setAddedToCart(false), 2000)
+  }
+
+  const handleSaveItem = () => {
+    if (isSaved) {
+      removeFromFavorites(product.slug)
+      setIsSaved(false)
+    } else {
+      addToFavorites({
+        id: product.slug,
+        title: product.title,
+        price: product.price,
+        image: product.images[0],
+        slug: product.slug,
+        category: "necklaces",
+      })
+      setIsSaved(true)
+    }
+  }
 
   return (
     <div className="bg-white min-h-screen text-slate-900">
@@ -47,9 +85,13 @@ export default function NecklaceDetailPage({ params }: { params: { slug: string 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Breadcrumb */}
         <div className="mb-6 text-blue-600 text-sm">
-          <Link href="/" className="hover:text-blue-700">Home</Link>
+          <Link href="/" className="hover:text-blue-700">
+            Home
+          </Link>
           <span className="mx-2 text-blue-400">/</span>
-          <Link href="/necklaces" className="hover:text-blue-700">Necklaces</Link>
+          <Link href="/necklaces" className="hover:text-blue-700">
+            Necklaces
+          </Link>
           <span className="mx-2 text-blue-400">/</span>
           <span className="text-blue-500">{product.title}</span>
         </div>
@@ -105,9 +147,15 @@ export default function NecklaceDetailPage({ params }: { params: { slug: string 
             </p>
 
             <ul className="list-disc pl-5 text-slate-700 mb-6 space-y-1">
-              <li><span className="text-blue-600">Stone color:</span> D–F (Colorless)</li>
-              <li><span className="text-blue-600">Stone type:</span> Natural diamond</li>
-              <li><span className="text-blue-600">In-store availability:</span> Available at Lahore flagship</li>
+              <li>
+                <span className="text-blue-600">Stone color:</span> D–F (Colorless)
+              </li>
+              <li>
+                <span className="text-blue-600">Stone type:</span> Natural diamond
+              </li>
+              <li>
+                <span className="text-blue-600">In-store availability:</span> Available at Lahore flagship
+              </li>
             </ul>
 
             {/* Options */}
@@ -134,15 +182,17 @@ export default function NecklaceDetailPage({ params }: { params: { slug: string 
 
             {/* Buttons */}
             <div className="flex gap-3">
-              <Button className="bg-blue-600 text-white hover:bg-blue-700">
+              <Button onClick={handleAddToCart} className="bg-blue-600 text-white hover:bg-blue-700">
                 <ShoppingBag className="w-4 h-4 mr-2" /> Add to Bag
               </Button>
 
               <Button
+                onClick={handleSaveItem}
                 variant="outline"
-                className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
+                className={`${isSaved ? "bg-pink-50 border-pink-300 text-pink-600" : "border-blue-300 text-blue-600 hover:bg-blue-50"} bg-transparent`}
               >
-                <Heart className="w-4 h-4 mr-2" /> Save
+                <Heart className={`w-4 h-4 mr-2 ${isSaved ? "fill-pink-600" : ""}`} />
+                {isSaved ? "Saved" : "Save"}
               </Button>
             </div>
           </div>

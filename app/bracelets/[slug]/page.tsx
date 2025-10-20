@@ -6,6 +6,8 @@ import { Star, Heart, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-reac
 import Link from "next/link"
 import { SiteNavbar } from "@/components/site-navbar"
 import { ProductImage } from "@/components/product-image"
+import { useFavorites } from "@/lib/favorites-context"
+import { useState, useEffect } from "react"
 
 type Product = {
   slug: string
@@ -29,6 +31,30 @@ export default function BraceletDetailPage({ params }: { params: { slug: string 
   const product = products.find((p) => p.slug === params.slug) ?? products[0]
   const images = product.images
   const related = products.filter((p) => p.slug !== product.slug)
+
+  const { favorites, addToFavorites, removeFromFavorites, isFavorited } = useFavorites()
+  const [isSaved, setIsSaved] = useState(false)
+
+  const itemId = `bracelets-${product.slug}`
+
+  useEffect(() => {
+    setIsSaved(isFavorited(itemId))
+  }, [favorites, product.slug, isFavorited, itemId])
+
+  const handleSave = () => {
+    if (isSaved) {
+      removeFromFavorites(itemId)
+    } else {
+      addToFavorites({
+        id: itemId,
+        slug: product.slug,
+        title: product.title,
+        price: product.price,
+        image: images[0],
+        category: "bracelets",
+      })
+    }
+  }
 
   return (
     <div className="bg-white min-h-screen text-slate-900">
@@ -120,8 +146,13 @@ export default function BraceletDetailPage({ params }: { params: { slug: string 
               <Button className="bg-blue-600 text-white hover:bg-blue-700">
                 <ShoppingBag className="w-4 h-4 mr-2" /> Add to Bag
               </Button>
-              <Button variant="outline" className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent">
-                <Heart className="w-4 h-4 mr-2" /> Save
+              <Button
+                variant="outline"
+                className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
+                onClick={handleSave}
+              >
+                <Heart className={`w-4 h-4 mr-2 ${isSaved ? "fill-red-500 text-red-500" : ""}`} />
+                {isSaved ? "Saved" : "Save"}
               </Button>
             </div>
           </div>
