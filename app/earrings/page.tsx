@@ -18,8 +18,36 @@ const products: Product[] = [
     price: "PKR 279,000",
     image: "/sparkling-diamond-stud-earrings-on-luxury-jewelry-.jpg",
   },
-  { slug: "halo-stud-earrings", title: "Halo Stud Earrings", price: "PKR 349,000", image: "/placeholder.jpg" },
-  { slug: "drop-earrings", title: "Drop Earrings", price: "PKR 419,000", image: "/placeholder.jpg" },
+  {
+    slug: "halo-stud-earrings",
+    title: "Halo Stud Earrings",
+    price: "PKR 349,000",
+    image: "/placeholder.jpg",
+  },
+  {
+    slug: "drop-earrings",
+    title: "Drop Earrings",
+    price: "PKR 419,000",
+    image: "/placeholder.jpg",
+  },
+  {
+    slug: "pearl-drop-earrings",
+    title: "Pearl Drop Earrings",
+    price: "PKR 389,000",
+    image: "/placeholder.jpg",
+  },
+  {
+    slug: "rose-gold-hoops",
+    title: "Rose Gold Hoops",
+    price: "PKR 299,000",
+    image: "/placeholder.jpg",
+  },
+  {
+    slug: "vintage-chandelier-earrings",
+    title: "Vintage Chandelier Earrings",
+    price: "PKR 459,000",
+    image: "/placeholder.jpg",
+  },
 ]
 
 export default function EarringsPage() {

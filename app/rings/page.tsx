@@ -21,19 +21,37 @@ const products: Product[] = [
     slug: "solitaire-diamond-engagement-ring",
     title: "Solitaire Diamond Engagement Ring",
     price: "PKR 599,000",
-    image: "/luxury-diamond-engagement-ring-with-solitaire-sett.jpg",
+    image: "/ring1.jpg",
   },
   {
     slug: "halo-diamond-ring",
     title: "Halo Diamond Ring",
     price: "PKR 499,000",
-    image: "/placeholder.jpg",
+    image: "/ring2.jpg",
   },
   {
     slug: "vintage-cushion-ring",
     title: "Vintage Cushion Ring",
     price: "PKR 579,000",
-    image: "/placeholder.jpg",
+    image: "/ring3.jpg",
+  },
+  {
+    slug: "cushion-ring",
+    title: "Cushion Ring",
+    price: "PKR 579,000",
+    image: "/ring4.jpg",
+  },
+  {
+    slug: "princess-cut-ring",
+    title: "Princess Cut Diamond Ring",
+    price: "PKR 649,000",
+    image: "/ring5.jpg",
+  },
+  {
+    slug: "emerald-halo-ring",
+    title: "Emerald Halo Diamond Ring",
+    price: "PKR 699,000",
+    image: "/ring6.jpg",
   },
 ]
 

@@ -22,10 +22,13 @@ const products: Product[] = [
     slug: "solitaire-diamond-engagement-ring",
     title: "Solitaire Diamond Engagement Ring",
     price: "PKR 599,000",
-    images: ["/luxury-diamond-engagement-ring-with-solitaire-sett.jpg", "/placeholder.jpg"],
+    images: ["/ring1.jpg", "/ring1.1.jpg"],
   },
-  { slug: "halo-diamond-ring", title: "Halo Diamond Ring", price: "PKR 499,000", images: ["/placeholder.jpg"] },
-  { slug: "vintage-cushion-ring", title: "Vintage Cushion Ring", price: "PKR 579,000", images: ["/placeholder.jpg"] },
+  { slug: "halo-diamond-ring", title: "Halo Diamond Ring", price: "PKR 499,000", images: ["/ring2.jpg", "/ring2.2.jpg"] },
+  { slug: "vintage-cushion-ring", title: "Vintage Cushion Ring", price: "PKR 579,000", images: ["/ring3.jpg", "/ring3.3.jpg"] },
+  { slug: "cushion-ring", title: "Cushion Ring", price: "PKR 579,000", images: ["/ring4.jpg", "/ring4.4.jpg"] },
+  { slug: "princess-cut-ring", title: "Princess Cut Diamond Ring", price: "PKR 649,000", images: ["/ring5.jpg", "/ring5.5.jpg"] },
+  { slug: "emerald-halo-ring", title: "Emerald Halo Diamond Ring", price: "PKR 699,000", images: ["/ring6.jpg", "/ring6.6.jpg"] },
 ]
 
 export default function RingDetailPage({ params }: { params: { slug: string } }) {
