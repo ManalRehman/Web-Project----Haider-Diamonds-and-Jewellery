@@ -87,7 +87,7 @@ export default function CustomDesignPage() {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center mb-6"></div>
           <h1 className="text-3xl sm:text-4xl font-bold text-blue-600 mb-4 font-serif">
-            Create Your Dream Jewelry
+            Create Your Dream Jewellery
           </h1>
           <p className="text-slate-600 text-lg max-w-2xl mx-auto">
             Tell us about your vision and we'll bring it to life with our master craftsmanship and premium materials.
@@ -109,7 +109,7 @@ export default function CustomDesignPage() {
                   {/* Jewelry Details */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label className="text-blue-600 mb-2 block">Jewelry Type *</Label>
+                      <Label className="text-blue-600 mb-2 block">Jewellery Type *</Label>
                       <Select
                         value={formData.jewelryType}
                         onValueChange={(value) => handleInputChange("jewelryType", value)}

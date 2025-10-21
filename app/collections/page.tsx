@@ -21,7 +21,7 @@ export default function CollectionsPage() {
     { id: "earrings", name: "Earrings", count: 8 },
     { id: "bracelets", name: "Bracelets", count: 6 },
     { id: "pendants", name: "Pendants", count: 7 },
-    { id: "sets", name: "Jewelry Sets", count: 5 },
+    { id: "sets", name: "Jewellery Sets", count: 5 },
   ]
 
   const collections = [
@@ -51,7 +51,7 @@ export default function CollectionsPage() {
       id: 3,
       title: "Pearl Drop Earrings",
       price: "PKR 85,000",
-      image: "/sparkling-diamond-stud-earrings-on-luxury-jewelry-.jpg",
+      image: "/sparkling-diamond-stud-earrings-on-luxury-jewellery-.jpg",
       category: "earrings",
       rating: 4,
       reviews: 12,

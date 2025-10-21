@@ -193,7 +193,7 @@ export default function HaiderDiamonds() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search jewelry..."
+                    placeholder="Search jewellery..."
                     className="px-3 py-1 bg-gray-100 border border-blue-300/50 rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none text-sm w-48"
                     autoFocus
                   />
@@ -407,7 +407,7 @@ export default function HaiderDiamonds() {
             className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 sm:mb-12 animate-fade-in-up px-4"
             style={{ animationDelay: "0.4s" }}
           >
-            Luxury jewelry crafted with unmatched brilliance and timeless design.
+            Luxury jewellery crafted with unmatched brilliance and timeless design.
           </p>
 
           <div
@@ -489,7 +489,7 @@ export default function HaiderDiamonds() {
                 icon: Heart,
                 title: "Rings",
                 desc: "Crafted with love, certified diamonds.",
-                image: "/luxury-diamond-engagement-ring-with-solitaire-sett.jpg",
+                image: "/ring1.1.jpg",
                 href: "/rings",
               },
               {
@@ -503,7 +503,7 @@ export default function HaiderDiamonds() {
                 icon: Star,
                 title: "Earrings",
                 desc: "Elegant and timeless sparkle.",
-                image: "/sparkling-diamond-stud-earrings-on-luxury-jewelry-.jpg",
+                image: "/earring4.jpeg",
                 href: "/earrings",
               },
               {
@@ -552,7 +552,7 @@ export default function HaiderDiamonds() {
               ABOUT HAIDER DIAMONDS &amp; JEWELLERY{" "}
             </h2>
             <p className="text-gray-700 mb-4 sm:mb-6 text-sm sm:text-base">
-              Haider Diamonds has been a trusted name in luxury jewelry, creating timeless designs with ethically
+              Haider Diamonds has been a trusted name in luxury jewellery, creating timeless designs with ethically
               sourced diamonds and master craftsmanship.
             </p>
 
@@ -612,7 +612,7 @@ export default function HaiderDiamonds() {
               {
                 name: "Farukh Rehman",
                 review:
-                  "Exceptional service and exquisite jewelry. The custom design process was smooth and the final result was beyond my imagination.",
+                  "Exceptional service and exquisite jewellery. The custom design process was smooth and the final result was beyond my imagination.",
                 rating: 5,
                 initials: "FR",
               },

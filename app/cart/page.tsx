@@ -31,8 +31,8 @@ export default function CartPage() {
           <div className="text-center py-16">
             <ShoppingBag className="w-16 h-16 text-blue-400 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-blue-600 mb-4">Your Cart is Empty</h1>
-            <p className="text-gray-500 mb-8">Add some beautiful jewelry to get started</p>
-            <Link href="/rings">
+            <p className="text-gray-500 mb-8">Add some beautiful jewellery to get started</p>
+            <Link href="/collections">
               <Button className="bg-blue-600 text-white hover:bg-blue-700">
                 Browse Collections
               </Button>
@@ -160,7 +160,7 @@ export default function CartPage() {
                     </Button>
                   </CheckoutPopup>
                   <div className="text-center">
-                    <Link href="/rings" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                    <Link href="/collections" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
                       Continue Shopping
                     </Link>
                   </div>
