@@ -22,31 +22,31 @@ const products: Product[] = [
     slug: "halo-stud-earrings",
     title: "Halo Stud Earrings",
     price: "PKR 349,000",
-    image: "/placeholder.jpg",
+    image: "/earring1.jpeg",
   },
   {
     slug: "drop-earrings",
     title: "Drop Earrings",
     price: "PKR 419,000",
-    image: "/placeholder.jpg",
+    image: "/earring2.jpeg",
   },
   {
     slug: "pearl-drop-earrings",
     title: "Pearl Drop Earrings",
     price: "PKR 389,000",
-    image: "/placeholder.jpg",
+    image: "/earring3.jpeg",
   },
   {
     slug: "rose-gold-hoops",
     title: "Rose Gold Hoops",
     price: "PKR 299,000",
-    image: "/placeholder.jpg",
+    image: "earring4.2.jpeg",
   },
   {
     slug: "vintage-chandelier-earrings",
     title: "Vintage Chandelier Earrings",
     price: "PKR 459,000",
-    image: "/placeholder.jpg",
+    image: "/earring5.jpEg",
   },
 ]
 

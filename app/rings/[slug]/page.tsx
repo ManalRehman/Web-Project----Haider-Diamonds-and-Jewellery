@@ -24,11 +24,36 @@ const products: Product[] = [
     price: "PKR 599,000",
     images: ["/ring1.jpg", "/ring1.1.jpg"],
   },
-  { slug: "halo-diamond-ring", title: "Halo Diamond Ring", price: "PKR 499,000", images: ["/ring2.jpg", "/ring2.2.jpg"] },
-  { slug: "vintage-cushion-ring", title: "Vintage Cushion Ring", price: "PKR 579,000", images: ["/ring3.jpg", "/ring3.3.jpg"] },
-  { slug: "cushion-ring", title: "Cushion Ring", price: "PKR 579,000", images: ["/ring4.jpg", "/ring4.4.jpg"] },
-  { slug: "princess-cut-ring", title: "Princess Cut Diamond Ring", price: "PKR 649,000", images: ["/ring5.jpg", "/ring5.5.jpg"] },
-  { slug: "emerald-halo-ring", title: "Emerald Halo Diamond Ring", price: "PKR 699,000", images: ["/ring6.jpg", "/ring6.6.jpg"] },
+  {
+    slug: "halo-diamond-ring",
+    title: "Halo Diamond Ring",
+    price: "PKR 499,000",
+    images: ["/ring2.jpg", "/ring2.2.jpg"],
+  },
+  {
+    slug: "vintage-cushion-ring",
+    title: "Vintage Cushion Ring",
+    price: "PKR 579,000",
+    images: ["/ring3.jpg", "/ring3.3.jpg"],
+  },
+  {
+    slug: "cushion-ring",
+    title: "Cushion Ring",
+    price: "PKR 579,000",
+    images: ["/ring4.jpg", "/ring4.4.jpg"],
+  },
+  {
+    slug: "princess-cut-ring",
+    title: "Princess Cut Diamond Ring",
+    price: "PKR 649,000",
+    images: ["/ring5.jpg", "/ring5.5.jpg"],
+  },
+  {
+    slug: "emerald-halo-ring",
+    title: "Emerald Halo Diamond Ring",
+    price: "PKR 699,000",
+    images: ["/ring6.jpg", "/ring6.6.jpg"],
+  },
 ]
 
 export default function RingDetailPage({ params }: { params: { slug: string } }) {
@@ -38,6 +63,21 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
   const { addToFavorites, removeFromFavorites, isFavorited } = useFavorites()
   const [addedToCart, setAddedToCart] = useState(false)
   const [isSaved, setIsSaved] = useState(isFavorited(product.slug))
+
+  // IMAGE SLIDER STATE
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length)
+  }
+
+  const prevImage = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+  }
+
+  const selectImage = (index: number) => {
+    setCurrentIndex(index)
+  }
 
   const related = products.filter((p) => p.slug !== product.slug)
 
@@ -93,17 +133,27 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
           {/* Product Image Gallery */}
           <div className="bg-slate-50 rounded-lg border border-blue-200 p-4 relative">
             <div className="aspect-square overflow-hidden rounded-lg">
-              <ProductImage src={images[0]} alt={product.title} className="w-full h-full object-cover" />
+              <ProductImage
+                src={images[currentIndex]}
+                alt={product.title}
+                className="w-full h-full object-cover transition-all duration-300"
+              />
             </div>
 
             {/* Carousel Arrows */}
             <div className="absolute inset-y-0 left-0 flex items-center p-2">
-              <button className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600">
+              <button
+                onClick={prevImage}
+                className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600"
+              >
                 <ChevronLeft className="w-5 h-5" />
               </button>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center p-2">
-              <button className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600">
+              <button
+                onClick={nextImage}
+                className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600"
+              >
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -113,7 +163,10 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
               {images.map((src, i) => (
                 <button
                   key={i}
-                  className="aspect-square overflow-hidden rounded border border-blue-200 hover:border-blue-500"
+                  onClick={() => selectImage(i)}
+                  className={`aspect-square overflow-hidden rounded border ${
+                    currentIndex === i ? "border-blue-500" : "border-blue-200"
+                  } hover:border-blue-500`}
                 >
                   <ProductImage src={src} alt={`${product.title} ${i + 1}`} className="w-full h-full object-cover" />
                 </button>
@@ -175,7 +228,9 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
             <div className="flex gap-3">
               <Button
                 onClick={handleAddToCart}
-                className={`${addedToCart ? "bg-green-500 hover:bg-green-600" : "bg-blue-600 hover:bg-blue-700"} text-white`}
+                className={`${
+                  addedToCart ? "bg-green-500 hover:bg-green-600" : "bg-blue-600 hover:bg-blue-700"
+                } text-white`}
               >
                 <ShoppingBag className="w-4 h-4 mr-2" />
                 {addedToCart ? "Added to Cart!" : "Add to Bag"}
@@ -183,7 +238,11 @@ export default function RingDetailPage({ params }: { params: { slug: string } })
               <Button
                 onClick={handleSaveItem}
                 variant="outline"
-                className={`${isSaved ? "bg-pink-50 border-pink-300 text-pink-600" : "border-blue-300 text-blue-600 hover:bg-blue-50"} bg-transparent`}
+                className={`${
+                  isSaved
+                    ? "bg-pink-50 border-pink-300 text-pink-600"
+                    : "border-blue-300 text-blue-600 hover:bg-blue-50"
+                } bg-transparent`}
               >
                 <Heart className={`w-4 h-4 mr-2 ${isSaved ? "fill-pink-600" : ""}`} />
                 {isSaved ? "Saved" : "Save"}

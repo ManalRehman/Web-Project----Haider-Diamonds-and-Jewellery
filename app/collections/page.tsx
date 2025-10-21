@@ -143,7 +143,7 @@ export default function CollectionsPage() {
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-blue-600 mb-4 font-serif">Our Collections</h1>
           <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-            Discover our exquisite collection of handcrafted jewelry, each piece telling a unique story of elegance and
+            Discover our exquisite collection of handcrafted jewellery, each piece telling a unique story of elegance and
             craftsmanship.
           </p>
         </div>
