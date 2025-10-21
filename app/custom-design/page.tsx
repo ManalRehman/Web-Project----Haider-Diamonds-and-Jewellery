@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Gem, Heart, Star, Diamond, Crown, Sparkles, Send, ArrowLeft } from "lucide-react"
+import { Gem, Heart, Star, Diamond, Crown, Sparkles, Send, ArrowLeft, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 
 export default function CustomDesignPage() {
@@ -24,6 +24,8 @@ export default function CustomDesignPage() {
     phone: "",
   })
 
+  const [showPopup, setShowPopup] = useState(false)
+
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
@@ -31,7 +33,8 @@ export default function CustomDesignPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Custom design request:", formData)
-    alert("Thank you! We'll contact you within 24 hours to discuss your custom design.")
+    setShowPopup(true)
+    setTimeout(() => setShowPopup(false), 4000)
   }
 
   const jewelryTypes = [
@@ -70,7 +73,7 @@ export default function CustomDesignPage() {
   ]
 
   return (
-    <div className="bg-white min-h-screen text-slate-900">
+    <div className="bg-white min-h-screen text-slate-900 relative overflow-hidden">
       <SiteNavbar />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         {/* Breadcrumb */}
@@ -283,8 +286,7 @@ export default function CustomDesignPage() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600 py-3 text-lg font-semibold"
-                  >
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600 py-3 text-lg font-semibold">
                     <Send className="w-5 h-5 mr-2" />
                     Submit Design Request
                   </Button>
@@ -360,6 +362,30 @@ export default function CustomDesignPage() {
           </div>
         </div>
       </div>
+
+      {/* Elegant Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 animate-fadeIn">
+          <div className="bg-white border border-blue-200 shadow-xl rounded-2xl p-8 max-w-sm w-full text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-100 via-amber-50 to-blue-50 opacity-50 animate-shimmer" />
+            <div className="relative z-10">
+              <Diamond className="w-12 h-12 text-blue-600 mx-auto mb-4 animate-bounce" />
+              <h2 className="text-blue-700 font-serif text-2xl font-semibold mb-2">
+                Thank You!
+              </h2>
+              <p className="text-slate-700 text-sm mb-4">
+                We’ll contact you within 24 hours to discuss your custom design.
+              </p>
+              <Button
+                onClick={() => setShowPopup(false)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

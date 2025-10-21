@@ -30,6 +30,9 @@ import {
   CreditCard,
   MapPin,
   User,
+  Info,
+  ShoppingBag,
+  Sparkles,
 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 
@@ -52,13 +55,15 @@ export function CheckoutPopup({ children }: CheckoutPopupProps) {
     country: "",
     paymentMethod: "",
     specialInstructions: "",
-    // Extra payment info
+    cardType: "",
     cardNumber: "",
+    cardName: "",
     cardExpiry: "",
     cardCvc: "",
-    accountName: "",
     accountNumber: "",
-    transactionId: "",
+    cnicNumber: "",
+    easypaisaNumber: "",
+    jazzcashNumber: "",
   });
 
   const getTotalPrice = () => {
@@ -106,70 +111,78 @@ export function CheckoutPopup({ children }: CheckoutPopupProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white border border-blue-200 text-gray-900">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-blue-600 font-serif flex items-center gap-2">
-            <CreditCard className="w-6 h-6" />
-            Checkout
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-blue-50 via-white to-indigo-50 border-2 border-blue-300 shadow-2xl text-gray-900">
+        <DialogHeader className="border-b border-blue-200 pb-4 bg-gradient-to-r from-blue-600 to-indigo-600 -mx-6 -mt-6 px-6 pt-6 rounded-t-lg">
+          <DialogTitle className="text-3xl font-bold text-white font-serif flex items-center gap-3">
+            <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+              <ShoppingBag className="w-7 h-7" />
+            </div>
+            Complete Your Order
+            <Sparkles className="w-5 h-5 ml-auto animate-pulse" />
           </DialogTitle>
+          <p className="text-blue-100 text-sm mt-2">Just a few steps away from your perfect look!</p>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-6 mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Customer Info */}
-            <Card className="bg-white border border-blue-200">
-              <CardHeader>
-                <CardTitle className="text-blue-600 flex items-center gap-2">
-                  <User className="w-5 h-5" />
+            <Card className="bg-white/80 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+                <CardTitle className="text-blue-700 flex items-center gap-2 text-lg">
+                  <div className="bg-blue-600 text-white p-1.5 rounded-md">
+                    <User className="w-4 h-4" />
+                  </div>
                   Customer Information
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label className="text-gray-700">First Name *</Label>
+                    <Label className="text-gray-700 font-medium text-sm">First Name *</Label>
                     <Input
                       value={formData.firstName}
                       onChange={(e) =>
                         handleInputChange("firstName", e.target.value)
                       }
-                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                       required
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-700">Last Name *</Label>
+                    <Label className="text-gray-700 font-medium text-sm">Last Name *</Label>
                     <Input
                       value={formData.lastName}
                       onChange={(e) =>
                         handleInputChange("lastName", e.target.value)
                       }
-                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                       required
                     />
                   </div>
                 </div>
                 <div>
-                  <Label className="text-gray-700">Email *</Label>
+                  <Label className="text-gray-700 font-medium text-sm">Email Address *</Label>
                   <Input
                     type="email"
                     value={formData.email}
                     onChange={(e) =>
                       handleInputChange("email", e.target.value)
                     }
-                    className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                    className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                    placeholder="your@email.com"
                     required
                   />
                 </div>
                 <div>
-                  <Label className="text-gray-700">Phone *</Label>
+                  <Label className="text-gray-700 font-medium text-sm">Phone Number *</Label>
                   <Input
                     type="tel"
                     value={formData.phone}
                     onChange={(e) =>
                       handleInputChange("phone", e.target.value)
                     }
-                    className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                    className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                    placeholder="03XX-XXXXXXX"
                     required
                   />
                 </div>
@@ -177,61 +190,66 @@ export function CheckoutPopup({ children }: CheckoutPopupProps) {
             </Card>
 
             {/* Shipping */}
-            <Card className="bg-white border border-blue-200">
-              <CardHeader>
-                <CardTitle className="text-blue-600 flex items-center gap-2">
-                  <MapPin className="w-5 h-5" />
+            <Card className="bg-white/80 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+                <CardTitle className="text-blue-700 flex items-center gap-2 text-lg">
+                  <div className="bg-blue-600 text-white p-1.5 rounded-md">
+                    <MapPin className="w-4 h-4" />
+                  </div>
                   Shipping Address
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 pt-6">
                 <div>
-                  <Label className="text-gray-700">Address *</Label>
+                  <Label className="text-gray-700 font-medium text-sm">Street Address *</Label>
                   <Input
                     value={formData.address}
                     onChange={(e) =>
                       handleInputChange("address", e.target.value)
                     }
-                    className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                    className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                    placeholder="House #, Street, Area"
                     required
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label className="text-gray-700">City *</Label>
+                    <Label className="text-gray-700 font-medium text-sm">City *</Label>
                     <Input
                       value={formData.city}
                       onChange={(e) =>
                         handleInputChange("city", e.target.value)
                       }
-                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      placeholder="e.g., Lahore"
                       required
                     />
                   </div>
                   <div>
-                    <Label className="text-gray-700">Postal Code *</Label>
+                    <Label className="text-gray-700 font-medium text-sm">Postal Code *</Label>
                     <Input
                       value={formData.postalCode}
                       onChange={(e) =>
                         handleInputChange("postalCode", e.target.value)
                       }
-                      className="bg-white border-blue-300 text-gray-900 focus:border-blue-500"
+                      className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      placeholder="54000"
                       required
                     />
                   </div>
                 </div>
                 <div>
-                  <Label className="text-gray-700">Country *</Label>
+                  <Label className="text-gray-700 font-medium text-sm">Country *</Label>
                   <Select
                     value={formData.country}
                     onValueChange={(value) =>
                       handleInputChange("country", value)
                     }
                   >
-                    <SelectTrigger className="bg-white border-blue-300 text-gray-900 focus:border-blue-500">
+                    <SelectTrigger className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all">
                       <SelectValue placeholder="Select country" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-blue-200">
+                    <SelectContent className="bg-white border-2 border-blue-200">
                       <SelectItem value="pakistan">Pakistan</SelectItem>
                     </SelectContent>
                   </Select>
@@ -241,67 +259,131 @@ export function CheckoutPopup({ children }: CheckoutPopupProps) {
           </div>
 
           {/* Payment Method */}
-          <Card className="bg-white border border-blue-200">
-            <CardHeader>
-              <CardTitle className="text-blue-600 flex items-center gap-2">
-                <CreditCard className="w-5 h-5" />
+          <Card className="bg-white/80 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+              <CardTitle className="text-blue-700 flex items-center gap-2 text-lg">
+                <div className="bg-blue-600 text-white p-1.5 rounded-md">
+                  <CreditCard className="w-4 h-4" />
+                </div>
                 Payment Method
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 pt-6">
               <Select
                 value={formData.paymentMethod}
                 onValueChange={(value) =>
                   handleInputChange("paymentMethod", value)
                 }
               >
-                <SelectTrigger className="bg-white border-blue-300 text-gray-900 focus:border-blue-500">
-                  <SelectValue placeholder="Choose payment method" />
+                <SelectTrigger className="bg-white border-2 border-blue-200 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all h-12 text-base">
+                  <SelectValue placeholder="Choose your payment method" />
                 </SelectTrigger>
-                <SelectContent className="bg-white border-blue-200">
-                  <SelectItem value="cod">Cash on Delivery</SelectItem>
-                  <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                  <SelectItem value="credit_card">Credit Card</SelectItem>
-                  <SelectItem value="jazzcash">JazzCash</SelectItem>
-                  <SelectItem value="easypaisa">EasyPaisa</SelectItem>
+                <SelectContent className="bg-white border-2 border-blue-200">
+                  <SelectItem value="cod" className="py-3">💵 Cash on Delivery</SelectItem>
+                  <SelectItem value="bank_transfer" className="py-3">🏦 Bank Transfer</SelectItem>
+                  <SelectItem value="card" className="py-3">💳 Card Payment</SelectItem>
+                  <SelectItem value="jazzcash" className="py-3">📱 JazzCash</SelectItem>
+                  <SelectItem value="easypaisa" className="py-3">📲 EasyPaisa</SelectItem>
                 </SelectContent>
               </Select>
 
-              {/* --- Dynamic Fields --- */}
-              {formData.paymentMethod === "credit_card" && (
-                <div className="space-y-3 border-t border-blue-100 pt-4">
-                  <Label>Card Number *</Label>
-                  <Input
-                    placeholder="1234 5678 9012 3456"
-                    value={formData.cardNumber}
-                    onChange={(e) =>
-                      handleInputChange("cardNumber", e.target.value)
-                    }
-                    className="bg-white border-blue-300"
-                    required
-                  />
+              {/* Dynamic Fields */}
+              {formData.paymentMethod === "card" && (
+                <div className="space-y-4 border-t-2 border-blue-100 pt-6 bg-blue-50/50 -mx-6 px-6 pb-4 rounded-lg">
+                  <div className="space-y-3">
+                    <Label className="text-gray-700 font-medium">Card Type *</Label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-2 cursor-pointer bg-white border-2 border-blue-200 rounded-lg px-4 py-3 hover:border-blue-500 transition-all flex-1">
+                        <input
+                          type="radio"
+                          name="cardType"
+                          value="debit"
+                          checked={formData.cardType === "debit"}
+                          onChange={(e) =>
+                            handleInputChange("cardType", e.target.value)
+                          }
+                          className="w-5 h-5 text-blue-600"
+                          required
+                        />
+                        <span className="text-gray-700 font-medium">Debit Card</span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer bg-white border-2 border-blue-200 rounded-lg px-4 py-3 hover:border-blue-500 transition-all flex-1">
+                        <input
+                          type="radio"
+                          name="cardType"
+                          value="credit"
+                          checked={formData.cardType === "credit"}
+                          onChange={(e) =>
+                            handleInputChange("cardType", e.target.value)
+                          }
+                          className="w-5 h-5 text-blue-600"
+                          required
+                        />
+                        <span className="text-gray-700 font-medium">Credit Card</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label className="text-gray-700 font-medium text-sm">Card Number *</Label>
+                    <Input
+                      placeholder="1234 5678 9012 3456"
+                      value={formData.cardNumber}
+                      onChange={(e) =>
+                        handleInputChange("cardNumber", e.target.value)
+                      }
+                      className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-gray-700 font-medium text-sm">Name on Card *</Label>
+                    <Input
+                      placeholder="Full Name as on Card"
+                      value={formData.cardName}
+                      onChange={(e) =>
+                        handleInputChange("cardName", e.target.value)
+                      }
+                      className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      required
+                    />
+                  </div>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label>Expiry Date *</Label>
+                      <Label className="text-gray-700 font-medium text-sm">Expiry Date *</Label>
                       <Input
                         placeholder="MM/YY"
                         value={formData.cardExpiry}
                         onChange={(e) =>
                           handleInputChange("cardExpiry", e.target.value)
                         }
-                        className="bg-white border-blue-300"
+                        className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                         required
                       />
                     </div>
                     <div>
-                      <Label>CVC *</Label>
+                      <Label className="flex items-center gap-1.5 text-gray-700 font-medium text-sm">
+                        CVV *
+                        <span
+                          className="group relative cursor-help"
+                          title="The CVV is the 3-digit number on the back of your card."
+                        >
+                          <Info className="w-4 h-4 text-blue-500" />
+                          <span className="invisible group-hover:visible absolute left-6 top-0 w-52 bg-gray-900 text-white text-xs rounded-lg px-3 py-2 z-10 shadow-xl">
+                            The CVV is the 3-digit security code on the back of your card.
+                          </span>
+                        </span>
+                      </Label>
                       <Input
                         placeholder="123"
                         value={formData.cardCvc}
                         onChange={(e) =>
                           handleInputChange("cardCvc", e.target.value)
                         }
-                        className="bg-white border-blue-300"
+                        className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                        maxLength={3}
                         required
                       />
                     </div>
@@ -309,126 +391,143 @@ export function CheckoutPopup({ children }: CheckoutPopupProps) {
                 </div>
               )}
 
-              {(formData.paymentMethod === "jazzcash" ||
-                formData.paymentMethod === "easypaisa") && (
-                <div className="space-y-3 border-t border-blue-100 pt-4">
-                  <Label>Account Holder Name *</Label>
+              {formData.paymentMethod === "jazzcash" && (
+                <div className="space-y-3 border-t-2 border-blue-100 pt-6 bg-blue-50/50 -mx-6 px-6 pb-4 rounded-lg">
+                  <Label className="text-gray-700 font-medium">JazzCash Mobile Number *</Label>
                   <Input
-                    placeholder="Full Name"
-                    value={formData.accountName}
+                    placeholder="03XX-XXXXXXX"
+                    value={formData.jazzcashNumber}
                     onChange={(e) =>
-                      handleInputChange("accountName", e.target.value)
+                      handleInputChange("jazzcashNumber", e.target.value)
                     }
-                    className="bg-white border-blue-300"
+                    className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                     required
                   />
-                  <Label>Account / Mobile Number *</Label>
+                </div>
+              )}
+
+              {formData.paymentMethod === "easypaisa" && (
+                <div className="space-y-3 border-t-2 border-blue-100 pt-6 bg-blue-50/50 -mx-6 px-6 pb-4 rounded-lg">
+                  <Label className="text-gray-700 font-medium">EasyPaisa Account Number *</Label>
                   <Input
-                    placeholder="03XXXXXXXXX"
-                    value={formData.accountNumber}
+                    placeholder="03XX-XXXXXXX"
+                    value={formData.easypaisaNumber}
                     onChange={(e) =>
-                      handleInputChange("accountNumber", e.target.value)
+                      handleInputChange("easypaisaNumber", e.target.value)
                     }
-                    className="bg-white border-blue-300"
+                    className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                     required
                   />
                 </div>
               )}
 
               {formData.paymentMethod === "bank_transfer" && (
-                <div className="space-y-3 border-t border-blue-100 pt-4">
-                  <Label>Account Holder Name *</Label>
-                  <Input
-                    placeholder="Your Full Name"
-                    value={formData.accountName}
-                    onChange={(e) =>
-                      handleInputChange("accountName", e.target.value)
-                    }
-                    className="bg-white border-blue-300"
-                    required
-                  />
-                  <Label>Transaction ID *</Label>
-                  <Input
-                    placeholder="Enter your transaction ID"
-                    value={formData.transactionId}
-                    onChange={(e) =>
-                      handleInputChange("transactionId", e.target.value)
-                    }
-                    className="bg-white border-blue-300"
-                    required
-                  />
+                <div className="space-y-4 border-t-2 border-blue-100 pt-6 bg-blue-50/50 -mx-6 px-6 pb-4 rounded-lg">
+                  <div>
+                    <Label className="text-gray-700 font-medium">Account Number *</Label>
+                    <Input
+                      placeholder="Your Bank Account Number"
+                      value={formData.accountNumber}
+                      onChange={(e) =>
+                        handleInputChange("accountNumber", e.target.value)
+                      }
+                      className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-gray-700 font-medium">CNIC Number *</Label>
+                    <Input
+                      placeholder="XXXXX-XXXXXXX-X"
+                      value={formData.cnicNumber}
+                      onChange={(e) =>
+                        handleInputChange("cnicNumber", e.target.value)
+                      }
+                      className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      required
+                    />
+                  </div>
                 </div>
               )}
             </CardContent>
           </Card>
 
           {/* Special Instructions */}
-          <Card className="bg-white border border-blue-200">
-            <CardHeader>
-              <CardTitle className="text-blue-600">
-                Special Instructions
+          <Card className="bg-white/80 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+              <CardTitle className="text-blue-700 text-lg">
+                💬 Special Instructions (Optional)
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-6">
               <Textarea
                 value={formData.specialInstructions}
                 onChange={(e) =>
                   handleInputChange("specialInstructions", e.target.value)
                 }
-                placeholder="Any special delivery notes..."
-                className="bg-white border-blue-300"
-                rows={3}
+                placeholder="Any special delivery notes or gift wrapping requests..."
+                className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all min-h-[100px]"
+                rows={4}
               />
             </CardContent>
           </Card>
 
           {/* Order Summary */}
-          <Card className="bg-white border border-blue-200">
-            <CardHeader>
-              <CardTitle className="text-blue-600">Order Summary</CardTitle>
+          <Card className="bg-gradient-to-br from-blue-600 to-indigo-600 border-2 border-blue-700 shadow-xl">
+            <CardHeader className="border-b border-blue-400">
+              <CardTitle className="text-white flex items-center gap-2 text-xl">
+                <ShoppingBag className="w-5 h-5" />
+                Order Summary
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {cart.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between text-gray-700"
-                >
-                  <span>
-                    {item.title} x {item.quantity}
-                  </span>
-                  <span className="text-blue-600 font-medium">
-                    {item.price}
-                  </span>
-                </div>
-              ))}
-              <div className="border-t border-blue-200 pt-4 flex justify-between text-lg font-semibold text-blue-600">
-                <span>Total ({getTotalItems()} items)</span>
-                <span>{formatPrice(getTotalPrice())}</span>
+            <CardContent className="space-y-3 pt-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 space-y-2">
+                {cart.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between text-white py-2 border-b border-white/20 last:border-0"
+                  >
+                    <span className="font-medium">
+                      {item.title} × {item.quantity}
+                    </span>
+                    <span className="font-semibold">
+                      {item.price}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-white rounded-lg p-5 flex justify-between items-center text-xl font-bold text-blue-700 shadow-lg mt-4">
+                <span className="flex items-center gap-2">
+                  <ShoppingBag className="w-5 h-5" />
+                  Total ({getTotalItems()} items)
+                </span>
+                <span className="text-2xl">{formatPrice(getTotalPrice())}</span>
               </div>
             </CardContent>
           </Card>
 
           {/* Action Buttons */}
-          <div className="flex gap-4 justify-end">
+          <div className="flex gap-4 justify-end pt-4 border-t-2 border-blue-200">
             <Button
               type="button"
               variant="outline"
               onClick={() => setIsOpen(false)}
-              className="border-blue-300 text-blue-600 hover:bg-blue-50"
+              className="border-2 border-blue-300 text-blue-700 hover:bg-blue-50 px-8 py-6 text-lg font-semibold transition-all"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={!isFormValid() || isProcessing}
-              className="bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+              onClick={handleSubmit}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 px-8 py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all disabled:cursor-not-allowed"
             >
               {isProcessing
-                ? "Processing..."
-                : `Place Order - ${formatPrice(getTotalPrice())}`}
+                ? "Processing Order..."
+                : ` Place Order - ${formatPrice(getTotalPrice())}`}
             </Button>
           </div>
-        </form>
+        </div>
       </DialogContent>
     </Dialog>
   );
