@@ -496,7 +496,7 @@ export default function HaiderDiamonds() {
                 icon: Gem,
                 title: "Necklaces",
                 desc: "Exquisite designs for every occasion.",
-                image: "/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg",
+                image: "/blue.jpg",
                 href: "/necklaces",
               },
               {
@@ -510,7 +510,7 @@ export default function HaiderDiamonds() {
                 icon: Star,
                 title: "Bracelets",
                 desc: "Refined brilliance for the wrist.",
-                image: "/placeholder.jpg",
+                image: "/bracelet.jpeg",
                 href: "/bracelets",
               },
             ].map((item, index) => (
