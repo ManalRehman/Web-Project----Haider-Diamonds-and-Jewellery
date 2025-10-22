@@ -25,16 +25,54 @@ import {
   Check,
 } from "lucide-react"
 
+// Import all products for search functionality
+const allProducts = [
+  // Rings
+  { slug: "Leafy-Lux-Ring", title: "Leafy Lux Ring", price: "PKR 599,000", image: "/ring1.jpg", category: "rings" },
+  { slug: "Floral-Embrace-Ring", title: "Floral Embrace Ring", price: "PKR 499,000", image: "/ring2.jpg", category: "rings" },
+  { slug: "The-Rose-Knot-Ring", title: "The Rose Knot Ring", price: "PKR 579,000", image: "/ring3.jpg", category: "rings" },
+  { slug: "The-Modern-Sparkle-Ring", title: "The Modern Sparkle Ring", price: "PKR 579,000", image: "/ring4.jpg", category: "rings" },
+  { slug: "The-Petal-Heart-Ring", title: "The Petal Heart Ring", price: "PKR 649,000", image: "/ring5.jpg", category: "rings" },
+  { slug: "The-Timeless-Row-Ring", title: "The Timeless Row Ring", price: "PKR 699,000", image: "/ring6.jpg", category: "rings" },
+  
+  // Necklaces
+  { slug: "diamond-tennis-necklace", title: "Diamond Tennis Necklace", price: "PKR 599,000", image: "/necklace1.jpg", category: "necklaces" },
+  { slug: "solitaire-pendant-necklace", title: "Solitaire Pendant Necklace", price: "PKR 359,000", image: "/necklace2.jpg", category: "necklaces" },
+  { slug: "pear-halo-necklace", title: "Pear Halo Necklace", price: "PKR 549,000", image: "/necklace3.jpg", category: "necklaces" },
+  { slug: "emerald-diamond-necklace", title: "Emerald Diamond Necklace", price: "PKR 799,000", image: "/necklace4.jpg", category: "necklaces" },
+  { slug: "sapphire-drop-necklace", title: "Sapphire Drop Necklace", price: "PKR 429,000", image: "/necklace5.jpg", category: "necklaces" },
+  { slug: "classic-pearl-necklace", title: "Classic Pearl Necklace", price: "PKR 299,000", image: "/necklace6.6.jpg", category: "necklaces" },
+  
+  // Earrings
+  { slug: "classic-diamond-studs", title: "Classic Diamond Studs", price: "PKR 279,000", image: "/sparkling-diamond-stud-earrings-on-luxury-jewelry-.jpg", category: "earrings" },
+  { slug: "The-Dazzling-Drop-Earrings", title: "The Dazzling Drop Earrings", price: "PKR 349,000", image: "/earring1.jpeg", category: "earrings" },
+  { slug: "Emerald-Isle-Hoops", title: "Emerald Isle Hoops", price: "PKR 419,000", image: "/earring2.jpeg", category: "earrings" },
+  { slug: "pearl-drop-earrings", title: "Pearl Drop Earrings", price: "PKR 389,000", image: "/earring3.jpeg", category: "earrings" },
+  { slug: "Ruby-Blush-Mini-Hoops", title: "Ruby Blush Mini Hoops", price: "PKR 299,000", image: "earring4.2.jpeg", category: "earrings" },
+  { slug: "Whisper-Leaf-Hoops", title: "Whisper Leaf Hoops", price: "PKR 459,000", image: "/earring5.jpeg", category: "earrings" },
+  
+  // Bracelets
+  { slug: "diamond-tennis-bracelet", title: "Diamond Tennis Bracelet", price: "PKR 599,000", image: "/bracelet1.jpg", category: "bracelets" },
+  { slug: "bangle-bracelet", title: "Bangle Bracelet", price: "PKR 549,000", image: "/bracelet2.jpg", category: "bracelets" },
+  { slug: "chain-link-bracelet", title: "Chain Link Bracelet", price: "PKR 299,000", image: "/bracelet3.jpg", category: "bracelets" },
+  { slug: "cuff-bracelet", title: "Cuff Bracelet", price: "PKR 399,000", image: "/bracelet4.jpg", category: "bracelets" },
+  { slug: "charm-bracelet", title: "Charm Bracelet", price: "PKR 279,000", image: "/bracelet5.jpg", category: "bracelets" },
+  { slug: "pearl-bracelet", title: "Pearl Bracelet", price: "PKR 329,000", image: "/bracelet6.jpg", category: "bracelets" },
+]
+
 export default function HaiderDiamonds() {
   const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   const [searchOpen, setSearchOpen] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
+  const [searchResults, setSearchResults] = useState<typeof allProducts>([])
+  const [showResults, setShowResults] = useState<boolean>(false)
   const [scrolled, setScrolled] = useState<boolean>(false)
   const [reviewsInView, setReviewsInView] = useState<boolean>(false)
   const [starsAnimating, setStarsAnimating] = useState<boolean>(false)
   const [collectionsOpen, setCollectionsOpen] = useState<boolean>(false)
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false) // Check if user is logged in
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const searchRef = useRef<HTMLDivElement>(null)
   const reviewsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -46,7 +84,7 @@ export default function HaiderDiamonds() {
   }, [])
 
   useEffect(() => {
-    // Check if user is logged in (you can replace this with actual auth check)
+    // Check if user is logged in
     const userToken = localStorage.getItem("userToken")
     setIsLoggedIn(!!userToken)
   }, [])
@@ -78,14 +116,58 @@ export default function HaiderDiamonds() {
     }
   }, [])
 
+  // Close search results when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowResults(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (searchQuery.trim()) {
-      // Navigate to collections page with search query
-      router.push(`/collections?search=${encodeURIComponent(searchQuery.trim())}`)
-      setSearchQuery("")
-      setSearchOpen(false)
+      performSearch(searchQuery.trim())
     }
+  }
+
+  const performSearch = (query: string) => {
+    const filtered = allProducts.filter(product => 
+      product.title.toLowerCase().includes(query.toLowerCase()) ||
+      product.category.toLowerCase().includes(query.toLowerCase())
+    )
+    setSearchResults(filtered)
+    setShowResults(true)
+  }
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value
+    setSearchQuery(query)
+    
+    if (query.trim()) {
+      performSearch(query.trim())
+    } else {
+      setShowResults(false)
+      setSearchResults([])
+    }
+  }
+
+  const handleSearchResultClick = (product: typeof allProducts[0]) => {
+    router.push(`/${product.category}/${product.slug}`)
+    setSearchQuery("")
+    setShowResults(false)
+    setSearchOpen(false)
+  }
+
+  const handleViewAllResults = () => {
+    router.push(`/collections?search=${encodeURIComponent(searchQuery.trim())}`)
+    setSearchQuery("")
+    setShowResults(false)
+    setSearchOpen(false)
   }
 
   const handleUserIconClick = () => {
@@ -205,35 +287,83 @@ export default function HaiderDiamonds() {
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4 mr-4 sm:mr-0">
-              {searchOpen ? (
-                <form onSubmit={handleSearch} className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search jewellery..."
-                    className="px-3 py-1 bg-gray-100 border border-blue-300/50 rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none text-sm w-48"
-                    autoFocus
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setSearchOpen(false)}
-                    className="p-1 rounded-md hover:bg-gray-200 text-blue-600"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </form>
-              ) : (
-                <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
-                  <button
-                    onClick={() => setSearchOpen(true)}
-                    aria-label="Search"
-                    className="p-2 rounded-md hover:bg-gray-100 text-blue-600"
-                  >
-                    <Search className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 cursor-pointer" />
-                  </button>
-                </div>
-              )}
+              {/* Search with dropdown results */}
+              <div ref={searchRef} className="relative">
+                {searchOpen ? (
+                  <form onSubmit={handleSearch} className="flex items-center gap-2">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        placeholder="Search jewellery..."
+                        className="px-3 py-1 bg-gray-100 border border-blue-300/50 rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none text-sm w-48"
+                        autoFocus
+                      />
+                      
+                      {/* Search Results Dropdown */}
+                      {showResults && searchResults.length > 0 && (
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-blue-200 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+                          {searchResults.slice(0, 5).map((product) => (
+                            <div
+                              key={`${product.category}-${product.slug}`}
+                              className="p-3 hover:bg-blue-50 cursor-pointer border-b border-blue-100 last:border-b-0"
+                              onClick={() => handleSearchResultClick(product)}
+                            >
+                              <div className="flex items-center gap-3">
+                                <img
+                                  src={product.image}
+                                  alt={product.title}
+                                  className="w-10 h-10 object-cover rounded"
+                                />
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-medium text-gray-900 truncate">{product.title}</p>
+                                  <p className="text-xs text-gray-500 capitalize">{product.category}</p>
+                                  <p className="text-sm font-semibold text-amber-600">{product.price}</p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                          
+                          {searchResults.length > 5 && (
+                            <div
+                              className="p-3 text-center bg-blue-50 hover:bg-blue-100 cursor-pointer"
+                              onClick={handleViewAllResults}
+                            >
+                              <p className="text-sm font-medium text-blue-600">
+                                View all {searchResults.length} results
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchOpen(false)
+                        setShowResults(false)
+                        setSearchQuery("")
+                      }}
+                      className="p-1 rounded-md hover:bg-gray-200 text-blue-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </form>
+                ) : (
+                  <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
+                    <button
+                      onClick={() => setSearchOpen(true)}
+                      aria-label="Search"
+                      className="p-2 rounded-md hover:bg-gray-100 text-blue-600"
+                    >
+                      <Search className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 cursor-pointer" />
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
                 <Link href="/cart">
                   <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 cursor-pointer" />
@@ -469,7 +599,6 @@ export default function HaiderDiamonds() {
         </div>
       </section>
 
-      {/* Rest of the sections remain unchanged */}
       {/* Custom Design Process */}
       <section id="custom-design" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
@@ -480,31 +609,31 @@ export default function HaiderDiamonds() {
             Your story, our craftsmanship — together creating perfection.
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-            {[
-              { step: "1", title: "Consultation" },
-              { step: "2", title: "Design" },
-              { step: "3", title: "Crafting" },
-              { step: "4", title: "Delivery" },
-            ].map((item, index) => (
-              <div
-                key={item.step}
-                className="relative hover:-translate-y-4 transition-all duration-500 hover:scale-105 animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
-              >
-                <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-200 mb-2 sm:mb-4 hover:text-blue-600 hover:scale-125 transition-all duration-500 hover:rotate-12">
-                  {item.step}
-                </div>
-                <p className="text-sm sm:text-base text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300">
-                  {item.title}
-                </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+  {[
+    { step: "1", title: "Consultation" },
+    { step: "2", title: "Design" },
+    { step: "3", title: "Crafting" },
+    { step: "4", title: "Delivery" },
+  ].map((item, index) => (
+    <div
+      key={item.step}
+      className="relative hover:-translate-y-4 transition-all duration-500 hover:scale-105 animate-fade-in-up"
+      style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
+    >
+      <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-400 mb-2 sm:mb-4 hover:text-blue-700 hover:scale-125 transition-all duration-500 hover:rotate-12">
+        {item.step}
+      </div>
+      <p className="text-sm sm:text-base text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300">
+        {item.title}
+      </p>
 
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-blue-400 to-transparent animate-pulse" />
-                )}
-              </div>
-            ))}
-          </div>
+      {index < 3 && (
+        <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-blue-400 to-transparent animate-pulse" />
+      )}
+    </div>
+  ))}
+</div>
         </div>
       </section>
 
@@ -531,7 +660,7 @@ export default function HaiderDiamonds() {
                 icon: Gem,
                 title: "Necklaces",
                 desc: "Exquisite designs for every occasion.",
-                image: "/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg",
+                image: "/necklace1.jpg",
                 href: "/necklaces",
               },
               {
@@ -545,7 +674,7 @@ export default function HaiderDiamonds() {
                 icon: Star,
                 title: "Bracelets",
                 desc: "Refined brilliance for the wrist.",
-                image: "/placeholder.jpg",
+                image: "/bracelet5.jpg",
                 href: "/bracelets",
               },
             ].map((item, index) => (
@@ -618,7 +747,6 @@ export default function HaiderDiamonds() {
         </div>
       </section>
 
-  
       {/* Customer Reviews */}
       <section ref={reviewsRef} className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">

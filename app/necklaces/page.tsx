@@ -12,127 +12,130 @@ import { useState } from "react"
 type Product = { slug: string; title: string; price: string; image: string }
 
 const products: Product[] = [
-{
-slug: "diamond-tennis-necklace",
-title: "Diamond Tennis Necklace",
-price: "PKR 599,000",
-image: "/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg",
-},
-{
-slug: "solitaire-pendant-necklace",
-title: "Solitaire Pendant Necklace",
-price: "PKR 359,000",
-image: "/elegant-diamond-necklace-with-pendant-on-luxury-je.jpg",
-},
-{
-slug: "pear-halo-necklace",
-title: "Pear Halo Necklace",
-price: "PKR 549,000",
-image: "/placeholder.jpg",
-},
-{
-slug: "emerald-diamond-necklace",
-title: "Emerald Diamond Necklace",
-price: "PKR 799,000",
-image: "/emerald-diamond-necklace.jpg",
-},
-{
-slug: "sapphire-drop-necklace",
-title: "Sapphire Drop Necklace",
-price: "PKR 429,000",
-image: "/sapphire-drop-necklace.jpg",
-},
-{
-slug: "classic-pearl-necklace",
-title: "Classic Pearl Necklace",
-price: "PKR 299,000",
-image: "/classic-pearl-necklace.jpg",
-},
+  {
+    slug: "diamond-tennis-necklace",
+    title: "Diamond Tennis Necklace",
+    price: "PKR 599,000",
+    image: "/necklace1.jpg",
+  },
+  {
+    slug: "solitaire-pendant-necklace",
+    title: "Solitaire Pendant Necklace",
+    price: "PKR 359,000",
+    image: "/necklace2.jpg",
+  },
+  {
+    slug: "pear-halo-necklace",
+    title: "Pear Halo Necklace",
+    price: "PKR 549,000",
+    image: "/necklace3.jpg",
+  },
+  {
+    slug: "emerald-diamond-necklace",
+    title: "Emerald Diamond Necklace",
+    price: "PKR 799,000",
+    image: "/necklace4.jpg",
+  },
+  {
+    slug: "sapphire-drop-necklace",
+    title: "Sapphire Drop Necklace",
+    price: "PKR 429,000",
+    image: "/necklace5.jpg",
+  },
+  {
+    slug: "classic-pearl-necklace",
+    title: "Classic Pearl Necklace",
+    price: "PKR 299,000",
+    image: "/necklace6.6.jpg",
+  },
 ]
 
 export default function NecklacesPage() {
-const { addToCart } = useCart()
-const [addedItems, setAddedItems] = useState<Set<string>>(new Set())
+  const { addToCart } = useCart()
+  const [addedItems, setAddedItems] = useState<Set<string>>(new Set())
 
-const handleAddToCart = (product: Product) => {
-addToCart({
-id: product.slug,
-title: product.title,
-price: product.price,
-image: product.image,
-slug: product.slug,
-category: "necklaces",
-})
-setAddedItems((prev) => new Set([...prev, product.slug]))
-setTimeout(() => {
-setAddedItems((prev) => {
-const newSet = new Set(prev)
-newSet.delete(product.slug)
-return newSet
-})
-}, 2000)
-}
+  const handleAddToCart = (product: Product) => {
+    addToCart({
+      id: product.slug,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      slug: product.slug,
+      category: "necklaces",
+    })
+    setAddedItems((prev) => new Set([...prev, product.slug]))
+    setTimeout(() => {
+      setAddedItems((prev) => {
+        const newSet = new Set(prev)
+        newSet.delete(product.slug)
+        return newSet
+      })
+    }, 2000)
+  }
 
-return (
-<div className="bg-white min-h-screen text-slate-900">
-<SiteNavbar />
-<div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-<div className="mb-6 text-blue-600 text-sm">
-<Link href="/" className="hover:text-blue-700">
-Home
-</Link>
-<span className="mx-2 text-blue-600/60">/</span>
-<span className="text-blue-700">Necklaces</span>
-</div>
+  return (
+    <div className="bg-white min-h-screen text-slate-900">
+      <SiteNavbar />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="mb-6 text-blue-600 text-sm">
+          <Link href="/" className="hover:text-blue-700">
+            Home
+          </Link>
+          <span className="mx-2 text-blue-600/60">/</span>
+          <span className="text-blue-700">Necklaces</span>
+        </div>
 
-    <h1 className="text-2xl sm:text-3xl font-bold text-blue-600 mb-6 font-serif">Necklaces</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-blue-600 mb-6 font-serif">Necklaces</h1>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {products.map((item) => (
-        <Card
-          key={item.slug}
-          className="bg-gray-50 border border-blue-200 transition-transform hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-200/50"
-        >
-          <CardHeader>
-            <CardTitle className="text-blue-600 text-lg">{item.title}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="aspect-video overflow-hidden rounded">
-              <ProductImage src={item.image} alt={item.title} className="w-full h-full object-cover" />
-            </div>
-          </CardContent>
-          <CardFooter className="flex items-center justify-between">
-            <span className="text-amber-600 font-medium">{item.price}</span>
-            <div className="flex gap-2">
-              <Button
-                size="sm"
-                onClick={() => handleAddToCart(item)}
-                className={`${
-                  addedItems.has(item.slug)
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-blue-600 hover:bg-blue-700"
-                } text-white`}
-              >
-                <ShoppingBag className="w-3 h-3 mr-1" />
-                {addedItems.has(item.slug) ? "Added!" : "Add to Cart"}
-              </Button>
-              <Link href={`/necklaces/${item.slug}`}>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
-                >
-                  View
-                </Button>
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
-      ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {products.map((item) => (
+            <Card
+              key={item.slug}
+              className="bg-gray-50 border border-blue-200 transition-transform hover:-translate-y-2 hover:shadow-lg hover:shadow-blue-200/50"
+            >
+              <CardHeader>
+                <CardTitle className="text-blue-600 text-lg">{item.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+                  <ProductImage 
+                    src={item.image} 
+                    alt={item.title} 
+                    className="w-full h-full object-contain p-2"
+  
+                  />
+                </div>
+              </CardContent>
+              <CardFooter className="flex items-center justify-between">
+                <span className="text-amber-600 font-medium">{item.price}</span>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => handleAddToCart(item)}
+                    className={`${
+                      addedItems.has(item.slug)
+                        ? "bg-green-500 hover:bg-green-600"
+                        : "bg-blue-600 hover:bg-blue-700"
+                    } text-white`}
+                  >
+                    <ShoppingBag className="w-3 h-3 mr-1" />
+                    {addedItems.has(item.slug) ? "Added!" : "Add to Cart"}
+                  </Button>
+                  <Link href={`/necklaces/${item.slug}`}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
+                    >
+                      View
+                    </Button>
+                  </Link>
+                </div>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-
-)
+  )
 }

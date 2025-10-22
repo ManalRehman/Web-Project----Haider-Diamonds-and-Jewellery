@@ -2,17 +2,57 @@
 
 import type React from "react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Menu, Search, ShoppingBag, User, X } from "lucide-react"
 import { SiteSidebar } from "@/components/site-sidebar"
 import { useCart } from "@/lib/cart-context"
+import { useRouter } from "next/navigation"
+
+// Import all products for search functionality
+const allProducts = [
+  // Rings
+  { slug: "Leafy-Lux-Ring", title: "Leafy Lux Ring", price: "PKR 599,000", image: "/ring1.jpg", category: "rings" },
+  { slug: "Floral-Embrace-Ring", title: "Floral Embrace Ring", price: "PKR 499,000", image: "/ring2.jpg", category: "rings" },
+  { slug: "The-Rose-Knot-Ring", title: "The Rose Knot Ring", price: "PKR 579,000", image: "/ring3.jpg", category: "rings" },
+  { slug: "The-Modern-Sparkle-Ring", title: "The Modern Sparkle Ring", price: "PKR 579,000", image: "/ring4.jpg", category: "rings" },
+  { slug: "The-Petal-Heart-Ring", title: "The Petal Heart Ring", price: "PKR 649,000", image: "/ring5.jpg", category: "rings" },
+  { slug: "The-Timeless-Row-Ring", title: "The Timeless Row Ring", price: "PKR 699,000", image: "/ring6.jpg", category: "rings" },
+  
+  // Necklaces
+  { slug: "diamond-tennis-necklace", title: "Diamond Tennis Necklace", price: "PKR 599,000", image: "/necklace1.jpg", category: "necklaces" },
+  { slug: "solitaire-pendant-necklace", title: "Solitaire Pendant Necklace", price: "PKR 359,000", image: "/necklace2.jpg", category: "necklaces" },
+  { slug: "pear-halo-necklace", title: "Pear Halo Necklace", price: "PKR 549,000", image: "/necklace3.jpg", category: "necklaces" },
+  { slug: "emerald-diamond-necklace", title: "Emerald Diamond Necklace", price: "PKR 799,000", image: "/necklace4.jpg", category: "necklaces" },
+  { slug: "sapphire-drop-necklace", title: "Sapphire Drop Necklace", price: "PKR 429,000", image: "/necklace5.jpg", category: "necklaces" },
+  { slug: "classic-pearl-necklace", title: "Classic Pearl Necklace", price: "PKR 299,000", image: "/necklace6.6.jpg", category: "necklaces" },
+  
+  // Earrings
+  { slug: "classic-diamond-studs", title: "Classic Diamond Studs", price: "PKR 279,000", image: "/sparkling-diamond-stud-earrings-on-luxury-jewelry-.jpg", category: "earrings" },
+  { slug: "The-Dazzling-Drop-Earrings", title: "The Dazzling Drop Earrings", price: "PKR 349,000", image: "/earring1.jpeg", category: "earrings" },
+  { slug: "Emerald-Isle-Hoops", title: "Emerald Isle Hoops", price: "PKR 419,000", image: "/earring2.jpeg", category: "earrings" },
+  { slug: "pearl-drop-earrings", title: "Pearl Drop Earrings", price: "PKR 389,000", image: "/earring3.jpeg", category: "earrings" },
+  { slug: "Ruby-Blush-Mini-Hoops", title: "Ruby Blush Mini Hoops", price: "PKR 299,000", image: "earring4.2.jpeg", category: "earrings" },
+  { slug: "Whisper-Leaf-Hoops", title: "Whisper Leaf Hoops", price: "PKR 459,000", image: "/earring5.jpeg", category: "earrings" },
+  
+  // Bracelets
+  { slug: "diamond-tennis-bracelet", title: "Diamond Tennis Bracelet", price: "PKR 599,000", image: "/bracelet1.jpg", category: "bracelets" },
+  { slug: "bangle-bracelet", title: "Bangle Bracelet", price: "PKR 549,000", image: "/bracelet2.jpg", category: "bracelets" },
+  { slug: "chain-link-bracelet", title: "Chain Link Bracelet", price: "PKR 299,000", image: "/bracelet3.jpg", category: "bracelets" },
+  { slug: "cuff-bracelet", title: "Cuff Bracelet", price: "PKR 399,000", image: "/bracelet4.jpg", category: "bracelets" },
+  { slug: "charm-bracelet", title: "Charm Bracelet", price: "PKR 279,000", image: "/bracelet5.jpg", category: "bracelets" },
+  { slug: "pearl-bracelet", title: "Pearl Bracelet", price: "PKR 329,000", image: "/bracelet6.jpg", category: "bracelets" },
+]
 
 export function SiteNavbar() {
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const [searchResults, setSearchResults] = useState<typeof allProducts>([])
+  const [showResults, setShowResults] = useState(false)
   const [currentUser, setCurrentUser] = useState<{ name: string; email: string } | null>(null)
   const { getTotalItems } = useCart()
+  const searchRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     try {
@@ -29,6 +69,18 @@ export function SiteNavbar() {
     return () => window.removeEventListener("storage", onStorage)
   }, [])
 
+  // Close search results when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowResults(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
   const handleLogout = () => {
     localStorage.removeItem("currentUser")
     setCurrentUser(null)
@@ -37,10 +89,43 @@ export function SiteNavbar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
-      console.log("Searching for:", searchQuery)
-      setSearchQuery("")
-      setSearchOpen(false)
+      performSearch(searchQuery.trim())
     }
+  }
+
+  const performSearch = (query: string) => {
+    const filtered = allProducts.filter(product => 
+      product.title.toLowerCase().includes(query.toLowerCase()) ||
+      product.category.toLowerCase().includes(query.toLowerCase())
+    )
+    setSearchResults(filtered)
+    setShowResults(true)
+  }
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value
+    setSearchQuery(query)
+    
+    if (query.trim()) {
+      performSearch(query.trim())
+    } else {
+      setShowResults(false)
+      setSearchResults([])
+    }
+  }
+
+  const handleSearchResultClick = (product: typeof allProducts[0]) => {
+    router.push(`/${product.category}/${product.slug}`)
+    setSearchQuery("")
+    setShowResults(false)
+    setSearchOpen(false)
+  }
+
+  const handleViewAllResults = () => {
+    router.push(`/collections?search=${encodeURIComponent(searchQuery.trim())}`)
+    setSearchQuery("")
+    setShowResults(false)
+    setSearchOpen(false)
   }
 
   return (
@@ -91,33 +176,80 @@ export function SiteNavbar() {
 
           {/* Right side: search, cart, user */}
           <div className="flex items-center space-x-2">
-            {searchOpen ? (
-              <form onSubmit={handleSearch} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search jewelry..."
-                  className="px-3 py-1 bg-white border border-blue-300 rounded-md text-gray-700 placeholder-blue-400/60 focus:border-blue-500 focus:outline-none text-sm w-48 shadow-sm"
-                  autoFocus
-                />
+            {/* Search with dropdown results */}
+            <div ref={searchRef} className="relative">
+              {searchOpen ? (
+                <form onSubmit={handleSearch} className="flex items-center gap-2">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      placeholder="Search jewelry..."
+                      className="px-3 py-1 bg-white border border-blue-300 rounded-md text-gray-700 placeholder-blue-400/60 focus:border-blue-500 focus:outline-none text-sm w-48 shadow-sm"
+                      autoFocus
+                    />
+                    
+                    {/* Search Results Dropdown */}
+                    {showResults && searchResults.length > 0 && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-blue-200 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+                        {searchResults.slice(0, 5).map((product) => (
+                          <div
+                            key={`${product.category}-${product.slug}`}
+                            className="p-3 hover:bg-blue-50 cursor-pointer border-b border-blue-100 last:border-b-0"
+                            onClick={() => handleSearchResultClick(product)}
+                          >
+                            <div className="flex items-center gap-3">
+                              <img
+                                src={product.image}
+                                alt={product.title}
+                                className="w-10 h-10 object-cover rounded"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">{product.title}</p>
+                                <p className="text-xs text-gray-500 capitalize">{product.category}</p>
+                                <p className="text-sm font-semibold text-amber-600">{product.price}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        
+                        {searchResults.length > 5 && (
+                          <div
+                            className="p-3 text-center bg-blue-50 hover:bg-blue-100 cursor-pointer"
+                            onClick={handleViewAllResults}
+                          >
+                            <p className="text-sm font-medium text-blue-600">
+                              View all {searchResults.length} results
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchOpen(false)
+                      setShowResults(false)
+                      setSearchQuery("")
+                    }}
+                    className="p-1 rounded-md hover:bg-blue-100 text-blue-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </form>
+              ) : (
                 <button
-                  type="button"
-                  onClick={() => setSearchOpen(false)}
-                  className="p-1 rounded-md hover:bg-blue-100 text-blue-600"
+                  onClick={() => setSearchOpen(true)}
+                  aria-label="Search"
+                  className="p-2 rounded-md hover:bg-blue-100 text-blue-600 transition"
                 >
-                  <X className="w-4 h-4" />
+                  <Search className="w-5 h-5" />
                 </button>
-              </form>
-            ) : (
-              <button
-                onClick={() => setSearchOpen(true)}
-                aria-label="Search"
-                className="p-2 rounded-md hover:bg-blue-100 text-blue-600 transition"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-            )}
+              )}
+            </div>
 
             <Link
               href="/cart"

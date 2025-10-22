@@ -34,25 +34,25 @@ const products: Product[] = [
     slug: "chain-link-bracelet",
     title: "Chain Link Bracelet",
     price: "PKR 299,000",
-    images: ["/bracelet3.jpg", "/bracelet3.3.jpg"],
+    images: ["/bracelet3.jpg", "/bracelet7.7.jpg"],
   },
   {
     slug: "cuff-bracelet",
     title: "Cuff Bracelet",
     price: "PKR 399,000",
-    images: ["/bracelet4.jpg", "/bracelet4.4.jpg"],
+    images: ["/bracelet4.jpg", "/bracelet7.7.jpg"],
   },
   {
     slug: "charm-bracelet",
     title: "Charm Bracelet",
     price: "PKR 279,000",
-    images: ["/bracelet5.jpg", "/bracelet5.5.jpg"],
+    images: ["/bracelet5.jpg", "/bracelet7.7.jpg"],
   },
   {
     slug: "pearl-bracelet",
     title: "Pearl Bracelet",
     price: "PKR 329,000",
-    images: ["/bracelet6.jpg", "/bracelet6.6.jpg"],
+    images: ["/bracelet6.jpg", "/bracelet7.7.jpg"],
   },
 ]
 

@@ -472,36 +472,43 @@ export function CheckoutPopup({ children }: CheckoutPopupProps) {
             </CardContent>
           </Card>
 
-          {/* Order Summary */}
-          <Card className="bg-gradient-to-br from-blue-600 to-indigo-600 border-2 border-blue-700 shadow-xl">
-            <CardHeader className="border-b border-blue-400">
-              <CardTitle className="text-white flex items-center gap-2 text-xl">
+          {/* Order Summary - UPDATED: Removed blue background */}
+          <Card className="bg-white/90 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+              <CardTitle className="text-blue-700 flex items-center gap-2 text-lg">
                 <ShoppingBag className="w-5 h-5" />
                 Order Summary
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 pt-6">
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 space-y-2">
+            <CardContent className="space-y-4 pt-6">
+              <div className="space-y-3">
                 {cart.map((item) => (
                   <div
                     key={item.id}
-                    className="flex justify-between text-white py-2 border-b border-white/20 last:border-0"
+                    className="flex justify-between items-center py-3 border-b border-blue-100 last:border-0"
                   >
-                    <span className="font-medium">
-                      {item.title} × {item.quantity}
-                    </span>
-                    <span className="font-semibold">
+                    <div className="flex-1">
+                      <span className="font-medium text-gray-900 block">
+                        {item.title}
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        Quantity: {item.quantity}
+                      </span>
+                    </div>
+                    <span className="font-semibold text-amber-600 text-lg">
                       {item.price}
                     </span>
                   </div>
                 ))}
               </div>
-              <div className="bg-white rounded-lg p-5 flex justify-between items-center text-xl font-bold text-blue-700 shadow-lg mt-4">
-                <span className="flex items-center gap-2">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 flex justify-between items-center border-2 border-blue-200">
+                <span className="text-gray-900 font-bold text-lg flex items-center gap-2">
                   <ShoppingBag className="w-5 h-5" />
                   Total ({getTotalItems()} items)
                 </span>
-                <span className="text-2xl">{formatPrice(getTotalPrice())}</span>
+                <span className="text-2xl font-bold text-blue-700">
+                  {formatPrice(getTotalPrice())}
+                </span>
               </div>
             </CardContent>
           </Card>

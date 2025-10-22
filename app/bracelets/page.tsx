@@ -16,37 +16,37 @@ const products: Product[] = [
         slug: "diamond-tennis-bracelet",
         title: "Diamond Tennis Bracelet",
         price: "PKR 599,000",
-        image: "/placeholder-bracelet-1.jpg", // Using descriptive placeholder image names
+        image: "/bracelet1.jpg", // Using descriptive placeholder image names
     },
     {
         slug: "bangle-bracelet",
         title: "Bangle Bracelet",
         price: "PKR 549,000",
-        image: "/placeholder-bracelet-2.jpg",
+        image: "/bracelet2.jpg",
     },
     {
         slug: "chain-link-bracelet",
         title: "Chain Link Bracelet",
         price: "PKR 299,000",
-        image: "/placeholder-bracelet-3.jpg",
+        image: "/bracelet3.jpg",
     },
     {
         slug: "cuff-bracelet",
         title: "Cuff Bracelet",
         price: "PKR 399,000",
-        image: "/placeholder-bracelet-4.jpg",
+        image: "/bracelet4.jpg",
     },
     {
         slug: "charm-bracelet",
         title: "Charm Bracelet",
         price: "PKR 279,000",
-        image: "/placeholder-bracelet-5.jpg",
+        image: "/bracelet5.jpg",
     },
     {
         slug: "pearl-bracelet",
         title: "Pearl Bracelet",
         price: "PKR 329,000",
-        image: "/placeholder-bracelet-6.jpg",
+        image: "/bracelet6.jpg",
     },
 ]
 

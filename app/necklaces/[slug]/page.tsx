@@ -22,37 +22,37 @@ const products: Product[] = [
     slug: "diamond-tennis-necklace",
     title: "Diamond Tennis Necklace",
     price: "PKR 599,000",
-    images: ["/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg", "/luxury-diamond-tennis-necklace-close.jpg"],
+    images: ["/necklace1.jpg","/necklace1.1.jpg"],
   },
   {
     slug: "solitaire-pendant-necklace",
     title: "Solitaire Pendant Necklace",
     price: "PKR 359,000",
-    images: ["/elegant-diamond-necklace-with-pendant-on-luxury-je.jpg", "/solitaire-pendant-necklace-close.jpg"],
+    images: ["/necklace2.jpg", "/necklace2.2.jpg"],
   },
   {
     slug: "pear-halo-necklace",
     title: "Pear Halo Necklace",
     price: "PKR 549,000",
-    images: ["/placeholder.jpg", "/pear-halo-necklace-close.jpg"],
+    images: ["/necklace3.jpg", "/necklace3.3.jpg"],
   },
   {
     slug: "emerald-diamond-necklace",
     title: "Emerald Diamond Necklace",
     price: "PKR 799,000",
-    images: ["/emerald-diamond-necklace.jpg", "/emerald-diamond-necklace-close.jpg"],
+    images: ["/necklace4.jpg", "/necklace4.4.jpg"],
   },
   {
     slug: "sapphire-drop-necklace",
     title: "Sapphire Drop Necklace",
     price: "PKR 429,000",
-    images: ["/sapphire-drop-necklace.jpg", "/sapphire-drop-necklace-close.jpg"],
+    images: ["/necklace5.jpg", "/necklace5.5.jpg"],
   },
   {
     slug: "classic-pearl-necklace",
     title: "Classic Pearl Necklace",
     price: "PKR 299,000",
-    images: ["/classic-pearl-necklace.jpg", "/classic-pearl-necklace-close.jpg"],
+    images: ["/necklace6.6.jpg", "/necklace6.jpg"],
   },
 ]
 
@@ -124,46 +124,59 @@ export default function NecklaceDetailPage({ params }: { params: { slug: string 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Product Image Gallery */}
           <div className="bg-slate-50 rounded-lg border border-blue-200 p-4 relative">
-            <div className="aspect-square overflow-hidden rounded-lg">
+            {/* Main Image Container */}
+            <div className="aspect-square overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
               <ProductImage
                 src={images[currentIndex]}
                 alt={product.title}
-                className="w-full h-full object-cover transition-all duration-300"
+                className="w-full h-full object-contain p-4"
+                
               />
             </div>
 
             {/* Carousel Arrows */}
-            <div className="absolute inset-y-0 left-0 flex items-center p-2">
-              <button
-                onClick={prevImage}
-                className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="absolute inset-y-0 right-0 flex items-center p-2">
-              <button
-                onClick={nextImage}
-                className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+            {images.length > 1 && (
+              <>
+                <div className="absolute inset-y-0 left-4 flex items-center">
+                  <button
+                    onClick={prevImage}
+                    className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600 shadow-md"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="absolute inset-y-0 right-4 flex items-center">
+                  <button
+                    onClick={nextImage}
+                    className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600 shadow-md"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              </>
+            )}
 
             {/* Thumbnail Images */}
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              {images.map((src, i) => (
-                <button
-                  key={i}
-                  onClick={() => selectImage(i)}
-                  className={`aspect-square overflow-hidden rounded border ${
-                    currentIndex === i ? "border-blue-500" : "border-blue-200"
-                  } hover:border-blue-500`}
-                >
-                  <ProductImage src={src} alt={`${product.title} ${i + 1}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
+            {images.length > 1 && (
+              <div className="mt-4 grid grid-cols-4 gap-2">
+                {images.map((src, i) => (
+                  <button
+                    key={i}
+                    onClick={() => selectImage(i)}
+                    className={`aspect-square overflow-hidden rounded border bg-gray-100 flex items-center justify-center ${
+                      currentIndex === i ? "border-blue-500 ring-2 ring-blue-200" : "border-blue-200"
+                    } hover:border-blue-500 transition-all`}
+                  >
+                    <ProductImage 
+                      src={src} 
+                      alt={`${product.title} ${i + 1}`} 
+                      className="w-full h-full object-contain p-1"
+                     
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Details */}
@@ -253,11 +266,12 @@ export default function NecklaceDetailPage({ params }: { params: { slug: string 
                   <CardTitle className="text-blue-600 text-lg">{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-video overflow-hidden rounded">
-                    <img
-                      src={item.images[0] || "/placeholder.svg"}
+                  <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+                    <ProductImage
+                      src={item.images[0]}
                       alt={item.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain p-2"
+                    
                     />
                   </div>
                 </CardContent>
