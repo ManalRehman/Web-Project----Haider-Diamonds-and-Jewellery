@@ -6,126 +6,247 @@ import { SiteNavbar } from "@/components/site-navbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ProductImage } from "@/components/product-image"
-import { Heart, Star, ArrowLeft, Filter, Search, Grid, List } from "lucide-react"
+import { Star, ArrowLeft, Filter, Search, Grid, List, ShoppingBag } from "lucide-react"
 import Link from "next/link"
+import { useCart } from "@/lib/cart-context"
+
+// Import all products from category pages
+const ringsProducts = [
+  {
+    slug: "Leafy-Lux-Ring",
+    title: "Leafy Lux Ring",
+    price: "PKR 599,000",
+    image: "/ring1.jpg",
+    category: "rings",
+  },
+  {
+    slug: "Floral-Embrace-Ring",
+    title: "Floral Embrace Ring",
+    price: "PKR 499,000",
+    image: "/ring2.jpg",
+    category: "rings",
+  },
+  {
+    slug: "The-Rose-Knot-Ring",
+    title: "The Rose Knot Ring",
+    price: "PKR 579,000",
+    image: "/ring3.jpg",
+    category: "rings",
+  },
+  {
+    slug: "The-Modern-Sparkle-Ring",
+    title: "The Modern Sparkle Ring",
+    price: "PKR 579,000",
+    image: "/ring4.jpg",
+    category: "rings",
+  },
+  {
+    slug: "The-Petal-Heart-Ring",
+    title: "The Petal Heart Ring",
+    price: "PKR 649,000",
+    image: "/ring5.jpg",
+    category: "rings",
+  },
+  {
+    slug: "The-Timeless-Row-Ring",
+    title: "The Timeless Row Ring",
+    price: "PKR 699,000",
+    image: "/ring6.jpg",
+    category: "rings",
+  },
+]
+
+const necklacesProducts = [
+  {
+    slug: "diamond-tennis-necklace",
+    title: "Diamond Tennis Necklace",
+    price: "PKR 599,000",
+    image: "/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg",
+    category: "necklaces",
+  },
+  {
+    slug: "solitaire-pendant-necklace",
+    title: "Solitaire Pendant Necklace",
+    price: "PKR 359,000",
+    image: "/elegant-diamond-necklace-with-pendant-on-luxury-je.jpg",
+    category: "necklaces",
+  },
+  {
+    slug: "pear-halo-necklace",
+    title: "Pear Halo Necklace",
+    price: "PKR 549,000",
+    image: "/placeholder.jpg",
+    category: "necklaces",
+  },
+  {
+    slug: "emerald-diamond-necklace",
+    title: "Emerald Diamond Necklace",
+    price: "PKR 799,000",
+    image: "/emerald-diamond-necklace.jpg",
+    category: "necklaces",
+  },
+  {
+    slug: "sapphire-drop-necklace",
+    title: "Sapphire Drop Necklace",
+    price: "PKR 429,000",
+    image: "/sapphire-drop-necklace.jpg",
+    category: "necklaces",
+  },
+  {
+    slug: "classic-pearl-necklace",
+    title: "Classic Pearl Necklace",
+    price: "PKR 299,000",
+    image: "/classic-pearl-necklace.jpg",
+    category: "necklaces",
+  },
+]
+
+const earringsProducts = [
+  {
+    slug: "classic-diamond-studs",
+    title: "Classic Diamond Studs",
+    price: "PKR 279,000",
+    image: "/sparkling-diamond-stud-earrings-on-luxury-jewelry-.jpg",
+    category: "earrings",
+  },
+  {
+    slug: "The-Dazzling-Drop-Earrings",
+    title: "The Dazzling Drop Earrings",
+    price: "PKR 349,000",
+    image: "/earring1.jpeg",
+    category: "earrings",
+  },
+  {
+    slug: "Emerald-Isle-Hoops",
+    title: "Emerald Isle Hoops",
+    price: "PKR 419,000",
+    image: "/earring2.jpeg",
+    category: "earrings",
+  },
+  {
+    slug: "pearl-drop-earrings",
+    title: "Pearl Drop Earrings",
+    price: "PKR 389,000",
+    image: "/earring3.jpeg",
+    category: "earrings",
+  },
+  {
+    slug: "Ruby-Blush-Mini-Hoops",
+    title: "Ruby Blush Mini Hoops",
+    price: "PKR 299,000",
+    image: "earring4.2.jpeg",
+    category: "earrings",
+  },
+  {
+    slug: "Whisper-Leaf-Hoops",
+    title: "Whisper Leaf Hoops",
+    price: "PKR 459,000",
+    image: "/earring5.jpeg",
+    category: "earrings",
+  },
+]
+
+const braceletsProducts = [
+  {
+    slug: "diamond-tennis-bracelet",
+    title: "Diamond Tennis Bracelet",
+    price: "PKR 599,000",
+    image: "/bracelet1.jpg",
+    category: "bracelets",
+  },
+  {
+    slug: "bangle-bracelet",
+    title: "Bangle Bracelet",
+    price: "PKR 549,000",
+    image: "/bracelet2.jpg",
+    category: "bracelets",
+  },
+  {
+    slug: "chain-link-bracelet",
+    title: "Chain Link Bracelet",
+    price: "PKR 299,000",
+    image: "/bracelet3.jpg",
+    category: "bracelets",
+  },
+  {
+    slug: "cuff-bracelet",
+    title: "Cuff Bracelet",
+    price: "PKR 399,000",
+    image: "/bracelet4.jpg",
+    category: "bracelets",
+  },
+  {
+    slug: "charm-bracelet",
+    title: "Charm Bracelet",
+    price: "PKR 279,000",
+    image: "/bracelet5.jpg",
+    category: "bracelets",
+  },
+  {
+    slug: "pearl-bracelet",
+    title: "Pearl Bracelet",
+    price: "PKR 329,000",
+    image: "/bracelet6.jpg",
+    category: "bracelets",
+  },
+]
+
+// Combine all products
+const allCollections = [
+  ...ringsProducts,
+  ...necklacesProducts,
+  ...earringsProducts,
+  ...braceletsProducts,
+]
 
 export default function CollectionsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const { addToCart } = useCart()
+  const [addedItems, setAddedItems] = useState<Set<string>>(new Set())
 
   const categories = [
-    { id: "all", name: "All Collections", count: 48 },
-    { id: "rings", name: "Rings", count: 12 },
-    { id: "necklaces", name: "Necklaces", count: 10 },
-    { id: "earrings", name: "Earrings", count: 8 },
-    { id: "bracelets", name: "Bracelets", count: 6 },
-    { id: "pendants", name: "Pendants", count: 7 },
-    { id: "sets", name: "Jewellery Sets", count: 5 },
+    { id: "all", name: "All Collections", count: allCollections.length },
+    { id: "rings", name: "Rings", count: ringsProducts.length },
+    { id: "necklaces", name: "Necklaces", count: necklacesProducts.length },
+    { id: "earrings", name: "Earrings", count: earringsProducts.length },
+    { id: "bracelets", name: "Bracelets", count: braceletsProducts.length },
   ]
 
-  const collections = [
-    {
-      id: 1,
-      title: "Eternal Love Diamond Ring",
-      price: "PKR 450,000",
-      image: "/luxury-diamond-engagement-ring-with-solitaire-sett.jpg",
-      category: "rings",
-      rating: 5,
-      reviews: 24,
-      description: "A timeless solitaire diamond ring that captures the essence of eternal love.",
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Princess Cut Diamond Necklace",
-      price: "PKR 320,000",
-      image: "/luxury-diamond-tennis-necklace-with-brilliant-cut.jpg",
-      category: "necklaces",
-      rating: 5,
-      reviews: 18,
-      description: "Elegant princess cut diamonds set in a stunning tennis necklace design.",
-      featured: true,
-    },
-    {
-      id: 3,
-      title: "Pearl Drop Earrings",
-      price: "PKR 85,000",
-      image: "/sparkling-diamond-stud-earrings-on-luxury-jewellery-.jpg",
-      category: "earrings",
-      rating: 4,
-      reviews: 12,
-      description: "Classic pearl drop earrings with diamond accents for a sophisticated look.",
-      featured: false,
-    },
-    {
-      id: 4,
-      title: "Emerald & Diamond Bracelet",
-      price: "PKR 180,000",
-      image: "/placeholder.jpg",
-      category: "bracelets",
-      rating: 5,
-      reviews: 8,
-      description: "Stunning emerald and diamond bracelet that adds elegance to any outfit.",
-      featured: false,
-    },
-    {
-      id: 5,
-      title: "Sapphire Pendant",
-      price: "PKR 95,000",
-      image: "/placeholder.jpg",
-      category: "pendants",
-      rating: 4,
-      reviews: 15,
-      description: "Beautiful blue sapphire pendant with diamond halo setting.",
-      featured: false,
-    },
-    {
-      id: 6,
-      title: "Wedding Ring Set",
-      price: "PKR 280,000",
-      image: "/placeholder.jpg",
-      category: "sets",
-      rating: 5,
-      reviews: 22,
-      description: "Matching wedding ring set with complementary designs for both partners.",
-      featured: true,
-    },
-    {
-      id: 7,
-      title: "Ruby & Diamond Ring",
-      price: "PKR 220,000",
-      image: "/placeholder.jpg",
-      category: "rings",
-      rating: 4,
-      reviews: 16,
-      description: "Vibrant ruby center stone surrounded by brilliant diamonds.",
-      featured: false,
-    },
-    {
-      id: 8,
-      title: "Diamond Tennis Bracelet",
-      price: "PKR 150,000",
-      image: "/placeholder.jpg",
-      category: "bracelets",
-      rating: 5,
-      reviews: 20,
-      description: "Classic tennis bracelet with uniform diamonds for timeless elegance.",
-      featured: false,
-    },
-  ]
-
-  const filteredCollections = collections.filter((item) => {
+  const filteredCollections = allCollections.filter((item) => {
     const matchesCategory = selectedCategory === "all" || item.category === selectedCategory
     const matchesSearch =
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      item.title.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
   }
+
+  const handleAddToCart = (item: typeof allCollections[0]) => {
+    addToCart({
+      id: item.slug,
+      title: item.title,
+      price: item.price,
+      image: item.image,
+      slug: item.slug,
+      category: item.category,
+    })
+    setAddedItems((prev) => new Set([...prev, item.slug]))
+    setTimeout(() => {
+      setAddedItems((prev) => {
+        const newSet = new Set(prev)
+        newSet.delete(item.slug)
+        return newSet
+      })
+    }, 2000)
+  }
+
+  // Mock rating and reviews for display
+  const getItemRating = () => Math.floor(Math.random() * 2) + 4 // 4 or 5 stars
+  const getItemReviews = () => Math.floor(Math.random() * 20) + 10 // 10-30 reviews
 
   return (
     <div className="bg-white min-h-screen text-slate-900">
@@ -201,7 +322,7 @@ export default function CollectionsPage() {
           <div className="flex-1">
             <div className="flex justify-between items-center mb-6">
               <p className="text-slate-600">
-                Showing {filteredCollections.length} of {collections.length} items
+                Showing {filteredCollections.length} of {allCollections.length} items
               </p>
               <div className="flex gap-2">
                 <Button
@@ -229,122 +350,145 @@ export default function CollectionsPage() {
 
             {viewMode === "grid" ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCollections.map((item) => (
-                  <Card
-                    key={item.id}
-                    className="bg-white border border-blue-200 group hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md"
-                  >
-                    <div className="relative overflow-hidden">
-                      <ProductImage
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {item.featured && (
-                        <div className="absolute top-3 left-3 bg-amber-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                          Featured
-                        </div>
-                      )}
-                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="bg-white border-blue-300 text-blue-600 hover:bg-blue-50"
-                        >
-                          <Heart className="w-4 h-4" />
-                        </Button>
+                {filteredCollections.map((item) => {
+                  const rating = getItemRating()
+                  const reviews = getItemReviews()
+                  return (
+                    <Card
+                      key={`${item.category}-${item.slug}`}
+                      className="bg-white border border-blue-200 group hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md"
+                    >
+                      <div className="relative overflow-hidden">
+                        <ProductImage
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
                       </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="text-blue-600 font-semibold mb-2 group-hover:text-blue-700 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-slate-600 text-sm mb-3 line-clamp-2">{item.description}</p>
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < item.rating ? "text-amber-500 fill-amber-500" : "text-slate-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <span className="text-slate-500 text-sm">({item.reviews})</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-amber-600 font-bold text-lg">{item.price}</span>
-                        <Button size="sm" className="bg-blue-600 text-white hover:bg-blue-700">
-                          View Details
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {filteredCollections.map((item) => (
-                  <Card
-                    key={item.id}
-                    className="bg-white border border-blue-200 group hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md"
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex gap-4">
-                        <div className="w-32 h-32 flex-shrink-0">
-                          <ProductImage
-                            src={item.image}
-                            alt={item.title}
-                            className="w-full h-full object-cover rounded"
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className="text-blue-600 font-semibold text-lg group-hover:text-blue-700 transition-colors">
-                              {item.title}
-                            </h3>
-                            {item.featured && (
-                              <span className="bg-amber-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                                Featured
-                              </span>
-                            )}
+                      <CardContent className="p-4">
+                        <h3 className="text-blue-600 font-semibold mb-2 group-hover:text-blue-700 transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-slate-600 text-sm mb-3 line-clamp-2">
+                          Exquisite {item.category.slice(0, -1)} crafted with precision and elegance
+                        </p>
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < rating ? "text-amber-500 fill-amber-500" : "text-slate-300"
+                                }`}
+                              />
+                            ))}
                           </div>
-                          <p className="text-slate-600 text-sm mb-3">{item.description}</p>
-                          <div className="flex items-center gap-4 mb-3">
-                            <div className="flex items-center gap-1">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${
-                                    i < item.rating ? "text-amber-500 fill-amber-500" : "text-slate-300"
-                                  }`}
-                                />
-                              ))}
-                              <span className="text-slate-500 text-sm ml-1">({item.reviews})</span>
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-amber-600 font-bold text-xl">{item.price}</span>
-                            <div className="flex gap-2">
+                          <span className="text-slate-500 text-sm">({reviews})</span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-amber-600 font-bold text-lg">{item.price}</span>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddToCart(item)}
+                              className={`${
+                                addedItems.has(item.slug)
+                                  ? "bg-green-500 hover:bg-green-600"
+                                  : "bg-blue-600 hover:bg-blue-700"
+                              } text-white`}
+                            >
+                              <ShoppingBag className="w-3 h-3 mr-1" />
+                              {addedItems.has(item.slug) ? "Added!" : "Add"}
+                            </Button>
+                            <Link href={`/${item.category}/${item.slug}`}>
                               <Button
                                 size="sm"
                                 variant="outline"
-                                className="border-blue-300 text-blue-600 hover:bg-blue-50 bg-transparent"
+                                className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
                               >
-                                <Heart className="w-4 h-4 mr-1" />
-                                Wishlist
+                                View
                               </Button>
-                              <Button size="sm" className="bg-blue-600 text-white hover:bg-blue-700">
-                                View Details
-                              </Button>
+                            </Link>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )
+                })}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {filteredCollections.map((item) => {
+                  const rating = getItemRating()
+                  const reviews = getItemReviews()
+                  return (
+                    <Card
+                      key={`${item.category}-${item.slug}`}
+                      className="bg-white border border-blue-200 group hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md"
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex gap-4">
+                          <div className="w-32 h-32 flex-shrink-0">
+                            <ProductImage
+                              src={item.image}
+                              alt={item.title}
+                              className="w-full h-full object-cover rounded"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-start mb-2">
+                              <h3 className="text-blue-600 font-semibold text-lg group-hover:text-blue-700 transition-colors">
+                                {item.title}
+                              </h3>
+                            </div>
+                            <p className="text-slate-600 text-sm mb-3">
+                              Exquisite {item.category.slice(0, -1)} crafted with precision and elegance
+                            </p>
+                            <div className="flex items-center gap-4 mb-3">
+                              <div className="flex items-center gap-1">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`w-4 h-4 ${
+                                      i < rating ? "text-amber-500 fill-amber-500" : "text-slate-300"
+                                    }`}
+                                  />
+                                ))}
+                                <span className="text-slate-500 text-sm ml-1">({reviews})</span>
+                              </div>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-amber-600 font-bold text-xl">{item.price}</span>
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleAddToCart(item)}
+                                  className={`${
+                                    addedItems.has(item.slug)
+                                      ? "bg-green-500 hover:bg-green-600"
+                                      : "bg-blue-600 hover:bg-blue-700"
+                                  } text-white`}
+                                >
+                                  <ShoppingBag className="w-3 h-3 mr-1" />
+                                  {addedItems.has(item.slug) ? "Added!" : "Add to Cart"}
+                                </Button>
+                                <Link href={`/${item.category}/${item.slug}`}>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-blue-600 text-blue-600 hover:bg-blue-50 bg-transparent"
+                                  >
+                                    View
+                                  </Button>
+                                </Link>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  )
+                })}
               </div>
             )}
 

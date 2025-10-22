@@ -113,7 +113,7 @@ export default function DashboardPage() {
                 <h1 className="text-4xl sm:text-5xl font-bold font-serif mb-2">
                   Welcome back, {currentUser.name}!
                 </h1>
-                <p className="text-blue-100 text-lg">Your jewelry journey continues here</p>
+                <p className="text-blue-100 text-lg">Your jewellery journey continues here</p>
               </div>
             </div>
             <Button

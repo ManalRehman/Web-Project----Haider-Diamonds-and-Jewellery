@@ -46,7 +46,7 @@ const products: Product[] = [
     slug: "Whisper-Leaf-Hoops",
     title: "Whisper Leaf Hoops",
     price: "PKR 459,000",
-    image: "/earring5.jpEg",
+    image: "/earring5.jpeg",
   },
 ]
 

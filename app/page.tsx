@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Search,
@@ -25,6 +26,7 @@ import {
 } from "lucide-react"
 
 export default function HaiderDiamonds() {
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false)
   const [searchOpen, setSearchOpen] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
@@ -32,6 +34,7 @@ export default function HaiderDiamonds() {
   const [reviewsInView, setReviewsInView] = useState<boolean>(false)
   const [starsAnimating, setStarsAnimating] = useState<boolean>(false)
   const [collectionsOpen, setCollectionsOpen] = useState<boolean>(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false) // Check if user is logged in
   const reviewsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -40,6 +43,12 @@ export default function HaiderDiamonds() {
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  useEffect(() => {
+    // Check if user is logged in (you can replace this with actual auth check)
+    const userToken = localStorage.getItem("userToken")
+    setIsLoggedIn(!!userToken)
   }, [])
 
   useEffect(() => {
@@ -72,9 +81,18 @@ export default function HaiderDiamonds() {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (searchQuery.trim()) {
-      console.log("Searching for:", searchQuery)
+      // Navigate to collections page with search query
+      router.push(`/collections?search=${encodeURIComponent(searchQuery.trim())}`)
       setSearchQuery("")
       setSearchOpen(false)
+    }
+  }
+
+  const handleUserIconClick = () => {
+    if (isLoggedIn) {
+      router.push("/dashboard")
+    } else {
+      router.push("/login")
     }
   }
 
@@ -170,7 +188,7 @@ export default function HaiderDiamonds() {
                     {[
                       { label: "Rings", href: "/rings" },
                       { label: "Earrings", href: "/earrings" },
-                      { label: "Necklaces", href: "/necklaces" }, 
+                      { label: "Necklaces", href: "/necklaces" },
                       { label: "Bracelets", href: "/bracelets" },
                     ].map((item) => (
                       <Link
@@ -222,16 +240,24 @@ export default function HaiderDiamonds() {
                 </Link>
               </div>
               <div className="hidden sm:block hover:scale-110 transition-all duration-300">
-                <a href="/login" className="inline-flex">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-blue-600 hover:text-white hover:bg-blue-600/20 hover:scale-105 text-xs sm:text-sm"
-                  >
-                    <Lock className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                    Login
-                  </Button>
-                </a>
+                <Button
+                  onClick={handleUserIconClick}
+                  variant="ghost"
+                  size="sm"
+                  className="text-blue-600 hover:text-white hover:bg-blue-600/20 hover:scale-105 text-xs sm:text-sm"
+                >
+                  {isLoggedIn ? (
+                    <>
+                      <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                      Dashboard
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                      Login
+                    </>
+                  )}
+                </Button>
               </div>
               <div className="hidden sm:block hover:scale-110 transition-all duration-300">
                 <a href="/signup" className="inline-flex">
@@ -308,15 +334,23 @@ export default function HaiderDiamonds() {
               </nav>
 
               <div className="mb-8 space-y-3">
-                <a href="/login" className="block">
-                  <Button
-                    variant="outline"
-                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent"
-                  >
-                    <Lock className="w-4 h-4 mr-2" />
-                    Login
-                  </Button>
-                </a>
+                <Button
+                  onClick={handleUserIconClick}
+                  variant="outline"
+                  className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent"
+                >
+                  {isLoggedIn ? (
+                    <>
+                      <User className="w-4 h-4 mr-2" />
+                      Dashboard
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-4 h-4 mr-2" />
+                      Login
+                    </>
+                  )}
+                </Button>
                 <a href="/signup" className="block">
                   <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
                     <User className="w-4 h-4 mr-2" />
@@ -348,44 +382,44 @@ export default function HaiderDiamonds() {
         <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-white" />
 
         <div className="absolute inset-0">
-          {/* Large sparkles */}
-          {[...Array(8)].map((_, i) => (
+          {/* Enhanced sparkles with more visible animation */}
+          {[...Array(12)].map((_, i) => (
             <div
               key={`large-${i}`}
-              className="absolute w-2 h-2 bg-blue-400 rounded-full animate-ping"
+              className="absolute w-3 h-3 bg-blue-400 rounded-full animate-ping shadow-lg shadow-blue-400/50"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
-              }}
-            />
-          ))}
-
-          {/* Medium sparkles */}
-          {[...Array(12)].map((_, i) => (
-            <div
-              key={`medium-${i}`}
-              className="absolute w-1.5 h-1.5 bg-blue-300/70 rounded-full animate-pulse"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
                 animationDuration: `${1.5 + Math.random() * 1.5}s`,
               }}
             />
           ))}
 
-          {/* Small twinkling dots */}
-          {[...Array(20)].map((_, i) => (
+          {/* Pulsing medium sparkles */}
+          {[...Array(16)].map((_, i) => (
+            <div
+              key={`medium-${i}`}
+              className="absolute w-2 h-2 bg-blue-500/80 rounded-full animate-pulse shadow-md shadow-blue-300/60"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${1 + Math.random() * 1}s`,
+              }}
+            />
+          ))}
+
+          {/* Bouncing small sparkles */}
+          {[...Array(24)].map((_, i) => (
             <div
               key={`small-${i}`}
-              className="absolute w-1 h-1 bg-blue-500/40 rounded-full animate-bounce"
+              className="absolute w-1.5 h-1.5 bg-blue-600/60 rounded-full animate-bounce shadow shadow-blue-500/40"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 4}s`,
-                animationDuration: `${1 + Math.random() * 2}s`,
+                animationDuration: `${0.8 + Math.random() * 1.5}s`,
               }}
             />
           ))}
@@ -435,6 +469,7 @@ export default function HaiderDiamonds() {
         </div>
       </section>
 
+      {/* Rest of the sections remain unchanged */}
       {/* Custom Design Process */}
       <section id="custom-design" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
@@ -583,6 +618,7 @@ export default function HaiderDiamonds() {
         </div>
       </section>
 
+  
       {/* Customer Reviews */}
       <section ref={reviewsRef} className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
