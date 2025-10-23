@@ -24,6 +24,7 @@ import {
   Mail,
   MapPin,
   Check,
+  ChevronDown,
 } from "lucide-react"
 import { useUser } from "@/lib/user-context"
 
@@ -73,9 +74,11 @@ export default function HaiderDiamonds() {
   const [reviewsInView, setReviewsInView] = useState<boolean>(false)
   const [starsAnimating, setStarsAnimating] = useState<boolean>(false)
   const [collectionsOpen, setCollectionsOpen] = useState<boolean>(false)
+  const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState<boolean>(false)
   const { user } = useUser()
   const searchRef = useRef<HTMLDivElement>(null)
   const reviewsRef = useRef<HTMLDivElement>(null)
+  const collectionsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,6 +120,9 @@ export default function HaiderDiamonds() {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setShowResults(false)
+      }
+      if (collectionsRef.current && !collectionsRef.current.contains(event.target as Node)) {
+        setCollectionsOpen(false)
       }
     }
 
@@ -182,25 +188,34 @@ export default function HaiderDiamonds() {
           scrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white/80 backdrop-blur-sm"
         } border-b border-blue-200`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="h-16 flex items-center ml-4 sm:ml-8 md:ml-12">
-              <Link href="/" className="relative group flex items-center gap-3">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+          <div className="flex justify-between items-center h-14 sm:h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <button
+                className="mr-2 p-2 rounded-md hover:bg-gray-100 text-blue-600"
+                onClick={() => setSidebarOpen(true)}
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+              
+              <Link href="/" className="relative group flex items-center gap-2 sm:gap-3">
                 <div className="rounded-lg ring-2 ring-blue-400/50 bg-white p-1 shadow-blue-200/20 shadow-lg group-hover:shadow-blue-300/40 transition-shadow">
                   <img
                     src="/logo.png"
                     alt="HAIDER DIAMONDS"
-                    className="h-10 sm:h-12 brightness-100 contrast-100 drop-shadow-[0_0_10px_rgba(59,130,246,0.25)] group-hover:scale-110 transition-transform"
+                    className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 brightness-100 contrast-100 drop-shadow-[0_0_10px_rgba(59,130,246,0.25)] group-hover:scale-110 transition-transform"
                   />
                 </div>
-                <span className="text-blue-600 font-semibold hidden sm:block drop-shadow-[0_0_6px_rgba(59,130,246,0.15)]">
+                <span className="text-blue-600 font-semibold text-sm sm:text-base hidden sm:block drop-shadow-[0_0_6px_rgba(59,130,246,0.15)]">
                   HAIDER DIAMONDS
                 </span>
               </Link>
             </div>
 
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
+            {/* Desktop Navigation */}
+            <div className="hidden lg:block">
+              <div className="ml-4 flex items-baseline space-x-6">
                 {/* Static items (Home, Custom Design) */}
                 {[
                   { label: "Home", href: "#home" },
@@ -209,7 +224,7 @@ export default function HaiderDiamonds() {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="text-gray-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 hover:-translate-y-1 relative group"
+                    className="text-gray-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 hover:-translate-y-1 relative group text-sm"
                     style={{ animationDelay: `${index * 100}ms` }}
                     onClick={(e) => {
                       if (item.href.startsWith("#")) {
@@ -224,9 +239,10 @@ export default function HaiderDiamonds() {
                   </a>
                 ))}
 
-                {/* Collections dropdown (state-controlled) */}
+                {/* Collections dropdown */}
                 <div
                   className="relative"
+                  ref={collectionsRef}
                   onMouseEnter={() => setCollectionsOpen(true)}
                   onMouseLeave={() => setCollectionsOpen(false)}
                 >
@@ -234,21 +250,14 @@ export default function HaiderDiamonds() {
                     type="button"
                     aria-haspopup="menu"
                     aria-expanded={collectionsOpen}
-                    className="flex items-center text-gray-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 hover:-translate-y-1 relative"
+                    className="flex items-center text-gray-700 hover:text-blue-600 transition-all duration-300 hover:scale-105 hover:-translate-y-1 relative text-sm"
                   >
                     Collections
-                    <svg
-                      className={`w-4 h-4 ml-2 transform transition-transform duration-300 ${
+                    <ChevronDown
+                      className={`w-4 h-4 ml-1 transform transition-transform duration-300 ${
                         collectionsOpen ? "rotate-180" : "rotate-0"
                       }`}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-
+                    />
                     <span
                       className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${
                         collectionsOpen ? "w-full" : "w-0"
@@ -257,23 +266,24 @@ export default function HaiderDiamonds() {
                   </button>
 
                   <div
-                    className={`absolute left-0 top-full mt-0 z-30 bg-white shadow-lg rounded-xl py-2 w-56 border border-gray-100 transform transition-all duration-200 origin-top ${
+                    className={`absolute left-0 top-full mt-1 z-30 bg-white shadow-lg rounded-xl py-2 w-48 border border-gray-100 transform transition-all duration-200 origin-top ${
                       collectionsOpen
-                        ? "opacity-100 scale-100 translate-y-1 pointer-events-auto"
+                        ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
                         : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                     }`}
                   >
                     {[
-                      { label: "Rings", href: "/rings" },
-                      { label: "Earrings", href: "/earrings" },
-                      { label: "Necklaces", href: "/necklaces" },
-                      { label: "Bracelets", href: "/bracelets" },
+                      { label: "Rings", href: "/rings", icon: Heart },
+                      { label: "Earrings", href: "/earrings", icon: Star },
+                      { label: "Necklaces", href: "/necklaces", icon: Gem },
+                      { label: "Bracelets", href: "/bracelets", icon: Star },
                     ].map((item) => (
                       <Link
                         key={item.label}
                         href={item.href}
-                        className="block px-5 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 rounded-md"
+                        className="flex items-center px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 rounded-md text-sm"
                       >
+                        <item.icon className="w-4 h-4 mr-3" />
                         {item.label}
                       </Link>
                     ))}
@@ -282,8 +292,9 @@ export default function HaiderDiamonds() {
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 sm:space-x-4 mr-4 sm:mr-0">
-              {/* Search with dropdown results */}
+            {/* Right side icons */}
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              {/* Search */}
               <div ref={searchRef} className="relative">
                 {searchOpen ? (
                   <form onSubmit={handleSearch} className="flex items-center gap-2">
@@ -293,13 +304,13 @@ export default function HaiderDiamonds() {
                         value={searchQuery}
                         onChange={handleSearchChange}
                         placeholder="Search jewellery..."
-                        className="px-3 py-1 bg-gray-100 border border-blue-300/50 rounded-md text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none text-sm w-48"
+                        className="px-3 py-2 bg-gray-100 border border-blue-300/50 rounded-lg text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:outline-none text-sm w-40 sm:w-48"
                         autoFocus
                       />
                       
                       {/* Search Results Dropdown */}
                       {showResults && searchResults.length > 0 && (
-                        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-blue-200 rounded-md shadow-lg z-50 max-h-60 overflow-y-auto">
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-blue-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
                           {searchResults.slice(0, 5).map((product) => (
                             <div
                               key={`${product.category}-${product.slug}`}
@@ -310,7 +321,7 @@ export default function HaiderDiamonds() {
                                 <img
                                   src={product.image}
                                   alt={product.title}
-                                  className="w-10 h-10 object-cover rounded"
+                                  className="w-8 h-8 object-cover rounded"
                                 />
                                 <div className="flex-1 min-w-0">
                                   <p className="text-sm font-medium text-gray-900 truncate">{product.title}</p>
@@ -348,70 +359,132 @@ export default function HaiderDiamonds() {
                     </button>
                   </form>
                 ) : (
-                  <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
-                    <button
-                      onClick={() => setSearchOpen(true)}
-                      aria-label="Search"
-                      className="p-2 rounded-md hover:bg-gray-100 text-blue-600"
-                    >
-                      <Search className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 cursor-pointer" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setSearchOpen(true)}
+                    aria-label="Search"
+                    className="p-2 rounded-md hover:bg-gray-100 text-blue-600 transition-all duration-300 hover:scale-110"
+                  >
+                    <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </button>
                 )}
               </div>
 
-              <div className="hover:scale-125 hover:rotate-12 transition-all duration-300">
-                <Link href="/cart">
-                  <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 cursor-pointer" />
+              {/* Cart */}
+              <div className="transition-all duration-300 hover:scale-110">
+                <Link href="/cart" className="p-2 rounded-md hover:bg-gray-100 block">
+                  <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                 </Link>
               </div>
-              <div className="hidden sm:block hover:scale-110 transition-all duration-300">
-                <Button
-                  onClick={handleUserIconClick}
-                  variant="ghost"
-                  size="sm"
-                  className="text-blue-600 hover:text-white hover:bg-blue-600/20 hover:scale-105 text-xs sm:text-sm"
-                >
-                  {user ? (
-                    <>
-                      <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                      Profile
-                    </>
-                  ) : (
-                    <>
-                      <Lock className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                      Login
-                    </>
-                  )}
-                </Button>
-              </div>
-              {!user && (
-                <div className="hidden sm:block hover:scale-110 transition-all duration-300">
-                  <a href="/signup" className="inline-flex">
-                    <Button
-                      size="sm"
-                      className="bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg hover:shadow-blue-400/30 text-xs sm:text-sm"
-                    >
-                      <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                      Sign Up
-                    </Button>
-                  </a>
+
+              {/* User/Auth - Desktop */}
+              <div className="hidden sm:flex items-center space-x-2">
+                <div className="transition-all duration-300 hover:scale-110">
+                  <Button
+                    onClick={handleUserIconClick}
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-600 hover:text-white hover:bg-blue-600/20 text-xs sm:text-sm h-9 px-3"
+                  >
+                    {user ? (
+                      <>
+                        <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">Profile</span>
+                      </>
+                    ) : (
+                      <>
+                        <Lock className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">Login</span>
+                      </>
+                    )}
+                  </Button>
                 </div>
-              )}
+                
+                {!user && (
+                  <div className="transition-all duration-300 hover:scale-110">
+                    <Link href="/signup">
+                      <Button
+                        size="sm"
+                        className="bg-blue-600 text-white hover:bg-blue-700 text-xs sm:text-sm h-9 px-3"
+                      >
+                        <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                        <span className="hidden sm:inline">Sign Up</span>
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Collections Dropdown */}
+          <div className="lg:hidden border-t border-blue-100 pt-2 pb-1">
+            <div className="flex items-center justify-center space-x-4 text-sm">
+              <a
+                href="#home"
+                className="text-gray-700 hover:text-blue-600 transition-colors"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const element = document.querySelector("#home")
+                  if (element) element.scrollIntoView({ behavior: "smooth" })
+                }}
+              >
+                Home
+              </a>
+              
+              <Link href="/custom-design" className="text-gray-700 hover:text-blue-600 transition-colors">
+                Custom Design
+              </Link>
+              
+              <div className="relative">
+                <button
+                  onClick={() => setMobileCollectionsOpen(!mobileCollectionsOpen)}
+                  className="flex items-center text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  Collections
+                  <ChevronDown
+                    className={`w-4 h-4 ml-1 transform transition-transform duration-300 ${
+                      mobileCollectionsOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
+                
+                {mobileCollectionsOpen && (
+                  <div className="absolute left-0 top-full mt-1 bg-white border border-blue-200 rounded-lg shadow-lg z-40 w-40 py-2">
+                    {[
+                      { label: "Rings", href: "/rings" },
+                      { label: "Earrings", href: "/earrings" },
+                      { label: "Necklaces", href: "/necklaces" },
+                      { label: "Bracelets", href: "/bracelets" },
+                    ].map((item) => (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                        onClick={() => setMobileCollectionsOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Sidebar */}
+      {/* Sidebar - Now visible on all screens */}
       {sidebarOpen && (
         <>
-          <div className="fixed inset-0 bg-black/30 z-40" onClick={() => setSidebarOpen(false)} />
+          <div 
+            className="fixed inset-0 bg-black/30 z-40" 
+            onClick={() => setSidebarOpen(false)} 
+          />
           <div className="fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-white via-gray-50 to-white border-r border-blue-200 z-50 flex flex-col transform transition-transform duration-300">
-            <div className="flex-shrink-0 p-8 border-b border-blue-200">
+            <div className="flex-shrink-0 p-6 border-b border-blue-200">
               <div className="flex items-center justify-between">
                 <Link href="/" onClick={() => setSidebarOpen(false)}>
-                  <h2 className="text-2xl font-bold text-blue-600 font-serif px-14 text-center hover:text-blue-700 transition-colors">
+                  <h2 className="text-xl font-bold text-blue-600 font-serif hover:text-blue-700 transition-colors">
                     HAIDER DIAMONDS
                   </h2>
                 </Link>
@@ -426,7 +499,7 @@ export default function HaiderDiamonds() {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
               <nav className="space-y-4 mb-8">
                 {[
                   { icon: Home, text: "Home", href: "#home" },
@@ -450,9 +523,11 @@ export default function HaiderDiamonds() {
                           if (element) {
                             element.scrollIntoView({ behavior: "smooth" })
                           }
+                        } else {
+                          setSidebarOpen(false)
                         }
                       }}
-                      className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors duration-200 cursor-pointer hover:translate-x-2"
+                      className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 transition-colors duration-200 cursor-pointer hover:translate-x-2 text-sm"
                     >
                       <IconComponent className="w-5 h-5" />
                       <span>{item.text}</span>
@@ -463,9 +538,12 @@ export default function HaiderDiamonds() {
 
               <div className="mb-8 space-y-3">
                 <Button
-                  onClick={handleUserIconClick}
+                  onClick={() => {
+                    handleUserIconClick()
+                    setSidebarOpen(false)
+                  }}
                   variant="outline"
-                  className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent"
+                  className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent text-sm"
                 >
                   {user ? (
                     <>
@@ -480,19 +558,19 @@ export default function HaiderDiamonds() {
                   )}
                 </Button>
                 {!user && (
-                  <a href="/signup" className="block">
-                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                  <Link href="/signup" className="block" onClick={() => setSidebarOpen(false)}>
+                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 text-sm">
                       <User className="w-4 h-4 mr-2" />
                       Sign Up
                     </Button>
-                  </a>
+                  </Link>
                 )}
               </div>
 
               <div className="flex space-x-4">
                 {[Instagram, Facebook, Twitter].map((IconComponent, index) => (
                   <div key={index} className="hover:scale-125 hover:rotate-6 transition-transform">
-                    <IconComponent className="w-6 h-6 text-blue-600 cursor-pointer" />
+                    <IconComponent className="w-5 h-5 text-blue-600 cursor-pointer" />
                   </div>
                 ))}
               </div>
@@ -500,15 +578,9 @@ export default function HaiderDiamonds() {
           </div>
         </>
       )}
-      <button
-        className="fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 sm:p-3 rounded-full hover:bg-blue-700 transition-all duration-300 hover:scale-125 hover:rotate-180 hover:shadow-xl hover:shadow-blue-400/50"
-        onClick={() => setSidebarOpen(true)}
-      >
-        <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
-      </button>
 
       {/* Hero Section */}
-      <section id="home" className="relative h-screen flex items-center justify-center text-center overflow-hidden">
+      <section id="home" className="relative h-screen flex items-center justify-center text-center overflow-hidden pt-14 sm:pt-16">
         <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-white" />
 
         <div className="absolute inset-0">
@@ -609,31 +681,31 @@ export default function HaiderDiamonds() {
             Your story, our craftsmanship — together creating perfection.
           </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-  {[
-    { step: "1", title: "Consultation" },
-    { step: "2", title: "Design" },
-    { step: "3", title: "Crafting" },
-    { step: "4", title: "Delivery" },
-  ].map((item, index) => (
-    <div
-      key={item.step}
-      className="relative hover:-translate-y-4 transition-all duration-500 hover:scale-105 animate-fade-in-up"
-      style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
-    >
-      <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-400 mb-2 sm:mb-4 hover:text-blue-700 hover:scale-125 transition-all duration-500 hover:rotate-12">
-        {item.step}
-      </div>
-      <p className="text-sm sm:text-base text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300">
-        {item.title}
-      </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {[
+              { step: "1", title: "Consultation" },
+              { step: "2", title: "Design" },
+              { step: "3", title: "Crafting" },
+              { step: "4", title: "Delivery" },
+            ].map((item, index) => (
+              <div
+                key={item.step}
+                className="relative hover:-translate-y-4 transition-all duration-500 hover:scale-105 animate-fade-in-up"
+                style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
+              >
+                <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-400 mb-2 sm:mb-4 hover:text-blue-700 hover:scale-125 transition-all duration-500 hover:rotate-12">
+                  {item.step}
+                </div>
+                <p className="text-sm sm:text-base text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300">
+                  {item.title}
+                </p>
 
-      {index < 3 && (
-        <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-blue-400 to-transparent animate-pulse" />
-      )}
-    </div>
-  ))}
-</div>
+                {index < 3 && (
+                  <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-blue-400 to-transparent animate-pulse" />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

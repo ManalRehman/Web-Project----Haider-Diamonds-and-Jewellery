@@ -8,6 +8,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { Textarea } from "@/components/ui/textarea"
+import {
   User,
   Mail,
   Phone,
@@ -29,6 +43,7 @@ import {
   Trash2,
   Zap,
   Settings,
+  Send,
 } from "lucide-react"
 import Link from "next/link"
 import { useUser } from "@/lib/user-context"
@@ -50,6 +65,9 @@ export default function ProfilePage() {
     favoriteItems: 0,
     rewardsPoints: 0,
   })
+  const [showFaqDialog, setShowFaqDialog] = useState(false)
+  const [showContactDialog, setShowContactDialog] = useState(false)
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" })
   
   const router = useRouter()
   const { user, login, logout, isLoading } = useUser()
@@ -115,6 +133,24 @@ export default function ProfilePage() {
   const handleLogout = () => {
     logout()
     router.push("/")
+  }
+
+  const handleSendMessage = () => {
+    // Validate form
+    if (!contactForm.name || !contactForm.email || !contactForm.message) {
+      alert("Please fill in all fields")
+      return
+    }
+    
+    // Here you would typically send the message to your backend
+    console.log("Message sent:", contactForm)
+    
+    // Show success message
+    alert("Message sent successfully! We'll get back to you soon.")
+    
+    // Reset form and close dialog
+    setContactForm({ name: "", email: "", message: "" })
+    setShowContactDialog(false)
   }
 
   if (isLoading) {
@@ -513,6 +549,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   className="w-full border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white hover:border-blue-500 transition-all py-6"
+                  onClick={() => setShowContactDialog(true)}
                 >
                   <Headphones className="w-5 h-5 mr-2" />
                   Contact Support
@@ -520,6 +557,7 @@ export default function ProfilePage() {
                 <Button
                   variant="outline"
                   className="w-full border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white hover:border-blue-500 transition-all py-6"
+                  onClick={() => setShowFaqDialog(true)}
                 >
                   <Gift className="w-5 h-5 mr-2" />
                   View FAQs
@@ -548,6 +586,204 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* FAQ Dialog */}
+      <Dialog open={showFaqDialog} onOpenChange={setShowFaqDialog}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-white">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-blue-700 flex items-center gap-2">
+              <Gift className="w-6 h-6" />
+              Frequently Asked Questions
+            </DialogTitle>
+            <DialogDescription className="text-slate-600">
+              Find answers to common questions about our jewelry and services
+            </DialogDescription>
+          </DialogHeader>
+          <Accordion type="single" collapsible className="w-full space-y-3 mt-4">
+            <AccordionItem value="item-1" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                What materials are your jewelry pieces made from?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                Our jewelry is crafted using premium materials including 18K and 22K gold, platinum, sterling silver, 
+                and genuine diamonds. Each piece comes with an authenticity certificate verifying the quality and 
+                purity of the materials used.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-2" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                Do you offer custom jewelry design services?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                Yes! We specialize in custom jewelry design. Our expert designers work closely with you to bring 
+                your vision to life. Visit our Custom Design page or contact our team to start creating your unique piece.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-3" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                What is your return and exchange policy?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                We offer a 7-day return and exchange policy for all non-customized items. The jewelry must be in 
+                its original condition with all certificates and packaging. Custom-designed pieces are non-returnable 
+                unless there's a manufacturing defect.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-4" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                How do I determine my ring size?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                We provide a complimentary ring sizing service. Visit any of our stores for professional measurement, 
+                or order a ring sizer online. You can also download our ring size guide from the product pages.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-5" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                Do you provide jewelry certification?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                Yes, every piece comes with a certificate of authenticity. Diamond jewelry includes GIA or IGI 
+                certification, and gold jewelry comes with hallmark certification confirming the karat purity.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-6" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                What payment methods do you accept?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                We accept multiple payment methods including credit/debit cards, bank transfers, and cash on delivery. 
+                We also offer installment plans for purchases above PKR 50,000 through select partner banks.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-7" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                How long does delivery take?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                Standard delivery within Lahore takes 1-2 business days. For other cities in Pakistan, delivery 
+                takes 3-5 business days. Custom-designed pieces typically take 2-4 weeks depending on complexity.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="item-8" className="border-2 border-blue-100 rounded-lg px-4">
+              <AccordionTrigger className="text-blue-700 font-semibold hover:text-blue-800">
+                Do you offer jewelry cleaning and maintenance?
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-700">
+                Yes! We provide complimentary jewelry cleaning and inspection services. We recommend bringing your 
+                jewelry for professional cleaning every 6 months to maintain its brilliance and check for any repairs needed.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </DialogContent>
+      </Dialog>
+
+      {/* Contact Support Dialog */}
+      <Dialog open={showContactDialog} onOpenChange={setShowContactDialog}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-blue-700 flex items-center gap-2">
+              <Headphones className="w-6 h-6" />
+              Contact Support
+            </DialogTitle>
+            <DialogDescription className="text-slate-600">
+              Get in touch with our support team. We're here to help!
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6 mt-4">
+            {/* Contact Information */}
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border-2 border-blue-200">
+              <h3 className="font-semibold text-blue-700 mb-4 flex items-center gap-2">
+                <MapPin className="w-5 h-5" />
+                Contact Information
+              </h3>
+              <div className="space-y-3 text-slate-700">
+                <div className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-sm text-blue-600">Email</p>
+                    <a href="mailto:info@haiderdiamonds.com" className="hover:text-blue-700 font-semibold">
+                      info@haiderdiamonds.com
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Phone className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-sm text-blue-600">Phone</p>
+                    <a href="tel:+923001234567" className="hover:text-blue-700 font-semibold">
+                      +92 300 1234567
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-blue-600 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-sm text-blue-600">Address</p>
+                    <p className="font-semibold">Park Lane Tower, B-5 Mall Of Lahore,</p>
+                    <p className="font-semibold">172 Tufail Rd, Cantt, Lahore, 54000</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Message Form */}
+            <div className="space-y-4">
+              <h3 className="font-semibold text-blue-700 flex items-center gap-2">
+                <Send className="w-5 h-5" />
+                Send us a Message
+              </h3>
+              <div>
+                <Label htmlFor="contact-name" className="text-blue-700 font-medium">Your Name</Label>
+                <Input
+                  id="contact-name"
+                  value={contactForm.name}
+                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                  placeholder="Enter your name"
+                  className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="contact-email" className="text-blue-700 font-medium">Your Email</Label>
+                <Input
+                  id="contact-email"
+                  type="email"
+                  value={contactForm.email}
+                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                  placeholder="Enter your email"
+                  className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all mt-1"
+                />
+              </div>
+              <div>
+                <Label htmlFor="contact-message" className="text-blue-700 font-medium">Your Message</Label>
+                <Textarea
+                  id="contact-message"
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  placeholder="How can we help you?"
+                  rows={5}
+                  className="bg-white border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all mt-1 resize-none"
+                />
+              </div>
+              <Button 
+                onClick={handleSendMessage}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all py-6 text-base font-medium"
+              >
+                <Send className="w-5 h-5 mr-2" />
+                Send Message
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
