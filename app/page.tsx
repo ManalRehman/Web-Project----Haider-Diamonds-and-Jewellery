@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { ProductImage } from "@/components/product-image"
 import {
   Search,
   ShoppingBag,
@@ -684,11 +685,11 @@ export default function HaiderDiamonds() {
                 className="p-4 sm:p-6 bg-white rounded-lg border border-blue-200 group overflow-hidden hover:-translate-y-4 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-200/40 transition-all duration-500 hover:scale-105 animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
               >
-                <div className="relative mb-4 sm:mb-6 overflow-hidden rounded-lg group-hover:scale-110 transition-transform duration-500">
-                  <img
-                    src={item.image || "/placeholder.svg"}
+                <div className="relative mb-4 sm:mb-6 overflow-hidden rounded-lg aspect-square group-hover:scale-110 transition-transform duration-500">
+                  <ProductImage
+                    src={item.image}
                     alt={item.title}
-                    className="w-full h-40 sm:h-48 object-cover"
+                    className="w-full h-full object-contain p-4 bg-white"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-125 group-hover:rotate-12">

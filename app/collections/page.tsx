@@ -497,11 +497,12 @@ export default function CollectionsPage() {
                       key={`${item.category}-${item.slug}`}
                       className="bg-white border border-blue-200 group hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col h-full"
                     >
-                      <div className="relative overflow-hidden flex-shrink-0">
+                      {/* Improved Image Container */}
+                      <div className="relative overflow-hidden flex-shrink-0 aspect-square">
                         <ProductImage
                           src={item.image}
                           alt={item.title}
-                          className="w-full h-48 sm:h-56 lg:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300 bg-white"
                         />
                       </div>
                       <CardContent className="p-3 sm:p-4 flex flex-col flex-1">
@@ -571,11 +572,12 @@ export default function CollectionsPage() {
                     >
                       <CardContent className="p-3 sm:p-4">
                         <div className="flex gap-3 sm:gap-4">
-                          <div className="w-20 h-20 sm:w-32 sm:h-32 flex-shrink-0">
+                          {/* Improved List View Image */}
+                          <div className="w-20 h-20 sm:w-32 sm:h-32 flex-shrink-0 bg-white rounded overflow-hidden">
                             <ProductImage
                               src={item.image}
                               alt={item.title}
-                              className="w-full h-full object-cover rounded"
+                              className="w-full h-full object-contain p-2"
                             />
                           </div>
                           <div className="flex-1 min-w-0">
