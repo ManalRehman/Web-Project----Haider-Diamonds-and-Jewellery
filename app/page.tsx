@@ -168,7 +168,7 @@ export default function HaiderDiamonds() {
 
   const handleUserIconClick = () => {
     if (user) {
-      router.push("/profile")
+      router.push("/dashboard")
     } else {
       router.push("/login")
     }
@@ -385,17 +385,19 @@ export default function HaiderDiamonds() {
                   )}
                 </Button>
               </div>
-              <div className="hidden sm:block hover:scale-110 transition-all duration-300">
-                <a href="/signup" className="inline-flex">
-                  <Button
-                    size="sm"
-                    className="bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg hover:shadow-blue-400/30 text-xs sm:text-sm"
-                  >
-                    <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                    Sign Up
-                  </Button>
-                </a>
-              </div>
+              {!user && (
+                <div className="hidden sm:block hover:scale-110 transition-all duration-300">
+                  <a href="/signup" className="inline-flex">
+                    <Button
+                      size="sm"
+                      className="bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg hover:shadow-blue-400/30 text-xs sm:text-sm"
+                    >
+                      <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                      Sign Up
+                    </Button>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>

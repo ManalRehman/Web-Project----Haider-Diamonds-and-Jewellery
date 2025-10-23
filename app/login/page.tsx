@@ -28,7 +28,7 @@ export default function LoginPage() {
   useEffect(() => {
     // Check if user is already logged in
     if (user) {
-      router.push("/profile")
+      router.push("/dashboard")
     }
 
     // Initialize demo users if they don't exist
@@ -67,7 +67,8 @@ export default function LoginPage() {
         address: "" // Initialize as empty string
       })
       
-      router.push("/profile")
+      // REDIRECT TO PROFILE
+      router.push("/dashboard")
     } catch {
       setError("Something went wrong. Please try again.")
     } finally {
@@ -84,7 +85,8 @@ export default function LoginPage() {
       address: ""
     }
     login(mockGoogleUser)
-    router.push("/profile")
+    // REDIRECT TO PROFILE
+    router.push("/dashboard")
   }
 
   function handleFacebookLogin() {
@@ -96,7 +98,8 @@ export default function LoginPage() {
       address: ""
     }
     login(mockFacebookUser)
-    router.push("/profile")
+    // REDIRECT TO PROFILE
+    router.push("/dashboard")
   }
 
   // If user is already logged in, show loading

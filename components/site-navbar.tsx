@@ -114,6 +114,15 @@ export function SiteNavbar() {
     setSearchOpen(false)
   }
 
+  const handleUserIconClick = () => {
+    if (user) {
+      // REDIRECT TO PROFILE
+      router.push("/dashboard")
+    } else {
+      router.push("/login")
+    }
+  }
+
   return (
     <>
       <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-blue-200 shadow-sm">

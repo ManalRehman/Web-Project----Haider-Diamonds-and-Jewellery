@@ -5,70 +5,77 @@ import { useRouter } from "next/navigation"
 import { SiteNavbar } from "@/components/site-navbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Edit,
+  Save,
+  X,
   ShoppingBag,
   Heart,
   Star,
-  TrendingUp,
-  Clock,
-  Package,
-  Zap,
-  Settings,
   LogOut,
-  ChevronRight,
-  Award,
-  Trash2,
+  Package,
   Sparkles,
   Crown,
   Gift,
   Headphones,
+  ChevronRight,
+  Award,
+  Trash2,
+  Zap,
+  Settings,
 } from "lucide-react"
 import Link from "next/link"
-import { useFavorites } from "../../lib/favorites-context"
+import { useUser } from "@/lib/user-context"
+import { useFavorites } from "@/lib/favorites-context"
 
-interface DashboardStats {
+interface ProfileStats {
   totalOrders: number
   totalSpent: number
   favoriteItems: number
-  recentActivity: string
+  rewardsPoints: number
 }
 
-export default function DashboardPage() {
-  const [currentUser, setCurrentUser] = useState<{
-    name: string
-    email: string
-    phone?: string
-    address?: string
-  } | null>(null)
-
-  const [stats, setStats] = useState<DashboardStats>({
+export default function ProfilePage() {
+  const [isEditing, setIsEditing] = useState(false)
+  const [editForm, setEditForm] = useState({ name: "", email: "", phone: "", address: "" })
+  const [stats, setStats] = useState<ProfileStats>({
     totalOrders: 0,
     totalSpent: 0,
     favoriteItems: 0,
-    recentActivity: "No recent activity",
+    rewardsPoints: 0,
   })
-
+  
   const router = useRouter()
+  const { user, login, logout, isLoading } = useUser()
   const { favorites, removeFromFavorites, getFavoritesCount } = useFavorites()
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("currentUser")
-      const user = raw ? JSON.parse(raw) : null
-      if (!user) {
-        router.push("/login")
-        return
-      }
-      setCurrentUser(user)
-
-      const statsRaw = localStorage.getItem("dashboardStats")
-      if (statsRaw) {
-        setStats(JSON.parse(statsRaw))
-      }
-    } catch (error) {
+    if (!isLoading && !user) {
       router.push("/login")
+      return
     }
-  }, [router])
+
+    if (user) {
+      setEditForm({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "",
+      })
+    }
+
+    // Load stats from localStorage or set defaults
+    const statsRaw = localStorage.getItem("profileStats")
+    if (statsRaw) {
+      setStats(JSON.parse(statsRaw))
+    }
+  }, [user, isLoading, router])
 
   useEffect(() => {
     setStats((prev) => ({
@@ -77,20 +84,52 @@ export default function DashboardPage() {
     }))
   }, [favorites, getFavoritesCount])
 
+  const handleEdit = () => setIsEditing(true)
+
+  const handleSave = () => {
+    if (user) {
+      const updatedUser = { 
+        ...user, 
+        name: editForm.name,
+        email: editForm.email,
+        phone: editForm.phone,
+        address: editForm.address
+      }
+      login(updatedUser)
+      setIsEditing(false)
+    }
+  }
+
+  const handleCancel = () => {
+    if (user) {
+      setEditForm({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "",
+      })
+    }
+    setIsEditing(false)
+  }
+
   const handleLogout = () => {
-    localStorage.removeItem("currentUser")
+    logout()
     router.push("/")
   }
 
-  if (!currentUser) {
+  if (isLoading) {
     return (
       <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 min-h-screen text-slate-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto mb-4"></div>
-          <p className="text-blue-600 font-medium">Loading your dashboard...</p>
+          <p className="text-blue-600 font-medium">Loading your profile...</p>
         </div>
       </div>
     )
+  }
+
+  if (!user) {
+    return null
   }
 
   return (
@@ -107,13 +146,13 @@ export default function DashboardPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div className="flex items-center gap-4">
               <div className="bg-white/20 backdrop-blur-sm p-4 rounded-2xl border border-white/30">
-                <Sparkles className="w-10 h-10 text-white" />
+                <Crown className="w-10 h-10 text-white" />
               </div>
               <div>
                 <h1 className="text-4xl sm:text-5xl font-bold font-serif mb-2">
-                  Welcome back, {currentUser.name}!
+                  Welcome back, {user.name}!
                 </h1>
-                <p className="text-blue-100 text-lg">Your jewellery journey continues here</p>
+                <p className="text-blue-100 text-lg">Manage your account and preferences</p>
               </div>
             </div>
             <Button
@@ -155,7 +194,7 @@ export default function DashboardPage() {
                   <p className="text-xs text-blue-500">Lifetime value</p>
                 </div>
                 <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-4 rounded-2xl shadow-lg">
-                  <TrendingUp className="w-8 h-8 text-white" />
+                  <Package className="w-8 h-8 text-white" />
                 </div>
               </div>
             </CardContent>
@@ -181,7 +220,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-600 text-sm mb-2 font-medium">Rewards Points</p>
-                  <p className="text-4xl font-bold text-purple-600 mb-1">0</p>
+                  <p className="text-4xl font-bold text-purple-600 mb-1">{stats.rewardsPoints}</p>
                   <p className="text-xs text-purple-500">Earn & redeem</p>
                 </div>
                 <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-4 rounded-2xl shadow-lg">
@@ -196,52 +235,110 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Quick Actions */}
+            {/* Personal Information */}
             <Card className="bg-white/90 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b-2 border-blue-100">
-                <CardTitle className="text-blue-700 flex items-center gap-3 text-xl">
-                  <div className="bg-blue-600 text-white p-2 rounded-xl">
-                    <Zap className="w-5 h-5" />
-                  </div>
-                  Quick Actions
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Link href="/rings">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 justify-between py-6 text-base shadow-md hover:shadow-lg transition-all">
-                      <span>Browse Rings</span>
-                      <ChevronRight className="w-5 h-5" />
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-blue-700 flex items-center gap-3 text-xl">
+                    <div className="bg-blue-600 text-white p-2 rounded-xl">
+                      <User className="w-5 h-5" />
+                    </div>
+                    Personal Information
+                  </CardTitle>
+                  {!isEditing && (
+                    <Button
+                      onClick={handleEdit}
+                      variant="outline"
+                      size="sm"
+                      className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white hover:border-blue-500 transition-all"
+                    >
+                      <Edit className="w-4 h-4 mr-1" /> Edit Profile
                     </Button>
-                  </Link>
-                  <Link href="/necklaces">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 justify-between py-6 text-base shadow-md hover:shadow-lg transition-all">
-                      <span>Browse Necklaces</span>
-                      <ChevronRight className="w-5 h-5" />
-                    </Button>
-                  </Link>
-                  <Link href="/earrings">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 justify-between py-6 text-base shadow-md hover:shadow-lg transition-all">
-                      <span>Browse Earrings</span>
-                      <ChevronRight className="w-5 h-5" />
-                    </Button>
-                  </Link>
-                  <Link href="/bracelets">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 justify-between py-6 text-base shadow-md hover:shadow-lg transition-all">
-                      <span>Browse Bracelets</span>
-                      <ChevronRight className="w-5 h-5" />
-                    </Button>
-                  </Link>
-                  <Link href="/custom-design" className="sm:col-span-2">
-                    <Button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 justify-between py-6 text-base shadow-md hover:shadow-lg transition-all">
-                      <span className="flex items-center gap-2">
-                        <Sparkles className="w-5 h-5" />
-                        Start Custom Design
-                      </span>
-                      <ChevronRight className="w-5 h-5" />
-                    </Button>
-                  </Link>
+                  )}
                 </div>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-6">
+                {isEditing ? (
+                  <div className="space-y-5">
+                    <div>
+                      <Label htmlFor="name" className="text-blue-700 font-medium">Full Name</Label>
+                      <Input
+                        id="name"
+                        value={editForm.name}
+                        onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                        className="bg-white border-2 border-blue-200 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all mt-1"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="email" className="text-blue-700 font-medium">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={editForm.email}
+                        onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                        className="bg-white border-2 border-blue-200 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all mt-1"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone" className="text-blue-700 font-medium">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        value={editForm.phone}
+                        onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                        className="bg-white border-2 border-blue-200 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all mt-1"
+                        placeholder="03XX-XXXXXXX"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="address" className="text-blue-700 font-medium">Delivery Address</Label>
+                      <Input
+                        id="address"
+                        value={editForm.address}
+                        onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                        className="bg-white border-2 border-blue-200 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all mt-1"
+                        placeholder="House #, Street, City"
+                      />
+                    </div>
+                    <div className="flex gap-3 pt-2">
+                      <Button 
+                        onClick={handleSave} 
+                        className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all"
+                      >
+                        <Save className="w-4 h-4 mr-2" /> Save Changes
+                      </Button>
+                      <Button
+                        onClick={handleCancel}
+                        variant="outline"
+                        className="border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white transition-all"
+                      >
+                        <X className="w-4 h-4 mr-2" /> Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-5">
+                    <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
+                      <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Full Name</p>
+                      <p className="font-semibold text-slate-900 text-lg">{user.name}</p>
+                    </div>
+                    <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
+                      <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Email Address</p>
+                      <p className="font-semibold text-slate-900 break-all">{user.email}</p>
+                    </div>
+                    {user.phone && (
+                      <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
+                        <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Phone Number</p>
+                        <p className="font-semibold text-slate-900">{user.phone}</p>
+                      </div>
+                    )}
+                    {user.address && (
+                      <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
+                        <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Delivery Address</p>
+                        <p className="font-semibold text-slate-900">{user.address}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
 
@@ -310,58 +407,29 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Recent Orders */}
+            {/* Order History */}
             <Card className="bg-white/90 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b-2 border-blue-100">
                 <CardTitle className="text-blue-700 flex items-center gap-3 text-xl">
                   <div className="bg-blue-600 text-white p-2 rounded-xl">
                     <Package className="w-5 h-5" />
                   </div>
-                  Recent Orders
+                  Order History
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="text-center py-12">
                   <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Package className="w-10 h-10 text-blue-600" />
+                    <ShoppingBag className="w-10 h-10 text-blue-600" />
                   </div>
                   <h3 className="text-xl font-semibold text-slate-900 mb-2">No orders yet</h3>
-                  <p className="text-slate-600 mb-6">Start shopping to see your order history</p>
-                  <Link href="/collections">
+                  <p className="text-slate-600 mb-6">Start your jewelry journey today!</p>
+                  <Link href="/rings">
                     <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all px-8 py-6">
-                      <ShoppingBag className="w-5 h-5 mr-2" />
-                      Start Shopping
+                      <Star className="w-5 h-5 mr-2" />
+                      Explore Collections
                     </Button>
                   </Link>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Recommendations */}
-            <Card className="bg-white/90 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b-2 border-blue-100">
-                <CardTitle className="text-blue-700 flex items-center gap-3 text-xl">
-                  <div className="bg-gradient-to-br from-violet-500 to-violet-600 text-white p-2 rounded-xl">
-                    <Star className="w-5 h-5" />
-                  </div>
-                  Recommended For You
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="space-y-3">
-                  {[
-                    { title: "Diamond Engagement Rings", desc: "Timeless elegance for your special moment" },
-                    { title: "Tennis Necklaces", desc: "Brilliant sparkle for every occasion" },
-                    { title: "Stud Earrings", desc: "Classic beauty that never goes out of style" },
-                  ].map((item, index) => (
-                    <div
-                      key={index}
-                      className="p-4 bg-white border-2 border-blue-100 rounded-xl hover:border-blue-300 hover:shadow-md transition-all cursor-pointer group"
-                    >
-                      <p className="font-semibold text-slate-900 group-hover:text-blue-700 transition-colors mb-1">{item.title}</p>
-                      <p className="text-sm text-slate-600">{item.desc}</p>
-                    </div>
-                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -369,44 +437,62 @@ export default function DashboardPage() {
 
           {/* Right Column */}
           <div className="space-y-6">
-            {/* Account Info */}
+            {/* Quick Actions */}
             <Card className="bg-white/90 backdrop-blur-sm border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
               <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b-2 border-blue-100">
-                <CardTitle className="text-blue-700 flex items-center gap-2">
-                  <div className="bg-blue-600 text-white p-1.5 rounded-xl">
-                    <Settings className="w-4 h-4" />
+                <CardTitle className="text-blue-700 flex items-center gap-3 text-xl">
+                  <div className="bg-blue-600 text-white p-2 rounded-xl">
+                    <Zap className="w-5 h-5" />
                   </div>
-                  Account Information
+                  Quick Actions
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4 pt-6">
-                <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
-                  <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Full Name</p>
-                  <p className="font-semibold text-slate-900 text-base">{currentUser.name}</p>
-                </div>
-                <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
-                  <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Email Address</p>
-                  <p className="font-semibold text-slate-900 break-all text-sm">{currentUser.email}</p>
-                </div>
-                {currentUser.phone && (
-                  <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
-                    <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Phone</p>
-                    <p className="font-semibold text-slate-900">{currentUser.phone}</p>
-                  </div>
-                )}
-                {currentUser.address && (
-                  <div className="p-4 bg-blue-50/70 rounded-xl border border-blue-100">
-                    <p className="text-xs text-blue-700 uppercase tracking-wide mb-1.5 font-semibold">Address</p>
-                    <p className="font-semibold text-slate-900 text-sm">{currentUser.address}</p>
-                  </div>
-                )}
-                <Link href="/profile" className="block pt-2">
-                  <Button
-                    variant="outline"
-                    className="w-full border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white hover:border-blue-500 transition-all py-6"
+              <CardContent className="space-y-3 pt-6">
+                <Link href="/cart">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white hover:border-blue-500 transition-all py-6 text-base font-medium justify-between"
                   >
-                    <Settings className="w-5 h-5 mr-2" />
-                    Edit Profile
+                    <span className="flex items-center gap-2">
+                      <ShoppingBag className="w-5 h-5" />
+                      View My Cart
+                    </span>
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/rings">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white hover:border-blue-500 transition-all py-6 text-base font-medium justify-between"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Star className="w-5 h-5" />
+                      Browse Rings
+                    </span>
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/necklaces">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-2 border-blue-300 text-blue-600 hover:bg-blue-50 bg-white hover:border-blue-500 transition-all py-6 text-base font-medium justify-between"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Heart className="w-5 h-5" />
+                      Browse Necklaces
+                    </span>
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/custom-design">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 justify-between py-6 text-base shadow-md hover:shadow-lg transition-all"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Sparkles className="w-5 h-5" />
+                      Custom Design
+                    </span>
+                    <ChevronRight className="w-5 h-5" />
                   </Button>
                 </Link>
               </CardContent>
@@ -437,6 +523,25 @@ export default function DashboardPage() {
                 >
                   <Gift className="w-5 h-5 mr-2" />
                   View FAQs
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Account Settings */}
+            <Card className="bg-white/90 backdrop-blur-sm border-2 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300">
+              <CardHeader className="bg-gradient-to-r from-red-50 to-orange-50 border-b-2 border-red-100">
+                <CardTitle className="text-red-700 text-base flex items-center gap-2">
+                  <Settings className="w-4 h-4" />
+                  Account Settings
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="w-full border-2 border-red-300 text-red-600 hover:bg-red-50 bg-white hover:border-red-500 transition-all py-6 text-base font-medium"
+                >
+                  <LogOut className="w-5 h-5 mr-2" /> Logout
                 </Button>
               </CardContent>
             </Card>
