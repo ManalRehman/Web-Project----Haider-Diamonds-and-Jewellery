@@ -25,6 +25,7 @@ import {
   MapPin,
   Check,
 } from "lucide-react"
+import { useUser } from "@/lib/user-context"
 
 // Import all products for search functionality
 const allProducts = [
@@ -72,7 +73,7 @@ export default function HaiderDiamonds() {
   const [reviewsInView, setReviewsInView] = useState<boolean>(false)
   const [starsAnimating, setStarsAnimating] = useState<boolean>(false)
   const [collectionsOpen, setCollectionsOpen] = useState<boolean>(false)
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const { user } = useUser()
   const searchRef = useRef<HTMLDivElement>(null)
   const reviewsRef = useRef<HTMLDivElement>(null)
 
@@ -82,12 +83,6 @@ export default function HaiderDiamonds() {
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  useEffect(() => {
-    // Check if user is logged in
-    const userToken = localStorage.getItem("userToken")
-    setIsLoggedIn(!!userToken)
   }, [])
 
   useEffect(() => {
@@ -172,8 +167,8 @@ export default function HaiderDiamonds() {
   }
 
   const handleUserIconClick = () => {
-    if (isLoggedIn) {
-      router.push("/dashboard")
+    if (user) {
+      router.push("/profile")
     } else {
       router.push("/login")
     }
@@ -377,10 +372,10 @@ export default function HaiderDiamonds() {
                   size="sm"
                   className="text-blue-600 hover:text-white hover:bg-blue-600/20 hover:scale-105 text-xs sm:text-sm"
                 >
-                  {isLoggedIn ? (
+                  {user ? (
                     <>
                       <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                      Dashboard
+                      Profile
                     </>
                   ) : (
                     <>
@@ -413,7 +408,7 @@ export default function HaiderDiamonds() {
           <div className="fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-white via-gray-50 to-white border-r border-blue-200 z-50 flex flex-col transform transition-transform duration-300">
             <div className="flex-shrink-0 p-8 border-b border-blue-200">
               <div className="flex items-center justify-between">
-                <Link href="/cart" onClick={() => setSidebarOpen(false)}>
+                <Link href="/" onClick={() => setSidebarOpen(false)}>
                   <h2 className="text-2xl font-bold text-blue-600 font-serif px-14 text-center hover:text-blue-700 transition-colors">
                     HAIDER DIAMONDS
                   </h2>
@@ -470,10 +465,10 @@ export default function HaiderDiamonds() {
                   variant="outline"
                   className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent"
                 >
-                  {isLoggedIn ? (
+                  {user ? (
                     <>
                       <User className="w-4 h-4 mr-2" />
-                      Dashboard
+                      Profile
                     </>
                   ) : (
                     <>
@@ -482,12 +477,14 @@ export default function HaiderDiamonds() {
                     </>
                   )}
                 </Button>
-                <a href="/signup" className="block">
-                  <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
-                    <User className="w-4 h-4 mr-2" />
-                    Sign Up
-                  </Button>
-                </a>
+                {!user && (
+                  <a href="/signup" className="block">
+                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                      <User className="w-4 h-4 mr-2" />
+                      Sign Up
+                    </Button>
+                  </a>
+                )}
               </div>
 
               <div className="flex space-x-4">

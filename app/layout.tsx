@@ -4,10 +4,10 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { Suspense } from "react"
 import "./globals.css"
 
-import { useFavorites } from "@/lib/favorites-context"
 import { CartProvider } from "@/lib/cart-context"
 import { FavoritesProvider } from "@/lib/favorites-context"
-// ...existing code...
+import { UserProvider } from "@/lib/user-context"
+
 const geistSans = Geist({
   subsets: ["latin"],
   variable: "--font-geist-sans",
@@ -42,11 +42,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <body className="font-sans antialiased">
-        <CartProvider>
-          <FavoritesProvider>
-            <Suspense fallback={null}>{children}</Suspense>
-          </FavoritesProvider>
-        </CartProvider>
+        <UserProvider>
+          <CartProvider>
+            <FavoritesProvider>
+              <Suspense fallback={null}>{children}</Suspense>
+            </FavoritesProvider>
+          </CartProvider>
+        </UserProvider>
       </body>
     </html>
   )

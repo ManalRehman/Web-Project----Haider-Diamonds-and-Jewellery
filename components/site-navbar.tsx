@@ -3,9 +3,10 @@
 import type React from "react"
 import Link from "next/link"
 import { useEffect, useState, useRef } from "react"
-import { Menu, Search, ShoppingBag, User, X } from "lucide-react"
+import { Menu, Search, ShoppingBag, User, X, LogOut } from "lucide-react"
 import { SiteSidebar } from "@/components/site-sidebar"
 import { useCart } from "@/lib/cart-context"
+import { useUser } from "@/lib/user-context"
 import { useRouter } from "next/navigation"
 
 // Import all products for search functionality
@@ -50,24 +51,9 @@ export function SiteNavbar() {
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<typeof allProducts>([])
   const [showResults, setShowResults] = useState(false)
-  const [currentUser, setCurrentUser] = useState<{ name: string; email: string } | null>(null)
   const { getTotalItems } = useCart()
+  const { user, logout } = useUser()
   const searchRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("currentUser")
-      setCurrentUser(raw ? JSON.parse(raw) : null)
-    } catch {}
-    const onStorage = () => {
-      try {
-        const raw = localStorage.getItem("currentUser")
-        setCurrentUser(raw ? JSON.parse(raw) : null)
-      } catch {}
-    }
-    window.addEventListener("storage", onStorage)
-    return () => window.removeEventListener("storage", onStorage)
-  }, [])
 
   // Close search results when clicking outside
   useEffect(() => {
@@ -82,8 +68,8 @@ export function SiteNavbar() {
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("currentUser")
-    setCurrentUser(null)
+    logout()
+    router.push("/")
   }
 
   const handleSearch = (e: React.FormEvent) => {
@@ -263,17 +249,24 @@ export function SiteNavbar() {
               )}
             </Link>
 
-            {currentUser ? (
+            {user ? (
               <div className="flex items-center gap-2">
                 <span className="text-gray-700 text-sm hidden sm:block">
-                  Welcome, {currentUser.name}
+                  Welcome, {user.name}
                 </span>
+                <Link
+                  href="/profile"
+                  className="p-2 rounded-md hover:bg-blue-100 text-blue-600"
+                  aria-label="Profile"
+                >
+                  <User className="w-5 h-5" />
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="p-2 rounded-md hover:bg-blue-100 text-blue-600"
                   aria-label="Logout"
                 >
-                  <User className="w-5 h-5" />
+                  <LogOut className="w-5 h-5" />
                 </button>
               </div>
             ) : (

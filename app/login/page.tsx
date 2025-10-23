@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -10,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SiteNavbar } from "@/components/site-navbar"
 import { Facebook, Chrome } from "lucide-react"
+import { useUser } from "@/lib/user-context"
 
 type StoredUser = {
   name: string
@@ -23,8 +23,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const { user, login } = useUser()
 
   useEffect(() => {
+    // Check if user is already logged in
+    if (user) {
+      router.push("/profile")
+    }
+
+    // Initialize demo users if they don't exist
     const usersRaw = localStorage.getItem("users")
     if (!usersRaw) {
       const exampleUsers: StoredUser[] = [
@@ -33,12 +40,7 @@ export default function LoginPage() {
       ]
       localStorage.setItem("users", JSON.stringify(exampleUsers))
     }
-
-    const existing = localStorage.getItem("currentUser")
-    if (existing) {
-      router.push("/dashboard")
-    }
-  }, [router])
+  }, [user, router])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -52,11 +54,20 @@ export default function LoginPage() {
 
       if (!found || found.password !== password) {
         setError("Invalid email or password")
+        setLoading(false)
         return
       }
 
-      localStorage.setItem("currentUser", JSON.stringify({ name: found.name, email: found.email }))
-      router.push("/dashboard")
+      // Use the user context login function
+      login({
+        id: found.email, // Using email as ID for demo
+        name: found.name,
+        email: found.email,
+        phone: "", // Initialize as empty string
+        address: "" // Initialize as empty string
+      })
+      
+      router.push("/profile")
     } catch {
       setError("Something went wrong. Please try again.")
     } finally {
@@ -66,20 +77,41 @@ export default function LoginPage() {
 
   function handleGoogleLogin() {
     const mockGoogleUser = {
+      id: "google-user-123",
       name: "Google User",
       email: "user@gmail.com",
+      phone: "",
+      address: ""
     }
-    localStorage.setItem("currentUser", JSON.stringify(mockGoogleUser))
-    router.push("/dashboard")
+    login(mockGoogleUser)
+    router.push("/profile")
   }
 
   function handleFacebookLogin() {
     const mockFacebookUser = {
+      id: "facebook-user-123",
       name: "Facebook User",
       email: "user@facebook.com",
+      phone: "",
+      address: ""
     }
-    localStorage.setItem("currentUser", JSON.stringify(mockFacebookUser))
-    router.push("/dashboard")
+    login(mockFacebookUser)
+    router.push("/profile")
+  }
+
+  // If user is already logged in, show loading
+  if (user) {
+    return (
+      <div className="min-h-screen bg-white text-slate-900">
+        <SiteNavbar />
+        <div className="flex items-center justify-center px-4 pt-20 pb-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto mb-4"></div>
+            <p className="text-blue-600 font-medium">Redirecting to profile...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

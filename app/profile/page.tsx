@@ -9,64 +9,64 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { User, Mail, Phone, MapPin, Edit, Save, X, ShoppingBag, Heart, Star, LogOut, Package, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { useUser } from "@/lib/user-context"
 
 export default function ProfilePage() {
-  const [currentUser, setCurrentUser] = useState<{
-    name: string
-    email: string
-    phone?: string
-    address?: string
-  } | null>(null)
-
   const [isEditing, setIsEditing] = useState(false)
   const [editForm, setEditForm] = useState({ name: "", email: "", phone: "", address: "" })
   const router = useRouter()
+  const { user, login, logout, isLoading } = useUser()
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("currentUser")
-      const user = raw ? JSON.parse(raw) : null
-      if (!user) {
-        router.push("/login")
-        return
-      }
-      setCurrentUser(user)
+    if (!isLoading && !user) {
+      router.push("/login")
+      return
+    }
+
+    if (user) {
       setEditForm({
         name: user.name || "",
         email: user.email || "",
         phone: user.phone || "",
         address: user.address || "",
       })
-    } catch (error) {
-      router.push("/login")
     }
-  }, [router])
+  }, [user, isLoading, router])
 
   const handleEdit = () => setIsEditing(true)
 
   const handleSave = () => {
-    const updatedUser = { ...currentUser, ...editForm }
-    localStorage.setItem("currentUser", JSON.stringify(updatedUser))
-    setCurrentUser(updatedUser)
-    setIsEditing(false)
+    if (user) {
+      const updatedUser = { 
+        ...user, 
+        name: editForm.name,
+        email: editForm.email,
+        phone: editForm.phone,
+        address: editForm.address
+      }
+      login(updatedUser)
+      setIsEditing(false)
+    }
   }
 
   const handleCancel = () => {
-    setEditForm({
-      name: currentUser?.name || "",
-      email: currentUser?.email || "",
-      phone: currentUser?.phone || "",
-      address: currentUser?.address || "",
-    })
+    if (user) {
+      setEditForm({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "",
+      })
+    }
     setIsEditing(false)
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("currentUser")
+    logout()
     router.push("/")
   }
 
-  if (!currentUser) {
+  if (isLoading) {
     return (
       <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 min-h-screen text-slate-900 flex items-center justify-center">
         <div className="text-center">
@@ -75,6 +75,10 @@ export default function ProfilePage() {
         </div>
       </div>
     )
+  }
+
+  if (!user) {
+    return null
   }
 
   return (
@@ -96,7 +100,7 @@ export default function ProfilePage() {
             </div>
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold font-serif mb-2 flex items-center gap-3">
-                Welcome back, {currentUser.name}!
+                Welcome back, {user.name}!
                 <Sparkles className="w-6 h-6 animate-pulse" />
               </h1>
               <p className="text-blue-100">Manage your account and view your orders</p>
@@ -196,7 +200,7 @@ export default function ProfilePage() {
                         <User className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-slate-900 font-semibold text-lg">{currentUser.name}</p>
+                        <p className="text-slate-900 font-semibold text-lg">{user.name}</p>
                         <p className="text-slate-600 text-sm">Full Name</p>
                       </div>
                     </div>
@@ -205,28 +209,28 @@ export default function ProfilePage() {
                         <Mail className="w-5 h-5" />
                       </div>
                       <div className="flex-1">
-                        <p className="text-slate-900 font-semibold">{currentUser.email}</p>
+                        <p className="text-slate-900 font-semibold">{user.email}</p>
                         <p className="text-slate-600 text-sm">Email Address</p>
                       </div>
                     </div>
-                    {currentUser.phone && (
+                    {user.phone && (
                       <div className="flex items-start gap-4 p-4 bg-blue-50/50 rounded-lg hover:bg-blue-50 transition-colors">
                         <div className="bg-blue-600 text-white p-2 rounded-lg">
                           <Phone className="w-5 h-5" />
                         </div>
                         <div className="flex-1">
-                          <p className="text-slate-900 font-semibold">{currentUser.phone}</p>
+                          <p className="text-slate-900 font-semibold">{user.phone}</p>
                           <p className="text-slate-600 text-sm">Phone Number</p>
                         </div>
                       </div>
                     )}
-                    {currentUser.address && (
+                    {user.address && (
                       <div className="flex items-start gap-4 p-4 bg-blue-50/50 rounded-lg hover:bg-blue-50 transition-colors">
                         <div className="bg-blue-600 text-white p-2 rounded-lg">
                           <MapPin className="w-5 h-5" />
                         </div>
                         <div className="flex-1">
-                          <p className="text-slate-900 font-semibold">{currentUser.address}</p>
+                          <p className="text-slate-900 font-semibold">{user.address}</p>
                           <p className="text-slate-600 text-sm">Delivery Address</p>
                         </div>
                       </div>
