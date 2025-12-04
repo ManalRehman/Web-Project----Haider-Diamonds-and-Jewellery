@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haider Diamonds - Where Elegance Meets Perfection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'diamond-gold': '#C9A96E',
+            'diamond-dark-gold': '#A67C00',
+            'diamond-silver': '#C0C0C0',
+            'diamond-champagne': '#F7E7CE',
+            'diamond-black': '#0A0A0A',
+            'diamond-charcoal': '#1C1C1C',
+            'diamond-warm-black': '#1A1A1A'
+          },
+          fontFamily: {
+            'playfair': ['Playfair Display', 'serif'],
+            'cormorant': ['Cormorant Garamond', 'serif'],
+            'montserrat': ['Montserrat', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;500;700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-diamond-black text-white overflow-x-hidden">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 bg-diamond-black/90 backdrop-blur-sm border-b border-diamond-gold/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <h1 class="text-2xl font-bold text-diamond-gold font-playfair">HAIDER DIAMONDS</h1>
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="#" class="text-white hover:text-diamond-gold font-montserrat">Home</a>
+            <a href="#" class="text-white hover:text-diamond-gold font-montserrat">Custom Design</a>
+            <a href="#" class="text-white hover:text-diamond-gold font-montserrat">Engagement Rings</a>
+            <a href="#" class="text-white hover:text-diamond-gold font-montserrat">Collections</a>
+            <a href="#" class="text-white hover:text-diamond-gold font-montserrat">About</a>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-search text-diamond-gold cursor-pointer"></i>
+          <i class="fas fa-shopping-bag text-diamond-gold cursor-pointer"></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div id="sidebar" class="fixed left-0 top-0 h-full w-80 bg-gradient-to-b from-diamond-black via-diamond-charcoal to-diamond-warm-black border-r border-diamond-gold/20 transform -translate-x-full transition-transform duration-300 ease-in-out z-40">
+    <div class="p-8">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-2xl font-bold text-diamond-gold font-playfair">HAIDER DIAMONDS</h2>
+        <button id="closeSidebar" class="text-diamond-gold hover:text-white"><i class="fas fa-times text-xl"></i></button>
+      </div>
+      <nav class="space-y-4 mb-8">
+        <a href="#" class="flex items-center space-x-3 text-diamond-champagne/80 hover:text-diamond-gold"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="#" class="flex items-center space-x-3 text-diamond-champagne/80 hover:text-diamond-gold"><i class="fas fa-gem"></i><span>Custom Design</span></a>
+        <a href="#" class="flex items-center space-x-3 text-diamond-champagne/80 hover:text-diamond-gold"><i class="fas fa-ring"></i><span>Engagement Rings</span></a>
+        <a href="#" class="flex items-center space-x-3 text-diamond-champagne/80 hover:text-diamond-gold"><i class="fas fa-star"></i><span>Earrings</span></a>
+        <a href="#" class="flex items-center space-x-3 text-diamond-champagne/80 hover:text-diamond-gold"><i class="fas fa-circle"></i><span>Necklaces</span></a>
+      </nav>
+      <h3 class="text-lg font-semibold text-diamond-gold mb-4 font-cormorant">Contact</h3>
+      <p class="text-sm text-diamond-champagne/70">info@haiderdiamonds.com</p>
+      <p class="text-sm text-diamond-champagne/70">+92 3218882396</p>
+      <div class="flex space-x-4 mt-4">
+        <i class="fab fa-instagram text-diamond-gold text-xl cursor-pointer"></i>
+        <i class="fab fa-facebook text-diamond-gold text-xl cursor-pointer"></i>
+        <i class="fab fa-twitter text-diamond-gold text-xl cursor-pointer"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 hidden"></div>
+  <button id="sidebarToggle" class="fixed top-4 left-4 z-50 bg-diamond-gold text-black p-3 rounded-full hover:bg-diamond-dark-gold"><i class="fas fa-bars"></i></button>
+
+  <!-- Hero -->
+  <section class="relative h-screen flex items-center justify-center text-center">
+    <div class="absolute inset-0 bg-gradient-to-br from-diamond-black via-diamond-charcoal to-diamond-black"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4">
+      <h1 class="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-diamond-gold via-diamond-silver to-diamond-champagne bg-clip-text text-transparent font-playfair">HAIDER DIAMONDS</h1>
+      <h2 class="text-2xl md:text-3xl text-diamond-gold mb-8 font-cormorant italic">Where Elegance Meets Perfection</h2>
+      <p class="text-lg md:text-xl text-diamond-champagne/80 mb-12 font-montserrat">Luxury jewelry crafted with unmatched brilliance and timeless design.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="bg-gradient-to-r from-diamond-gold to-diamond-silver text-black px-8 py-4 rounded-full font-semibold">START CUSTOM DESIGN</button>
+        <button class="border-2 border-diamond-gold text-diamond-gold px-8 py-4 rounded-full font-semibold">VIEW COLLECTIONS</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom Design -->
+  <section class="py-20 bg-diamond-warm-black">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold text-diamond-gold mb-6 font-playfair">CUSTOM DESIGN PROCESS</h2>
+      <p class="text-diamond-champagne/70 mb-12">Your story, our craftsmanship — together creating perfection.</p>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div><span class="block text-3xl text-diamond-gold mb-2">1</span><p class="text-diamond-champagne">Consultation</p></div>
+        <div><span class="block text-3xl text-diamond-gold mb-2">2</span><p class="text-diamond-champagne">Design</p></div>
+        <div><span class="block text-3xl text-diamond-gold mb-2">3</span><p class="text-diamond-champagne">Crafting</p></div>
+        <div><span class="block text-3xl text-diamond-gold mb-2">4</span><p class="text-diamond-champagne">Delivery</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signature Collection -->
+  <section class="py-20 bg-diamond-charcoal">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <h2 class="text-4xl font-bold text-diamond-gold mb-6 font-playfair">SIGNATURE PIECES</h2>
+      <p class="text-diamond-champagne/70 mb-12">Defining timeless elegance with every piece.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-6 bg-diamond-black rounded-lg border border-diamond-gold/30">
+          <i class="fas fa-ring text-5xl text-diamond-gold mb-4"></i>
+          <h3 class="text-xl text-diamond-gold mb-2">Engagement Rings</h3>
+          <p class="text-diamond-champagne/70">Crafted with love, certified diamonds.</p>
+        </div>
+        <div class="p-6 bg-diamond-black rounded-lg border border-diamond-gold/30">
+          <i class="fas fa-gem text-5xl text-diamond-gold mb-4"></i>
+          <h3 class="text-xl text-diamond-gold mb-2">Necklaces</h3>
+          <p class="text-diamond-champagne/70">Exquisite designs for every occasion.</p>
+        </div>
+        <div class="p-6 bg-diamond-black rounded-lg border border-diamond-gold/30">
+          <i class="fas fa-star text-5xl text-diamond-gold mb-4"></i>
+          <h3 class="text-xl text-diamond-gold mb-2">Earrings</h3>
+          <p class="text-diamond-champagne/70">Elegant and timeless sparkle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="py-20 bg-diamond-warm-black">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <h2 class="text-4xl font-bold text-diamond-gold mb-6 font-playfair">ABOUT HAIDER DIAMONDS</h2>
+        <p class="text-diamond-champagne/80 mb-6">Haider Diamonds has been a trusted name in luxury jewelry, creating timeless designs with ethically sourced diamonds and master craftsmanship.</p>
+        <ul class="space-y-2 text-diamond-champagne/80">
+          <li><i class="fas fa-check text-diamond-gold mr-2"></i>Certified Authenticity</li>
+          <li><i class="fas fa-check text-diamond-gold mr-2"></i>Ethically Sourced Diamonds</li>
+          <li><i class="fas fa-check text-diamond-gold mr-2"></i>Lifetime Guarantee</li>
+          <li><i class="fas fa-check text-diamond-gold mr-2"></i>Global Clientele</li>
+        </ul>
+      </div>
+      <div class="flex items-center justify-center">
+        <i class="fas fa-gem text-8xl text-diamond-gold/70"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-diamond-charcoal py-12 border-t border-diamond-gold/20">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-2xl font-bold text-diamond-gold mb-4 font-playfair">HAIDER DIAMONDS</h3>
+        <p class="text-diamond-champagne/70">Where Elegance Meets Perfection</p>
+      </div>
+      <div>
+        <h4 class="text-diamond-gold mb-4">Collections</h4>
+        <ul class="space-y-2 text-diamond-champagne/70">
+          <li>Engagement Rings</li>
+          <li>Wedding Bands</li>
+          <li>Necklaces</li>
+          <li>Earrings</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-diamond-gold mb-4">Services</h4>
+        <ul class="space-y-2 text-diamond-champagne/70">
+          <li>Custom Designs</li>
+          <li>Ethical Sourcing</li>
+          <li>Worldwide Delivery</li>
+          <li>Consultations</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-diamond-gold mb-4">Connect</h4>
+        <div class="flex space-x-4">
+          <i class="fab fa-instagram text-diamond-gold"></i>
+          <i class="fab fa-facebook text-diamond-gold"></i>
+          <i class="fab fa-twitter text-diamond-gold"></i>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-8 text-diamond-champagne/70">&copy; 2024 Haider Diamonds. All rights reserved.</div>
+  </footer>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarOverlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeSidebar.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    });
+
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 100) {
+        nav.classList.add('bg-diamond-black');
+        nav.classList.remove('bg-diamond-black/90');
+      } else {
+        nav.classList.add('bg-diamond-black/90');
+        nav.classList.remove('bg-diamond-black');
+      }
+    });
+  </script>
+</body>
+</html>
