@@ -1,30 +1,25 @@
-# web home
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+How to Run the Project
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/manalrehman22-8858s-projects/v0-web-home)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/C7z87ZaqgOv)
+Backend
 
-## Overview
+1. Open terminal 
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+2. Install packages
+npm install
 
-## Deployment
+3. Start backend
+npm run dev
+Backend runs on http://localhost:5000
 
-Your project is live at:
 
-**[https://vercel.com/manalrehman22-8858s-projects/v0-web-home](https://vercel.com/manalrehman22-8858s-projects/v0-web-home)**
+Frontend
 
-## Build your app
+1. Open new terminal 
 
-Continue building your app on:
+2. Install packages
+npm install
 
-**[https://v0.app/chat/projects/C7z87ZaqgOv](https://v0.app/chat/projects/C7z87ZaqgOv)**
-
-## How It Works
-
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+3. Start frontend
+npm run dev
+Frontend runs on http://localhost:3000
